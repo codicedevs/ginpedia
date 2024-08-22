@@ -1,5 +1,14 @@
 import { Role } from "authorization/role.enum";
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Product } from "products/entities/product.entity";
+import { UserProductRating } from "ratings/entities/rating.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+} from "typeorm";
 
 @Entity()
 export class User {
@@ -12,6 +21,12 @@ export class User {
   @Column({ unique: true }) // esto evita crear dos usuarios con el mismo e mail
   email: string;
 
+  @OneToMany(
+    () => UserProductRating,
+    (userProductRating) => userProductRating.user
+  )
+  userProductRating: UserProductRating[];
+
   @Column()
   password: string;
 
@@ -23,7 +38,7 @@ export class User {
 
   @Column({
     type: "enum",
-    array:true,
+    array: true,
     enum: Role,
     default: [Role.User], // Por defecto, el usuario tiene un rol,
   })

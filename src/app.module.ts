@@ -7,6 +7,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/entities/user.entity";
 import { serverSetting } from "./settings";
 import { ProductsModule } from "./products/products.module";
+import { Product } from "products/entities/product.entity";
+import { UserProductRating } from "ratings/entities/rating.entity";
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { ProductsModule } from "./products/products.module";
       username: serverSetting.DB_USERNAME,
       password: serverSetting.DB_PASSWORD,
       database: serverSetting.DB_DATABASE,
-      entities: [User], // las entidades (entity de typeorm)
+      entities: [User, Product, UserProductRating], // las entidades (entity de typeorm)
       synchronize: true,
     }),
     UsersModule,
