@@ -6,7 +6,7 @@ import { AuthenticationModule } from "./authentication/authentication.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/entities/user.entity";
 import { serverSetting } from "./settings";
-
+import { ProductsModule } from "./products/products.module";
 
 @Module({
   imports: [
@@ -22,8 +22,9 @@ import { serverSetting } from "./settings";
     }),
     UsersModule,
     AuthenticationModule,
+    ProductsModule,
   ],
   controllers: [AppController],
-  providers: [AppService], // 
+  providers: [AppService], //
 })
 export class AppModule {}
