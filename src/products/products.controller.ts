@@ -41,4 +41,11 @@ export class ProductsController {
   remove(@Param("id") id: string) {
     return this.productsService.remove(+id);
   }
+
+  @Get("rating/:id")
+  findRating(@Param("id") id: number) {
+    const productRat = this.productsService.findRatings(id);
+
+    return productRat;
+  }
 }

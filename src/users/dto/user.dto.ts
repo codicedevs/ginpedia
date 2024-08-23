@@ -1,13 +1,15 @@
 import { Role } from "authorization/role.enum";
-import { IsEmail, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsOptional, MaxLength, MinLength } from "class-validator";
 
 export class CreateUserDto {
   @MinLength(3)
   name: string;
   @IsEmail()
-  email: string;
+  @IsOptional()
+  email?: string;
   @MinLength(8)
   password: string;
+  @IsOptional()
   roles?: Role[];
 }
 
@@ -35,5 +37,5 @@ export class ResetPassDto {
 
 export class RecoverPasswordDto {
   @IsEmail()
-  email: string
+  email: string;
 }
