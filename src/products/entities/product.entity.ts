@@ -1,4 +1,4 @@
-import { UserProductRating } from "ratings/entities/rating.entity";
+import { Rating } from "ratings/entities/rating.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +7,12 @@ import {
   OneToMany,
 } from "typeorm";
 import { User } from "users/entities/user.entity";
+
+export enum ProductType {
+  GIN = "gin",
+  TONICA = "tonica",
+  ESPECIA = "especia",
+}
 
 @Entity()
 export class Product {
@@ -19,12 +25,13 @@ export class Product {
   @Column()
   description: string;
 
-  @Column()
-  type: "gin" | "tonic" | "spice";
+  @Column({
+    type: "enum",
+    enum: ProductType,
+    nullable: true,
+  })
+  type?: ProductType;
 
-  @OneToMany(
-    () => UserProductRating,
-    (userProductRating) => userProductRating.product
-  )
-  UserProductRating: UserProductRating[];
+  @OneToMany(() => Rating, (rating) => rating.productId)
+  rating: Rating[];
 }

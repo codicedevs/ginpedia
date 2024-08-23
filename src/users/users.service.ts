@@ -63,6 +63,7 @@ export class UsersService {
     if (updateUser.password) {
       const hashedPassword = await bcrypt.hash(updateUser.password, 8);
       updateUser.password = hashedPassword;
+      
     }
     await this.userRepository.update(id, updateUser);
     const user = await this.userRepository.findOneBy({ id });

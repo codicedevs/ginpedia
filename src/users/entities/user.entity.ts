@@ -1,6 +1,5 @@
 import { Role } from "authorization/role.enum";
-import { Product } from "products/entities/product.entity";
-import { UserProductRating } from "ratings/entities/rating.entity";
+import { Rating } from "ratings/entities/rating.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -18,14 +17,11 @@ export class User {
   @Column()
   name: string;
 
-  @Column({ unique: true }) // esto evita crear dos usuarios con el mismo e mail
-  email: string;
+  @Column({ unique: true, nullable: true }) // esto evita crear dos usuarios con el mismo e mail
+  email?: string;
 
-  @OneToMany(
-    () => UserProductRating,
-    (userProductRating) => userProductRating.user
-  )
-  userProductRating: UserProductRating[];
+  @OneToMany(() => Rating, (rating) => rating.userId)
+  rating: Rating[];
 
   @Column()
   password: string;

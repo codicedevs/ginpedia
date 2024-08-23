@@ -27,7 +27,7 @@ export class UsersController {
    * @returns
    */
   @Get()
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async getAll(
     @Query(QueryValidationPipe)
     options: FindManyFilter<User>

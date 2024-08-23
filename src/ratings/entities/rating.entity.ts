@@ -3,16 +3,16 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "users/entities/user.entity";
 
 @Entity()
-export class UserProductRating {
+export class Rating {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  rate: number;
+  rating: number;
 
-  @ManyToOne(() => User, (user) => user.userProductRating)
-  user: User;
+  @ManyToOne(() => User, (user) => user.rating)
+  userId: User;
 
-  @ManyToOne(() => Product, (product) => product.UserProductRating)
-  product: Product;
+  @ManyToOne(() => Product, (product) => product.rating)
+  productId: Product;
 }

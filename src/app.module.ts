@@ -8,7 +8,8 @@ import { User } from "./users/entities/user.entity";
 import { serverSetting } from "./settings";
 import { ProductsModule } from "./products/products.module";
 import { Product } from "products/entities/product.entity";
-import { UserProductRating } from "ratings/entities/rating.entity";
+import { RatingsModule } from "./ratings/ratings.module";
+import { Rating } from "ratings/entities/rating.entity";
 
 @Module({
   imports: [
@@ -19,14 +20,15 @@ import { UserProductRating } from "ratings/entities/rating.entity";
       username: serverSetting.DB_USERNAME,
       password: serverSetting.DB_PASSWORD,
       database: serverSetting.DB_DATABASE,
-      entities: [User, Product, UserProductRating], // las entidades (entity de typeorm)
+      entities: [User, Product, Rating], // las entidades (entity de typeorm)
       synchronize: true,
     }),
     UsersModule,
     AuthenticationModule,
     ProductsModule,
+    RatingsModule,
   ],
   controllers: [AppController],
-  providers: [AppService], //
+  providers: [AppService],
 })
 export class AppModule {}
