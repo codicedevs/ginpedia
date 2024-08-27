@@ -19,10 +19,11 @@ export class RatingsService {
   ) {}
 
   async createRating(createRatingDto) {
-    const { product, user, rating } = createRatingDto;
-
-    const productSel = await this.productRepository.findOneBy({ id: product });
-    const userSel = await this.userRepository.findOneBy({ id: user });
+    const { productId, user, rating } = createRatingDto;
+    const productSel = await this.productRepository.findOneByOrFail({
+      productId: productId,
+    });
+    const userSel = await this.userRepository.findOneByOrFail({ id: user });
 
     this.ratingRepository.save({
       productId: productSel,

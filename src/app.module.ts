@@ -32,7 +32,7 @@ import typeorm from "config/typeorm";
       password: serverSetting.DB_PASSWORD,
       database: serverSetting.DB_DATABASE,
       entities: [User, Product, Rating], // las entidades (entity de typeorm)
-      synchronize: true,
+      synchronize: false,
     }),
     UsersModule,
     AuthenticationModule,

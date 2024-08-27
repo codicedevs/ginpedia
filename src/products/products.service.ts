@@ -35,7 +35,7 @@ export class ProductsService {
 
   findRatings(id: number) {
     return this.productRepository.findOne({
-      where: { id },
+      where: { productId: id },
       relations: ["rating"],
     });
   }

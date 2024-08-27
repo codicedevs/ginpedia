@@ -23,6 +23,14 @@ export class User {
   @OneToMany(() => Rating, (rating) => rating.userId)
   rating: Rating[];
 
+  @Column({
+    type: "enum",
+    array: true,
+    enum: Role,
+    default: [Role.User], // Por defecto, el usuario tiene un rol,
+  })
+  roles: Role[];
+
   @Column()
   password: string;
 
@@ -31,12 +39,4 @@ export class User {
 
   @Column({ nullable: true })
   resetKeyTimeStamp?: string;
-
-  @Column({
-    type: "enum",
-    array: true,
-    enum: Role,
-    default: [Role.User], // Por defecto, el usuario tiene un rol,
-  })
-  roles: Role[];
 }

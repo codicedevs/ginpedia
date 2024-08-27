@@ -1,11 +1,5 @@
 import { Rating } from "ratings/entities/rating.entity";
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  OneToMany,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { User } from "users/entities/user.entity";
 
 export enum ProductType {
@@ -17,16 +11,13 @@ export enum ProductType {
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  productId: number;
 
   @Column()
-  name: string;
+  productName?: string;
 
   @Column()
   description: string;
-
-  @Column()
-  datos: string;
 
   @Column({
     type: "enum",
@@ -34,6 +25,15 @@ export class Product {
     nullable: true,
   })
   type?: ProductType;
+
+  @Column({ nullable: true })
+  image?: string;
+
+  @Column()
+  origin?: string;
+
+  @Column()
+  graduation?: string;
 
   @OneToMany(() => Rating, (rating) => rating.productId)
   rating: Rating[];
