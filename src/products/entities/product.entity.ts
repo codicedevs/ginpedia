@@ -25,6 +25,9 @@ export class Product {
   @Column()
   description: string;
 
+  @Column()
+  datos: string;
+
   @Column({
     type: "enum",
     enum: ProductType,

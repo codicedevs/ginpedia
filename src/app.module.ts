@@ -10,9 +10,20 @@ import { ProductsModule } from "./products/products.module";
 import { Product } from "products/entities/product.entity";
 import { RatingsModule } from "./ratings/ratings.module";
 import { Rating } from "ratings/entities/rating.entity";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import typeorm from "config/typeorm";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [typeorm],
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) =>
+        configService.get("typeorm"),
+    }),
     TypeOrmModule.forRoot({
       type: "postgres", // la base de datos debe ser pasada como string como aca
       host: serverSetting.DB_HOST,
