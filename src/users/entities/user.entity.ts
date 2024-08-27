@@ -1,13 +1,7 @@
 import { Role } from "authorization/role.enum";
 import { Rating } from "ratings/entities/rating.entity";
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { UserProduct } from "user-lists/entities/user-list.entity";
 
 @Entity()
 export class User {
@@ -22,6 +16,9 @@ export class User {
 
   @OneToMany(() => Rating, (rating) => rating.userId)
   rating: Rating[];
+
+  @OneToMany(() => UserProduct, (list) => list.userId)
+  lists: UserProduct[];
 
   @Column({
     type: "enum",

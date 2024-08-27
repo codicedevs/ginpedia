@@ -1,6 +1,6 @@
 import { Rating } from "ratings/entities/rating.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { User } from "users/entities/user.entity";
+import { UserProduct } from "user-lists/entities/user-list.entity";
 
 export enum ProductType {
   GIN = "gin",
@@ -37,4 +37,7 @@ export class Product {
 
   @OneToMany(() => Rating, (rating) => rating.productId)
   rating: Rating[];
+
+  @OneToMany(() => UserProduct, (list) => list.productId)
+  lists: UserProduct[];
 }

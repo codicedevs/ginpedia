@@ -11,7 +11,9 @@ import { Product } from "products/entities/product.entity";
 import { RatingsModule } from "./ratings/ratings.module";
 import { Rating } from "ratings/entities/rating.entity";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { UserListsModule } from "./user-lists/user-lists.module";
 import typeorm from "config/typeorm";
+import { UserProduct } from "user-lists/entities/user-list.entity";
 
 @Module({
   imports: [
@@ -31,13 +33,14 @@ import typeorm from "config/typeorm";
       username: serverSetting.DB_USERNAME,
       password: serverSetting.DB_PASSWORD,
       database: serverSetting.DB_DATABASE,
-      entities: [User, Product, Rating], // las entidades (entity de typeorm)
+      entities: [User, Product, Rating, UserProduct], // las entidades (entity de typeorm)
       synchronize: false,
     }),
     UsersModule,
     AuthenticationModule,
     ProductsModule,
     RatingsModule,
+    UserListsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
