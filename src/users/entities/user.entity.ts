@@ -1,7 +1,7 @@
 import { Role } from "authorization/role.enum";
+import { Bookmark } from "bookmarks/entities/bookmark.entity";
 import { Rating } from "ratings/entities/rating.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { UserProduct } from "user-lists/entities/user-list.entity";
 
 @Entity()
 export class User {
@@ -14,11 +14,11 @@ export class User {
   @Column({ unique: true, nullable: true }) // esto evita crear dos usuarios con el mismo e mail
   email?: string;
 
-  @OneToMany(() => Rating, (rating) => rating.userId)
-  rating: Rating[];
+  @OneToMany(() => Rating, (rating) => rating.user)
+  ratings: Rating[];
 
-  @OneToMany(() => UserProduct, (list) => list.userId)
-  lists: UserProduct[];
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  bookmarks: Bookmark[];
 
   @Column({
     type: "enum",

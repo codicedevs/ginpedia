@@ -10,9 +10,9 @@ export class Rating {
   @Column()
   rating: number;
 
-  @ManyToOne(() => User, (user) => user.rating)
-  userId: User;
+  @ManyToOne(() => User, (user) => user.ratings)
+  user: User;
 
-  @ManyToOne(() => Product, (product) => product.rating)
-  productId: Product;
+  @ManyToOne(() => Product, (product) => product.ratings)
+  product: Product;
 }

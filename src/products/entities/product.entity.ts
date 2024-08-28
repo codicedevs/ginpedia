@@ -1,6 +1,6 @@
+import { Bookmark } from "bookmarks/entities/bookmark.entity";
 import { Rating } from "ratings/entities/rating.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { UserProduct } from "user-lists/entities/user-list.entity";
 
 export enum ProductType {
   GIN = "gin",
@@ -35,9 +35,9 @@ export class Product {
   @Column()
   graduation?: string;
 
-  @OneToMany(() => Rating, (rating) => rating.productId)
-  rating: Rating[];
+  @OneToMany(() => Rating, (rating) => rating.product)
+  ratings: Rating[];
 
-  @OneToMany(() => UserProduct, (list) => list.productId)
-  lists: UserProduct[];
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.product)
+  bookmarks: Bookmark[];
 }
