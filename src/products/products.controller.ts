@@ -43,8 +43,8 @@ export class ProductsController {
   }
 
   @Get("rating/:id")
-  findRating(@Param("id") id: number) {
-    const productRat = this.productsService.findRatings(id);
+  getRating(@Param("id") id: number) {
+    const productRat = this.productsService.getRatings(id);
 
     return productRat;
   }
