@@ -1,5 +1,11 @@
 import { Product } from "products/entities/product.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { User } from "users/entities/user.entity";
 
 @Entity()
@@ -11,8 +17,10 @@ export class Rating {
   rating: number;
 
   @ManyToOne(() => User, (user) => user.ratings)
-  user: User;
+  @JoinColumn({ name: "userId" })
+  userId: User;
 
   @ManyToOne(() => Product, (product) => product.ratings)
-  product: Product;
+  @JoinColumn({ name: "productId" })
+  productId: Product;
 }

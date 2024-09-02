@@ -33,10 +33,17 @@ export class ProductsService {
     return `This action removes a #${id} product`;
   }
 
-  findRatings(id: number) {
-    return this.productRepository.findOne({
-      where: { productId: id },
-      relations: ["rating"],
+  async getRating(id: number) {
+    const product = await this.productRepository.findOne({
+      where: { id: id },
+      relations: ["ratings"],
     });
+
+    return {
+      rating:
+        product?.ratings
+          .map((rating) => rating.rating)
+          .reduce((acc, rating) => acc + rating, 0) / product.ratings.length,
+    };
   }
 }

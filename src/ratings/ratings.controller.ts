@@ -16,7 +16,6 @@ export class RatingsController {
   constructor(private readonly ratingsService: RatingsService) {}
 
   @Post()
-  @Post()
   async createRating(@Body() ratingData) {
     return this.ratingsService.createRating(ratingData);
   }

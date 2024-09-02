@@ -11,10 +11,10 @@ export enum ProductType {
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  productId: number;
+  id: number;
 
   @Column()
-  productName?: string;
+  name?: string;
 
   @Column()
   description: string;
@@ -35,7 +35,7 @@ export class Product {
   @Column()
   graduation?: string;
 
-  @OneToMany(() => Rating, (rating) => rating.product)
+  @OneToMany(() => Rating, (rating) => rating.productId)
   ratings: Rating[];
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.product)

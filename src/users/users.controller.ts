@@ -83,4 +83,19 @@ export class UsersController {
     const deletedUser = await this.userService.delete(id);
     return { message: "User delete", user: deletedUser };
   }
+
+  @Get("ratings/:id")
+  async getRating(@Param("id") id: number) {
+    return this.userService.getProductRating(id);
+  }
+
+  @Get("wishlist/:id")
+  async getWishlist(@Param("id") id: number) {
+    return this.userService.getWishlist(id);
+  }
+
+  @Get("purchased/:id")
+  async getPurchased(@Param("id") id: number) {
+    return this.userService.getPurchased(id);
+  }
 }
