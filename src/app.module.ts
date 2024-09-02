@@ -3,7 +3,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
 import { AuthenticationModule } from "./authentication/authentication.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { User } from "./users/entities/user.entity";
 import { serverSetting } from "./settings";
 import { ProductsModule } from "./products/products.module";
@@ -23,8 +23,14 @@ import { Bookmark } from "bookmarks/entities/bookmark.entity";
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) =>
-        configService.get("typeorm"),
+      useFactory: async (configService: ConfigService) => {
+        const typeOrmConfig =
+          configService.get<TypeOrmModuleOptions>("typeorm");
+        if (!typeOrmConfig) {
+          throw new Error("TypeORM config is not defined");
+        }
+        return typeOrmConfig;
+      },
     }),
     TypeOrmModule.forRoot({
       type: "postgres", // la base de datos debe ser pasada como string como aca

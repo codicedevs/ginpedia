@@ -11,11 +11,10 @@ import { AuthService } from "./authentication.service";
 import { SignInDto } from "./dto/singin.dto";
 import { RecoverPasswordDto, ResetPassDto } from "users/dto/user.dto";
 
-
 @Controller("auth")
 @Public() // todos son publicos con este decorador!
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
   /**
    * @param signInDto
    * @returns
@@ -29,7 +28,8 @@ export class AuthController {
         signInDto.password
       );
       return result;
-    } catch (error) {
+    } catch (err) {
+      const error = err as Error;
       console.log(error.message);
       // Manejar los errores, por ejemplo, lanzar un error 401 Unauthorized si las credenciales son inválidas.
       throw new UnauthorizedException("Invalid credentials");
@@ -45,7 +45,8 @@ export class AuthController {
     try {
       const result = await this.authService.refreshToken(refreshToken);
       return result;
-    } catch (error) {
+    } catch (err) {
+      const error = err as Error;
       throw new UnauthorizedException(error.message);
     }
   }
@@ -56,7 +57,9 @@ export class AuthController {
 
   @Post("recover-password")
   async recoverPassword(@Body() recoverPassword: RecoverPasswordDto) {
-    const result = await this.authService.passwordRecovery(recoverPassword.email);
+    const result = await this.authService.passwordRecovery(
+      recoverPassword.email
+    );
     return {
       message: "Password recovery initiated successfully",
       data: result,

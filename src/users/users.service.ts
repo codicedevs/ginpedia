@@ -64,7 +64,7 @@ export class UsersService {
       updateUser.password = hashedPassword;
     }
     await this.userRepository.update(id, updateUser);
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOneByOrFail({ id });
     return user;
   }
   async delete(id: number): Promise<User> {
@@ -100,8 +100,13 @@ export class UsersService {
       .select(["user.id", "bookmarks.id", "product"])
       .getOne();
 
-    return { deseados: user.bookmarks.map((p) => p.product) };
+    return {
+      deseados: user
+        ? user.bookmarks.map((p) => p.product)
+        : "El usuario no tiene deseados",
+    };
   }
+
   async getPurchased(id: number) {
     const user = await this.userRepository
       .createQueryBuilder("user")
@@ -116,6 +121,10 @@ export class UsersService {
       .select(["user.id", "bookmarks.id", "product"])
       .getOne();
 
-    return { bodega: user.bookmarks.map((p) => p.product) };
+    return {
+      bodega: user
+        ? user.bookmarks.map((p) => p.product)
+        : "Este user no tiene bookmarks",
+    };
   }
 }

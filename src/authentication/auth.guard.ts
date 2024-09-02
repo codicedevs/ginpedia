@@ -10,11 +10,13 @@ import { Request } from "express";
 import { jwtSetting } from "settings";
 import { IS_PUBLIC_KEY } from "./public";
 
-
 @Injectable()
-export class AuthGuard implements CanActivate { // global pasado en main
-  constructor(private jwtService: JwtService,
-    private reflector: Reflector,) { }
+export class AuthGuard implements CanActivate {
+  // global pasado en main
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector
+  ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -30,11 +32,12 @@ export class AuthGuard implements CanActivate { // global pasado en main
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtSetting.JWT_ACCESS_SECRET, // 
+        secret: jwtSetting.JWT_ACCESS_SECRET, //
       });
       request["user"] = payload;
-    } catch(err) {
-      throw new UnauthorizedException(err.message);
+    } catch (err) {
+      const error = err as Error;
+      throw new UnauthorizedException(error.message);
     }
     return true;
   }
