@@ -74,7 +74,7 @@ export class UsersService {
     return user;
   }
 
-  async getProductRatings(id: number) {
+  async getProductRating(id: number) {
     const user = await this.userRepository.findOneOrFail({
       where: { id: id },
       relations: ["ratings", "ratings.productId"],

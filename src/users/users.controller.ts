@@ -86,7 +86,7 @@ export class UsersController {
 
   @Get("ratings/:id")
   async getRating(@Param("id") id: number) {
-    return this.userService.getProductRatings(id);
+    return this.userService.getProductRating(id);
   }
 
   @Get("wishlist/:id")
