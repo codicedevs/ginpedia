@@ -38,18 +38,20 @@ export class BookmarksService {
   }
 
   async createNewItemBookmark(createNewItemBookmarkDto) {
-    const { productId, user, type } = createNewItemBookmarkDto;
-    const productSel = await this.productRepository.findOneByOrFail({
+    const { productId, userId, type } = createNewItemBookmarkDto;
+    const product = await this.productRepository.findOneByOrFail({
       id: productId,
     });
-    const userSel = await this.userRepository.findOneByOrFail({ id: user });
+    const user = await this.userRepository.findOneByOrFail({ id: userId });
 
-    this.bookmarkRepository.save({
-      product: productSel,
-      user: userSel,
+    console.log(
+      `El usuario ${user.name} agrego a ${type} el producto ${product.type} ${product.name}`
+    );
+
+    return this.bookmarkRepository.save({
+      product: product,
+      user: user,
       type,
     });
-
-    return `El usuario ${userSel.name} agrego a ${type} el producto ${productSel.type} ${productSel.name}`;
   }
 }

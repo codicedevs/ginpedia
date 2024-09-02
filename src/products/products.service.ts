@@ -33,7 +33,7 @@ export class ProductsService {
     return `This action removes a #${id} product`;
   }
 
-  async getRatings(id: number) {
+  async getRating(id: number) {
     const product = await this.productRepository.findOne({
       where: { id: id },
       relations: ["ratings"],

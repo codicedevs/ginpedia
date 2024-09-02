@@ -20,18 +20,18 @@ export class RatingsService {
 
   async createRating(createRatingDto) {
     const { productId, userId, rating } = createRatingDto;
-    const productSel = await this.productRepository.findOneByOrFail({
+    const product = await this.productRepository.findOneByOrFail({
       id: productId,
     });
-    const userSel = await this.userRepository.findOneByOrFail({ id: userId });
+    const user = await this.userRepository.findOneByOrFail({ id: userId });
 
     this.ratingRepository.save({
-      productId: productSel,
-      userId: userSel,
+      productId: product,
+      userId: user,
       rating,
     });
 
-    return `El usuario ${userSel.name} le puso ${rating} estrellas al ${productSel.type} ${productSel.name}`;
+    return `El usuario ${user.name} le puso ${rating} estrellas al ${product.type} ${product.name}`;
   }
 
   findAll() {

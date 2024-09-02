@@ -44,7 +44,7 @@ export class ProductsController {
 
   @Get("rating/:id")
   getRating(@Param("id") id: number) {
-    const productRat = this.productsService.getRatings(id);
+    const productRat = this.productsService.getRating(id);
 
     return productRat;
   }
