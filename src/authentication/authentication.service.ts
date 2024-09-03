@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 import { UsersService } from "users/users.service";
@@ -99,7 +103,7 @@ export class AuthService {
     }
     // Reset password key, tiene 12 hs de validez
     if (!user.resetKeyTimeStamp) {
-      throw new Error("resetKeyTimeStamp is undefined");
+      throw new HttpException("resetKeyTimeStamp is undefined", 400);
     }
     const keyFromUser = new Date(user.resetKeyTimeStamp);
     const actualDate = new Date();

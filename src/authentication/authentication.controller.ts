@@ -8,7 +8,7 @@ import {
 } from "@nestjs/common";
 import { Public } from "./public";
 import { AuthService } from "./authentication.service";
-import { SignInDto } from "./dto/singin.dto";
+import { SignInDTO } from "./dto/singin.dto";
 import { RecoverPasswordDto, ResetPassDto } from "users/dto/user.dto";
 
 @Controller("auth")
@@ -21,7 +21,7 @@ export class AuthController {
    */
 
   @Post("signin")
-  async signIn(@Body() signInDto: SignInDto) {
+  async signIn(@Body() signInDto: SignInDTO) {
     try {
       const result = await this.authService.signIn(
         signInDto.email,

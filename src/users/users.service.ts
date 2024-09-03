@@ -124,7 +124,7 @@ export class UsersService {
     return {
       bodega: user
         ? user.bookmarks.map((p) => p.product)
-        : "Este user no tiene bookmarks",
+        : "Este usuario no tiene bookmarks",
     };
   }
 }
