@@ -10,15 +10,25 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
+    "strict": true, // Habilita todas las opciones estrictas
+    "noImplicitAny": true, // No permite `any` implícito
+    "strictNullChecks": true, // Requiere chequeos de null/undefined
+    "noImplicitThis": true, // Requiere tipado explícito de `this`
+    "alwaysStrict": true, // Asegura que todo el código se ejecute en modo estricto
+    "strictFunctionTypes": true, // Chequea tipos de función estrictamente
+    "strictBindCallApply": true, // Chequea bind, call y apply estrictamente
+    "strictPropertyInitialization": false, // Requiere inicialización estricta de propiedades
+    "noImplicitReturns": true, // Asegura que todas las rutas en una función devuelvan un valor
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "*": ["*"]
     },
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
+    // "strictNullChecks": false,
+    // "noImplicitAny": false,
+    // "strictBindCallApply": false,
+    // "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   }
 }

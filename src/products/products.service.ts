@@ -34,7 +34,7 @@ export class ProductsService {
   }
 
   async getRating(id: number) {
-    const product = await this.productRepository.findOne({
+    const product = await this.productRepository.findOneOrFail({
       where: { id: id },
       relations: ["ratings"],
     });

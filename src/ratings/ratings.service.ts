@@ -18,7 +18,7 @@ export class RatingsService {
     private readonly userRepository: Repository<User>
   ) {}
 
-  async createRating(createRatingDto) {
+  async createRating(createRatingDto: CreateRatingDto) {
     const { productId, userId, rating } = createRatingDto;
     const product = await this.productRepository.findOneByOrFail({
       id: productId,

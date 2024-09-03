@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 import { UsersService } from "users/users.service";
@@ -11,7 +15,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private emailService: EmailService
-  ) { }
+  ) {}
   /**
    * devuelve refresh token y acces token al usuario si las credenciales son correctas,
    * compara la pass enviada por el usuario en la request con la almacenada
@@ -98,13 +102,18 @@ export class AuthService {
       throw new UnauthorizedException({ message: "Reset Key Invalid" });
     }
     // Reset password key, tiene 12 hs de validez
+    if (!user.resetKeyTimeStamp) {
+      throw new HttpException("resetKeyTimeStamp is undefined", 400);
+    }
     const keyFromUser = new Date(user.resetKeyTimeStamp);
     const actualDate = new Date();
-    const differenceInHours = Math.abs(actualDate.getTime() - keyFromUser.getTime()) / (1000 * 60 * 60);
+    const differenceInHours =
+      Math.abs(actualDate.getTime() - keyFromUser.getTime()) / (1000 * 60 * 60);
     if (differenceInHours > 12) {
-      throw new UnauthorizedException(
-        { message: "Your reset key has expired. It is valid for 12 hours. Please request the password change again." }
-      );
+      throw new UnauthorizedException({
+        message:
+          "Your reset key has expired. It is valid for 12 hours. Please request the password change again.",
+      });
     }
     // Actualiza la contraseña del usuario cuando el proceso de resetKey es exitoso
     await this.usersService.update(user.id, {
@@ -112,7 +121,7 @@ export class AuthService {
     });
     // Resetea el resetKey en el modelo de usuario cuando es usado exitosamente
     await this.usersService.update(user.id, {
-      resetKey: null,
+      resetKey: undefined,
     });
     return;
   }

@@ -5,7 +5,7 @@ export const serverSetting = Object.freeze({
   PORT: +(process.env.SERVER_PORT ?? 3000),
   DB_TYPE: process.env.DB_TYPE,
   DB_HOST: process.env.DB_HOST,
-  DB_PORT: +process.env.DB_PORT,
+  DB_PORT: +(process.env.DB_PORT ?? 5432),
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_DATABASE: process.env.DB_DATABASE,
@@ -24,4 +24,4 @@ export const smtpSettings = Object.freeze({
   SECURE: false,
   AUTH_USER: process.env.SMTP_USERNAME,
   AUTH_PASS: process.env.SMTP_PASSWORD,
-})
+});

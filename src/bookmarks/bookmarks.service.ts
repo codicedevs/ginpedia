@@ -37,7 +37,7 @@ export class BookmarksService {
     return `This action removes a #${id} bookmark`;
   }
 
-  async createNewItemBookmark(createNewItemBookmarkDto) {
+  async createNewItemBookmark(createNewItemBookmarkDto: CreateBookmarkDto) {
     const { productId, userId, type } = createNewItemBookmarkDto;
     const product = await this.productRepository.findOneByOrFail({
       id: productId,
