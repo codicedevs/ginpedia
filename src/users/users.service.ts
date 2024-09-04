@@ -81,7 +81,7 @@ export class UsersService {
     });
 
     return user?.ratings.map((rating) => ({
-      Producto: rating.productId.type + " " + rating.productId.name,
+      Producto: rating.product.type + " " + rating.product.name,
       Puntaje: rating.rating,
     }));
   }
