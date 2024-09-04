@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-Regular.ttf"
+          ]
+        }
+      ]
+    ],
+    "name": "mobile",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ballIcon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/pelota.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "notification": {
+        "icon": "./assets/ballIcon.png",
+        "color": "#ffffff"
+      },
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c20c813-8831-4324-8232-042db10d15c7"
+      }
+    }
+  }
+}
