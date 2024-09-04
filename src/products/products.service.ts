@@ -3,7 +3,7 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
-import { Repository } from "typeorm";
+import { FindOneOptions, FindOptions, Repository } from "typeorm";
 
 @Injectable()
 export class ProductsService {
@@ -21,8 +21,10 @@ export class ProductsService {
     return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number, filter: FindOneOptions = {}) {
+    filter.where = { id };
+    const product = await this.productRepository.findOneOrFail(filter);
+    return product;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
@@ -45,5 +47,20 @@ export class ProductsService {
           .map((rating) => rating.rating)
           .reduce((acc, rating) => acc + rating, 0) / product.ratings.length,
     };
+  }
+
+  async addCombinations(primId: number, secId: number) {
+    const primProd = await this.productRepository.findOneOrFail({
+      where: { id: primId },
+      relations: ["combinations"],
+    });
+    const secProd = await this.productRepository.findOneOrFail({
+      where: { id: secId },
+    });
+
+    primProd.combinations.push(secProd);
+    await this.productRepository.save(primProd);
+
+    return primProd;
   }
 }

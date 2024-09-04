@@ -18,9 +18,9 @@ export class Rating {
 
   @ManyToOne(() => User, (user) => user.ratings)
   @JoinColumn({ name: "userId" })
-  userId: User;
+  user: User;
 
   @ManyToOne(() => Product, (product) => product.ratings)
   @JoinColumn({ name: "productId" })
-  productId: Product;
+  product: Product;
 }

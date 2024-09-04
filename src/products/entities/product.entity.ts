@@ -1,6 +1,14 @@
 import { Bookmark } from "bookmarks/entities/bookmark.entity";
+import { Combination } from "combinations/entities/combination.entity";
 import { Rating } from "ratings/entities/rating.entity";
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
 
 export enum ProductType {
   GIN = "gin",
@@ -35,9 +43,20 @@ export class Product {
   @Column()
   graduation?: string;
 
-  @OneToMany(() => Rating, (rating) => rating.productId)
+  @OneToMany(() => Rating, (rating) => rating.product)
   ratings: Rating[];
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.product)
   bookmarks: Bookmark[];
+
+  @ManyToMany(() => Product, (product) => product.combinations)
+  @JoinTable({
+    name: "combinations",
+    joinColumn: { name: "primaryProductId", referencedColumnName: "id" },
+    inverseJoinColumn: {
+      name: "secondaryProductId",
+      referencedColumnName: "id",
+    },
+  })
+  combinations: Product[];
 }

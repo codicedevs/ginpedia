@@ -25,13 +25,11 @@ export class RatingsService {
     });
     const user = await this.userRepository.findOneByOrFail({ id: userId });
 
-    this.ratingRepository.save({
-      productId: product,
-      userId: user,
+    return this.ratingRepository.save({
+      product: product,
+      user: user,
       rating,
     });
-
-    return `El usuario ${user.name} le puso ${rating} estrellas al ${product.type} ${product.name}`;
   }
 
   findAll() {

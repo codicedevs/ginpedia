@@ -40,7 +40,7 @@ import { Bookmark } from "bookmarks/entities/bookmark.entity";
       password: serverSetting.DB_PASSWORD,
       database: serverSetting.DB_DATABASE,
       entities: [User, Product, Rating, Bookmark], // las entidades (entity de typeorm)
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
     AuthenticationModule,
