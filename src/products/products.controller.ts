@@ -33,9 +33,10 @@ export class ProductsController {
   findOne(
     @Param("id") id: string,
     @Body() filter: FindOneOptions,
-    @Query("withCombination") withCombination: boolean
+    @Query("withCombination") withCombination: string
   ) {
-    return this.productsService.findOne(+id, filter, withCombination);
+    console.log(withCombination);
+    return this.productsService.findOne(+id, filter, !!withCombination);
   }
 
   @Patch(":id")
