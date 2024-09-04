@@ -36,7 +36,7 @@ const SplashScreen = () => {
         <SplashContainer style={containerStyle}>
             <AnimatedImage
                 resizeMode='contain'
-                source={require("../assets/pelota.png")}
+                source={require("../assets/beardman.png")}
                 style={imageStyle}
             />
         </SplashContainer>

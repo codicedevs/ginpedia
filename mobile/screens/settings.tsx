@@ -16,7 +16,7 @@ function SettingsScreen({ navigation }: AppScreenProps<AppScreens.SETTINGS_SCREE
                 <Text>Settings!</Text>
                 {
                     data && data.map((user: User) => (
-                        <Text>{user.name}</Text>
+                        <Text>{user.nombre}</Text>
                     ))
                 }
                 <Button onPress={() => { navigation.navigate(AppScreens.TRIAL2_SCREEN) }} title='slide' />

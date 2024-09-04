@@ -5,17 +5,15 @@ type SuccessHandler = (result?: any) => void;
 type ErrorHandler = (error: any) => void;
 
 export function useMutate(
-  mutationFn: MutationFunction,
-  onSuccess: SuccessHandler = () => {},
-  onError: ErrorHandler = () => {},
-  options: any = {}
+    mutationFn: MutationFunction,
+    onSuccess: SuccessHandler = () => { },
+    onError: ErrorHandler = () => { }
 ) {
-  const { mutateAsync } = useMutation({
-    mutationFn,
-    onSuccess,
-    onError,
-    options,
-  });
+    const { mutateAsync } = useMutation({
+        mutationFn,
+        onSuccess,
+        onError
+    });
 
-  return mutateAsync;
+    return mutateAsync
 }

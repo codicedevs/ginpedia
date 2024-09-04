@@ -3,7 +3,7 @@ import React from 'react'
 import VersionModal from '../components/modal/versionModal'
 import { useSession } from '../context/authProvider'
 import SplashScreen from '../screens/splash'
-import { AuthStackScreen, TabStackScreen, } from './stacks'
+import { AuthStackScreen, Principal } from './stacks'
 
 const AppNavigator = () => {
     const { currentUser } = useSession()
@@ -12,7 +12,7 @@ const AppNavigator = () => {
         <NavigationContainer>
             <VersionModal />
             <SplashScreen />
-            {currentUser ? <TabStackScreen /> : <AuthStackScreen />}
+            {currentUser ? <Principal /> : <AuthStackScreen />}
         </NavigationContainer>
     )
 }

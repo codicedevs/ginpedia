@@ -15,10 +15,10 @@
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/ballIcon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/pelota.png",
+      "image": "./assets/beardman.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,10 +26,6 @@
       "supportsTablet": true
     },
     "android": {
-      "notification": {
-        "icon": "./assets/ballIcon.png",
-        "color": "#ffffff"
-      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -37,11 +33,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "0c20c813-8831-4324-8232-042db10d15c7"
-      }
     }
   }
 }

@@ -1,22 +1,28 @@
 export interface UserInfo {
-    password: string;
-    email: string;
-  }
-  
-  export interface IUser {
-    _id: number;
-    name: string;
-    email: string;
-    password: string;
-    friends:User[]
-    resetKey: string;
-    resetKeyTimeStamp: string;
-  }
-  
-  export interface User {
-    name: string;
-    email: string;
-    password: string;
-    friends:User[]
-  }
-  
+    username: string;
+    pass: string;
+}
+
+export interface IUser {
+    _id: number,
+    documento: string,
+    nombre: string,
+    username: string,
+    pass: string,
+    accountId: string,
+    email: string,
+    telefono: string,
+    resetKey: string,
+    resetKeyTimeStamp: string
+}
+
+export interface User {
+    documento: string,
+    nombre: string,
+    username: string,
+    pass: string,
+    accountId: string,
+    email: string,
+    telefono: string,
+    isActive: boolean
+}

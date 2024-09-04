@@ -3,11 +3,11 @@ import Animated from "react-native-reanimated";
 import { scale, verticalScale } from "react-native-size-matters";
 import styled from "styled-components/native";
 import {
-  commonTitleStyles,
-  commonViewStyles,
-  flexEnd,
-  flexRow,
-  inheritBackground,
+    commonTitleStyles,
+    commonViewStyles,
+    flexEnd,
+    flexRow,
+    inheritBackground,
 } from "./base";
 
 export const SpinnerContainer = styled(Div)`
