@@ -30,8 +30,12 @@ export class ProductsController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string, @Body() filter: FindOneOptions) {
-    return this.productsService.findOne(+id, filter);
+  findOne(
+    @Param("id") id: string,
+    @Body() filter: FindOneOptions,
+    @Query("withCombination") withCombination: boolean
+  ) {
+    return this.productsService.findOne(+id, filter, withCombination);
   }
 
   @Patch(":id")
@@ -46,17 +50,23 @@ export class ProductsController {
 
   @Get("rating/:id")
   getRating(@Param("id") id: number) {
-    const productRat = this.productsService.getRating(id);
+    const productRating = this.productsService.getRating(id);
 
-    return productRat;
+    return productRating;
   }
 
-  @Post("combinations/:id")
-  async addCombinations(
-    @Param("id") id: number,
-    @Query("secProd") secProd: number
+  @Post(":primaryId/combinations/:secondaryId")
+  async addCombination(
+    @Param("primaryId") primaryId: number,
+    @Param("secondaryId") secondaryId: number
   ) {
-    await this.productsService.addCombinations(id, secProd);
-    return this.productsService.addCombinations(secProd, id);
+    return this.productsService.addCombination(primaryId, secondaryId);
+  }
+  @Delete(":primaryId/combinations/:secondaryId")
+  async deleteCombination(
+    @Param("primaryId") primaryId: number,
+    @Param("secondaryId") secondaryId: number
+  ) {
+    return this.productsService.deleteCombination(primaryId, secondaryId);
   }
 }
