@@ -51,9 +51,9 @@ declare module "styled-components/native" {
 export const customTheme: CustomThemeType = {
     colors: {
         primary: "#0070f3",
-        secondary: "#1c1c1c",
+        secondary: "#F4B929",
         accent: "#e91e63",
-        background: "#f0f0f0",
+        background: "#2f2e2a",
         text: "#333333",
         cardBorder: "lightgray",
     },
@@ -62,7 +62,7 @@ export const customTheme: CustomThemeType = {
         bold: "Poppins-Bold"
     },
     fontSize: {
-        small: moderateScale(12),
+        small: moderateScale(9),
         medium: moderateScale(16),
         large: moderateScale(20),
         title: moderateScale(24),
@@ -88,6 +88,11 @@ export const customTheme: CustomThemeType = {
     components: {
         Text: {
             fontFamily: "Poppins-Regular"
-        }
+        },
+        Input: {
+            p: 0,
+            py: 0,
+            mb: 0
+        },
     }
 };
