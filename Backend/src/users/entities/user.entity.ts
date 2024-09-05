@@ -11,7 +11,7 @@ export class User {
   @Column()
   name: string;
 
-  @Column({ unique: true, nullable: true }) // esto evita crear dos usuarios con el mismo e mail
+  @Column({ unique: true }) // esto evita crear dos usuarios con el mismo e mail
   email?: string;
 
   @OneToMany(() => Rating, (rating) => rating.user)

@@ -15,6 +15,11 @@ async function bootstrap() {
     new RolesGuard(new Reflector())
   );
   app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
+  app.enableCors({
+    origin: "http://localhost:5173",
+    methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+    credentials: true,
+  });
   await app.listen(serverSetting.PORT);
 }
 bootstrap();

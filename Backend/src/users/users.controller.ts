@@ -29,10 +29,10 @@ export class UsersController {
   @Get()
   // @Roles(Role.Admin)
   async getAll(
-    @Query(QueryValidationPipe)
-    options: FindManyFilter<User>
+    @Query()
+    options: any
   ) {
-    const users = await this.userService.findAll(options);
+    const users = await this.userService.findAll();
     return users;
   }
   /**
