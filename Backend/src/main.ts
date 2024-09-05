@@ -15,6 +15,7 @@ async function bootstrap() {
     new RolesGuard(new Reflector())
   );
   app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
+  app.enableCors();
   await app.listen(serverSetting.PORT);
 }
 bootstrap();
