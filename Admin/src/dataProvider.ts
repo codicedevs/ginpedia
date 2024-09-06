@@ -1,26 +1,63 @@
 import simpleRestProvider from "ra-data-simple-rest";
 import { fetchUtils } from "react-admin";
+import { BASE_URL } from "./config";
 
 const httpClient = (url: string, options: fetchUtils.Options = {}) => {
-  console.log("client");
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" });
   } else if (!(options.headers instanceof Headers)) {
     options.headers = new Headers(options.headers);
   }
 
-  const auth = localStorage.getItem("token");
-  if (auth) {
-    const token = JSON.parse(auth);
-    options.headers.set("Authorization", `Bearer ${token}`);
-    console.log("el token", token);
+  const token = localStorage.getItem("token");
+  if (token) {
+    options.headers.set(
+      "Authorization",
+      `Bearer ${token.replace('"', "").replace('"', "")}`,
+    );
   } else {
-    console.log("Algo paso");
   }
   return fetchUtils.fetchJson(url, options);
 };
 
-export const dataProvider = simpleRestProvider(
-  "http://localhost:3000",
-  httpClient,
-);
+const baseProvider = simpleRestProvider("http://localhost:3000", httpClient);
+
+export const dataProvider = {
+  ...baseProvider,
+
+  getList: (resource: string, params: any) => {
+    const { page, perPage } = params.pagination || { page: 1, perPage: 10 };
+    const { field, order } = params.sort || { field: "id", order: "ASC" };
+    const skip = (page - 1) * perPage;
+    const take = perPage;
+    const filter = params.filter;
+
+    const query = {
+      where: filter,
+      skip,
+      take,
+      order: { [field]: order },
+    };
+
+    const queryString = Object.entries(query)
+      .map(([key, value]) => {
+        return `${key}=${JSON.stringify(value)}`;
+      })
+      .join("&");
+    const url = `${BASE_URL}/${resource}?${queryString}`;
+
+    const options = { signal: params?.signal };
+
+    return httpClient(url, options).then(({ headers, json }) => {
+      if (!headers.has("X-Total-Count")) {
+        throw new Error(
+          `The X-Total-Count header is missing in the HTTP Response.`,
+        );
+      }
+      return {
+        data: json,
+        total: parseInt(headers.get("X-Total-Count")!, 10),
+      };
+    });
+  },
+};

@@ -5,8 +5,13 @@ import { GlobalExceptionFilter } from "./globalexception/global.exception.filter
 import { AuthGuard } from "./authentication/auth.guard";
 import { JwtService } from "@nestjs/jwt";
 import { RolesGuard } from "authorization/roles.guard";
+import { CountInterceptor } from "interceptors/count.interceptor";
+import { ConnectionSource } from "config/typeorm";
+import * as cors from "cors";
+import { ParseWhereInterceptor } from "interceptors/parseWhere.interceptor";
 
 async function bootstrap() {
+  await ConnectionSource.initialize();
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes();
   // new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }) // no permite campos adicionales,comentado porque me vuelve loco en postman
@@ -15,7 +20,18 @@ async function bootstrap() {
     new RolesGuard(new Reflector())
   );
   app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
-  app.enableCors();
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "Range"],
+      exposedHeaders: ["Content-Range", "X-Total-Count"],
+    })
+  );
+  app.useGlobalInterceptors(
+    new CountInterceptor(),
+    new ParseWhereInterceptor()
+  );
   await app.listen(serverSetting.PORT);
 }
 bootstrap();

@@ -1,8 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { DataSource, EntitySubscriberInterface, EventSubscriber, InsertEvent } from "typeorm";
+import {
+  DataSource,
+  EntitySubscriberInterface,
+  EventSubscriber,
+  InsertEvent,
+} from "typeorm";
 import { EmailService } from "../email/email.service";
 import { User } from "users/entities/user.entity";
-
 
 @EventSubscriber()
 @Injectable()
@@ -15,8 +19,8 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
     try {
       await new EmailService().sendUserRegistration(entity);
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error("Error sending email:", error);
     }
-    console.log('Entity inserted:', entity);
+    console.log("Entity inserted:", entity);
   }
 }

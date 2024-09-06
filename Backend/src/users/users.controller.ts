@@ -17,6 +17,7 @@ import { Role } from "../authorization/role.enum";
 import { Roles } from "../authorization/role.decorator";
 import { UsersService } from "./users.service";
 import { Public } from "authentication/public";
+import { FindManyOptions } from "typeorm";
 
 //todos estos endpoint estan protegidos a nivel global por el auth guard que pide token
 @Controller("users")
@@ -29,10 +30,11 @@ export class UsersController {
   @Get()
   // @Roles(Role.Admin)
   async getAll(
-    @Query()
-    options: any
+    @Query(QueryValidationPipe)
+    options: FindManyOptions<User>
   ) {
-    const users = await this.userService.findAll();
+    const users = await this.userService.findAll(options);
+
     return users;
   }
   /**

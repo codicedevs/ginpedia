@@ -35,7 +35,6 @@ export class ProductsController {
     @Body() filter: FindOneOptions,
     @Query("withCombination") withCombination: string
   ) {
-    console.log(withCombination);
     return this.productsService.findOne(+id, filter, !!withCombination);
   }
 
