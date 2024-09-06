@@ -10,6 +10,10 @@ export const commonTitleStyles = css`
     font-weight: bold
 `
 
+export const scrollable = css`
+  overflow: scroll
+`
+
 export const flexEnd = css`
   align-self: flex-end;
 `

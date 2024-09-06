@@ -3,11 +3,12 @@ import Animated from "react-native-reanimated";
 import { scale, verticalScale } from "react-native-size-matters";
 import styled from "styled-components/native";
 import {
-    commonTitleStyles,
-    commonViewStyles,
-    flexEnd,
-    flexRow,
-    inheritBackground,
+  commonTitleStyles,
+  commonViewStyles,
+  flexEnd,
+  flexRow,
+  inheritBackground,
+  scrollable,
 } from "./base";
 
 export const SpinnerContainer = styled(Div)`
@@ -65,12 +66,28 @@ export const ModalTextContainer = styled(Div)`
     padding: ${({ theme }) => theme.spacing.medium}px
 `
 
-// LOGIN
-export const LoginTitleContainer = styled(Div)`
-  width: 100%;
-  height: 20%;
-  ${commonViewStyles};
+export const YellowBorderText = styled(Text)`
+  border-bottom-width: 2px;
+  border-bottom-color: ${({ theme }) => theme.colors.secondary}
 `;
+
+// LOGIN
+
+export const MainLoginContainer = styled(Div)`
+  padding: ${({ theme }) => theme.spacing.large}px;
+  height: ${verticalScale(700)}px;
+`;
+
+export const LoginTitleContainer = styled(Div)`
+  justify-content: space-around;
+  height: 35%;
+  padding-bottom: 10px;
+`;
+
+export const LabelContainer = styled(Div)`
+  align-self: flex-start;
+  margin-bottom: ${({ theme }) => theme.spacing.xs}px;
+`
 
 export const LoginTittle = styled(Text)`
   ${commonTitleStyles};
@@ -78,10 +95,20 @@ export const LoginTittle = styled(Text)`
 `;
 
 export const LoginInputContainer = styled(Div)`
-  height: 50%;
-  width: 100%;
   ${commonViewStyles};
+  height: 65%;
 `;
+
+export const LoginTopContainer = styled(Div)`
+  height: 35%;
+  ${scrollable}
+`;
+
+export const LoginBottomContainer = styled(Div)`
+  justify-content: space-between;
+  padding-vertical: ${({ theme }) => theme.spacing.small}px;
+  height: 65%;
+`
 
 export const LoginInput = styled.TextInput`
   background-color: #333;
@@ -112,13 +139,6 @@ export const VisibilityToggle = styled.TouchableOpacity`
   top: ${({ theme }) => theme.spacing.xs}px;
 `;
 
-export const LoginBottomContainer = styled(Div)`
-  width: 100%;
-  height: 30%;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
 export const LoginButton = styled.TouchableOpacity`
   background-color: #007bff;
   border-radius: ${({ theme }) => theme.borderRadius.medium}px;
@@ -136,7 +156,7 @@ export const LoginButtonText = styled(Text)`
 `;
 
 export const ErrorInputMessageContainer = styled(Div)`
-  min-height: ${verticalScale(10)}px;
+  height: ${verticalScale(10)}px;
 `;
 
 export const ErrorMessageText = styled(Text)`
@@ -150,7 +170,8 @@ export const MainContainer = styled(Div)`
   ${commonViewStyles};
   padding-horizontal: ${scale(40)}px;
   padding-vertical: ${scale(20)}px;
-  height: ${scale(700)}px
+  height: ${scale(700)}px;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const CardContainer = styled(Div)`
