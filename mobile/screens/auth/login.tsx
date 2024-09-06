@@ -54,6 +54,10 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
         }
     }
 
+    const navigateToRegister = () => {
+        navigation.navigate(AppScreens.REGISTER_SCREEN)
+    }
+
     return (
         <ScrollView contentContainerStyle={{ flex: 1 }}>
             <MainLoginContainer>
@@ -131,7 +135,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                 <LoginBottomContainer h={'65%'} py={customTheme.spacing.small} justifyContent="space-between">
                     <Div flexDir="row">
                         <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
-                        <Text fontSize={'sm'} fontWeight="600"> Registrate</Text>
+                        <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
                     </Div>
                     <Button bg={customTheme.colors.secondary} color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
