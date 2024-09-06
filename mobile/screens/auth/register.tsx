@@ -107,10 +107,6 @@ const RegisterScreen = () => {
                                             }}
                                             focusBorderColor="blue700"
                                             value={value}
-                                            style={{
-                                                lineHeight: verticalScale(18), // Ajustamos el line-height para centrar el texto verticalmente
-                                                textAlignVertical: 'center', // Alineamos el texto en el centro verticalmente
-                                            }}
                                         />
                                         <ErrorInputMessageContainer>
                                             {errors.username && <ErrorMessageText>{errors.username.message as string}</ErrorMessageText>}
@@ -138,10 +134,6 @@ const RegisterScreen = () => {
                                             }}
                                             focusBorderColor="blue700"
                                             value={value}
-                                            style={{
-                                                lineHeight: verticalScale(18), // Ajustamos el line-height para centrar el texto verticalmente
-                                                textAlignVertical: 'center', // Alineamos el texto en el centro verticalmente
-                                            }}
                                         />
                                         <ErrorInputMessageContainer>
                                             {errors.email && <ErrorMessageText>{errors.email.message as string}</ErrorMessageText>}
@@ -198,7 +190,7 @@ const RegisterScreen = () => {
                         </Div>
                     </Div>
                     <Div h={'30%'} justifyContent="flex-end">
-                        <Button bg={customTheme.colors.secondary} onPress={() => setShow(true)} color="black" w={'100%'}>CREAR CUENTA</Button>
+                        <Button bg={customTheme.colors.secondary} onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
                     </Div>
                 </MainLoginContainer>
             </ScrollView>

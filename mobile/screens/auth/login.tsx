@@ -86,10 +86,6 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         }}
                                         focusBorderColor="blue700"
                                         value={value}
-                                        style={{
-                                            lineHeight: verticalScale(18), // Ajustamos el line-height para centrar el texto verticalmente
-                                            textAlignVertical: 'center', // Alineamos el texto en el centro verticalmente
-                                        }}
                                     />
                                     <ErrorInputMessageContainer>
                                         {errors.email && <ErrorMessageText>{errors.email.message as string}</ErrorMessageText>}
