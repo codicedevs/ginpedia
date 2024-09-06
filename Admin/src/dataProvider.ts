@@ -41,9 +41,6 @@ export const dataProvider = {
 
     const queryString = Object.entries(query)
       .map(([key, value]) => {
-        if (typeof value === "object") {
-          return `${key}=${JSON.stringify(value)}`;
-        }
         return `${key}=${JSON.stringify(value)}`;
       })
       .join("&");

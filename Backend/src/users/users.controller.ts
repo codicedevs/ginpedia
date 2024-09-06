@@ -34,9 +34,7 @@ export class UsersController {
     options: FindManyOptions<User>
   ) {
     const users = await this.userService.findAll(options);
-    if (users.length === 0) {
-      return "No existen users que cumplan con los filtros seleccionados";
-    }
+
     return users;
   }
   /**
