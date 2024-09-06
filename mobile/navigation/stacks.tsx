@@ -4,14 +4,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FadeWrapper } from "../components/fadeView";
 import LoginScreen from "../screens/auth/login";
+import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
 import SettingsScreen from "../screens/settings";
 import Trialscreen from "../screens/trial";
 import Trialscreen2 from "../screens/trial2";
-import { AppScreens } from "./screens";
+import { AppScreens, AppScreensParamList } from "./screens";
 
 const SettingsStack = createNativeStackNavigator();
-const AuthStack = createNativeStackNavigator()
+const AuthStack = createNativeStackNavigator<AppScreensParamList>();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -70,6 +71,7 @@ export function AuthStackScreen() {
             }}
         >
             <AuthStack.Screen name={AppScreens.LOGIN_SCREEN} component={LoginScreen} />
+            <AuthStack.Screen name={AppScreens.REGISTER_SCREEN} component={RegisterScreen} />
         </AuthStack.Navigator>
     )
 }
