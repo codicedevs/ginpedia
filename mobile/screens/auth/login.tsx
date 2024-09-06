@@ -59,7 +59,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
     }
 
     return (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView>
             <MainLoginContainer>
                 <LoginTopContainer>
                     <LoginTitleContainer>

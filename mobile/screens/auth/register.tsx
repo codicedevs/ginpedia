@@ -70,17 +70,12 @@ const RegisterScreen = () => {
 
     const onSubmit = async (data: UserInfoRegister) => {
         console.log(data)
-        try {
-            await loginQuery(data);
-        } catch (error) {
-            console.error('Failed to login:', error);
-        }
     }
 
     return (
         <>
             <ConfirmationModal isVisible={show} onConfirm={confirm} title="Cuenta creada con éxito!" subTitle="Será redirigo al login" confirmText="ACEPTAR" />
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
+            <ScrollView>
                 <MainLoginContainer>
                     <Div h={'70%'}>
                         <LoginTitleContainer>
