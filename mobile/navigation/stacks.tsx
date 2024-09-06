@@ -67,6 +67,7 @@ export function AuthStackScreen() {
     return (
         <AuthStack.Navigator
             screenOptions={{
+                animation: 'slide_from_right',
                 headerShown: false
             }}
         >
