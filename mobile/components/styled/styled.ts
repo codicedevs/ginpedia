@@ -80,7 +80,7 @@ export const MainLoginContainer = styled(Div)`
 
 export const LoginTitleContainer = styled(Div)`
   justify-content: space-around;
-  height: 35%;
+  height: ${verticalScale(100)};
   padding-bottom: 10px;
 `;
 
