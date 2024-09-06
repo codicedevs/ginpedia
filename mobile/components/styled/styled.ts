@@ -156,7 +156,7 @@ export const LoginButtonText = styled(Text)`
 `;
 
 export const ErrorInputMessageContainer = styled(Div)`
-  height: ${verticalScale(10)}px;
+  height: ${verticalScale(12)}px;
 `;
 
 export const ErrorMessageText = styled(Text)`
