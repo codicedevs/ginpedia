@@ -82,7 +82,7 @@ const RegisterScreen = () => {
             <ConfirmationModal isVisible={show} onConfirm={confirm} title="Cuenta creada con éxito!" subTitle="Será redirigo al login" confirmText="ACEPTAR" />
             <ScrollView contentContainerStyle={{ flex: 1 }}>
                 <MainLoginContainer>
-                    <Div h={'70%'} style={{ oveflow: 'scroll' }}>
+                    <Div h={'70%'}>
                         <LoginTitleContainer>
                             <Text fontSize={'sm'}>Ginpedia</Text>
                             <TitleGenerator title="Crear cuenta" />
