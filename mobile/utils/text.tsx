@@ -15,11 +15,9 @@ export const TitleGenerator = ({ title }: { title: string }) => {
                     {firstWords}
                 </Text>
             </YellowBorderText>
-            <Div>
-                <Text
-                    fontSize={'2xl'}
-                >{restOfText}</Text>
-            </Div>
+            <Text
+                fontSize={'2xl'}
+            >{restOfText}</Text>
         </Div>
     );
 };
