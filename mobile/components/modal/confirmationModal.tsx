@@ -28,7 +28,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isVisible,
                     color="white"
                     w={'100%'}
                 >
-                    <Text color="black" fontSize={customTheme.fontSize.medium}>{confirmText}</Text>
+                    <Text color="black" fontSize='lg'>{confirmText}</Text>
                 </Button>
                 {
                     declineText &&
@@ -38,7 +38,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isVisible,
                         underlayColor="red600" alignSelf="center"
                         onPress={onCancel}
                     >
-                        <Text color="white" fontSize={customTheme.fontSize.small}>{declineText}</Text>
+                        <Text color="white" fontSize='sm'>{declineText}</Text>
                     </Button>
                 }
             </Div>

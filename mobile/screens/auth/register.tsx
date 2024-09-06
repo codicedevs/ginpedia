@@ -14,7 +14,6 @@ import { useMutate } from '../../hooks/useMutate'
 import authService from '../../service/auth.service'
 import { UserInfoRegister } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
-import { customTheme } from "../../utils/theme"
 
 const validationSchema = yup.object({
     username: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
@@ -43,7 +42,7 @@ const RegisterScreen = () => {
             quality: 1,
         });
 
-        console.log(result);
+        console.log(result);//Cambiar a logica para subida de backend mas adelante
 
         if (!result.canceled) {
             console.log('error')
@@ -87,12 +86,12 @@ const RegisterScreen = () => {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <>
-                                        <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                            <Text color={customTheme.colors.secondary} fontSize={'xs'}>Nombre de usuario</Text>
+                                        <LabelContainer alignSelf="flex-start" mb='xs'>
+                                            <Text color='secondary' fontSize={'xs'}>Nombre de usuario</Text>
                                         </LabelContainer>
                                         <Input
                                             fontSize={'sm'}
-                                            mb={verticalScale(10)}
+                                            mb='lg'
                                             placeholder="Nombre de usuario"
                                             placeholderTextColor={"black"}
                                             h={verticalScale(35)}
@@ -114,12 +113,12 @@ const RegisterScreen = () => {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <>
-                                        <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                            <Text color={customTheme.colors.secondary} fontSize={'xs'}>Email</Text>
+                                        <LabelContainer alignSelf="flex-start" mb='xs'>
+                                            <Text color='secondary' fontSize={'xs'}>Email</Text>
                                         </LabelContainer>
                                         <Input
                                             fontSize={'sm'}
-                                            mb={verticalScale(10)}
+                                            mb='lg'
                                             placeholder="mail@mail.com"
                                             placeholderTextColor={"black"}
                                             h={verticalScale(35)}
@@ -141,8 +140,8 @@ const RegisterScreen = () => {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <>
-                                        <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                            <Text color={customTheme.colors.secondary}>Contraseña</Text>
+                                        <LabelContainer alignSelf="flex-start" mb='xs'>
+                                            <Text color='secondary'>Contraseña</Text>
                                         </LabelContainer>
                                         <Input
                                             fontSize={'sm'}
@@ -151,7 +150,7 @@ const RegisterScreen = () => {
                                             onChangeText={onChange}
                                             value={value}
                                             h={verticalScale(35)}
-                                            mb={verticalScale(10)}
+                                            mb='lg'
                                             secureTextEntry={visibility}
                                             suffix={
                                                 <TouchableOpacity onPress={toggleVisibility}>
@@ -166,15 +165,15 @@ const RegisterScreen = () => {
                                 )}
                                 name="password"
                             />
-                            <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                <Text color={customTheme.colors.secondary}>Foto de perfil</Text>
+                            <LabelContainer alignSelf="flex-start" mb='xs'>
+                                <Text color='secondary'>Foto de perfil</Text>
                             </LabelContainer>
                             <Input
                                 fontSize={'sm'}
                                 placeholder="JPG, PNG - Max. 2MB"
                                 placeholderTextColor={"black"}
                                 h={verticalScale(35)}
-                                mb={verticalScale(10)}
+                                mb='lg'
                                 secureTextEntry={visibility}
                                 suffix={
                                     <TouchableOpacity onPress={pickImage}>
@@ -185,7 +184,7 @@ const RegisterScreen = () => {
                         </Div>
                     </Div>
                     <Div h={'30%'} justifyContent="flex-end">
-                        <Button bg={customTheme.colors.secondary} onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
+                        <Button bg='secondary' onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
                     </Div>
                 </MainLoginContainer>
             </ScrollView>
