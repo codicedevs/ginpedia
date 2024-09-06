@@ -3,6 +3,12 @@ export interface UserInfo {
     password: string;
 }
 
+export interface UserInfoRegister {
+    username: string;
+    email: string;
+    password: string
+}
+
 export interface IUser {
     _id: number,
     documento: string,
