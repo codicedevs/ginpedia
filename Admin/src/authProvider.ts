@@ -15,14 +15,17 @@ export const authProvider: AuthProvider = {
         email,
         password,
       });
-      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("token", JSON.stringify(data.accessToken));
       localStorage.setItem("name", JSON.stringify(data.user.name));
     } catch (err) {
       const error = err as Error;
       throw new Error("Ocurrio un error: " + error.message);
     }
   },
-  logout: async () => {},
+  logout: async () => {
+    localStorage.clear();
+    return Promise.resolve();
+  },
   checkAuth: async () => {
     const token = localStorage.getItem("token");
     if (!token) {

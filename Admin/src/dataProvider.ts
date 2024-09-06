@@ -9,11 +9,12 @@ const httpClient = (url: string, options: fetchUtils.Options = {}) => {
     options.headers = new Headers(options.headers);
   }
 
-  const auth = localStorage.getItem("token");
-  if (auth) {
-    const token = JSON.parse(auth);
-    options.headers.set("Authorization", `Bearer ${token}`);
-    console.log("el token", token);
+  const token = localStorage.getItem("token");
+  if (token) {
+    options.headers.set(
+      "Authorization",
+      `Bearer ${token.replace('"', "").replace('"', "")}`,
+    );
   } else {
     console.log("Algo paso");
   }
