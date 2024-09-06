@@ -30,7 +30,7 @@ export class AuthController {
       return result;
     } catch (err) {
       const error = err as Error;
-      console.log(error.message);
+      console.error(error.message);
       // Manejar los errores, por ejemplo, lanzar un error 401 Unauthorized si las credenciales son inválidas.
       throw new UnauthorizedException("Invalid credentials");
     }

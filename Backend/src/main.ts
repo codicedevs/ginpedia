@@ -8,6 +8,7 @@ import { RolesGuard } from "authorization/roles.guard";
 import { CountInterceptor } from "interceptors/count.interceptor";
 import { ConnectionSource } from "config/typeorm";
 import * as cors from "cors";
+import { ParseWhereInterceptor } from "interceptors/parseWhere.interceptor";
 
 async function bootstrap() {
   await ConnectionSource.initialize();
@@ -27,7 +28,10 @@ async function bootstrap() {
       exposedHeaders: ["Content-Range", "X-Total-Count"],
     })
   );
-  app.useGlobalInterceptors(new CountInterceptor());
+  app.useGlobalInterceptors(
+    new CountInterceptor(),
+    new ParseWhereInterceptor()
+  );
   await app.listen(serverSetting.PORT);
 }
 bootstrap();

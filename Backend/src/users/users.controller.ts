@@ -17,6 +17,7 @@ import { Role } from "../authorization/role.enum";
 import { Roles } from "../authorization/role.decorator";
 import { UsersService } from "./users.service";
 import { Public } from "authentication/public";
+import { FindManyOptions } from "typeorm";
 
 //todos estos endpoint estan protegidos a nivel global por el auth guard que pide token
 @Controller("users")
@@ -30,12 +31,12 @@ export class UsersController {
   // @Roles(Role.Admin)
   async getAll(
     @Query(QueryValidationPipe)
-    options: FindManyFilter<User>
+    options: FindManyOptions<User>
   ) {
-    if (options.where) {
-      options.where = JSON.parse(options.where.toString());
-    }
     const users = await this.userService.findAll(options);
+    if (users.length === 0) {
+      return "No existen users que cumplan con los filtros seleccionados";
+    }
     return users;
   }
   /**

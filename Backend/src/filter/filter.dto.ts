@@ -1,7 +1,9 @@
-import { IsInt, IsOptional } from "class-validator";
+import { IsInt, IsObject, IsOptional, IsString } from "class-validator";
 import {
   FindManyOptions,
   FindOneOptions,
+  FindOptionsOrder,
+  FindOptionsOrderValue,
   FindOptionsRelations,
   FindOptionsWhere,
 } from "typeorm";
