@@ -2,7 +2,7 @@ import React from 'react';
 import { Div, Text } from 'react-native-magnus';
 import { YellowBorderText } from '../components/styled/styled';
 
-export const TitleGenerator = ({ title }: { title: string }) => {
+export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: string }) => {
     const firstWords = title.slice(0, 2);
     const restOfText = title.slice(2);
 
@@ -10,13 +10,13 @@ export const TitleGenerator = ({ title }: { title: string }) => {
         <Div flexDir='row'>
             <YellowBorderText>
                 <Text
-                    fontSize={'2xl'}
+                    fontSize={size}
                 >
                     {firstWords}
                 </Text>
             </YellowBorderText>
             <Text
-                fontSize={'2xl'}
+                fontSize={size}
             >{restOfText}</Text>
         </Div>
     );
