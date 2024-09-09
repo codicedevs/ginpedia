@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FadeWrapper } from "../components/fadeView";
 import LoginScreen from "../screens/auth/login";
+import RecoverCredentialsScreen from "../screens/auth/recoverCredentials";
 import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
 import SettingsScreen from "../screens/settings";
@@ -77,6 +78,7 @@ export function AuthStackScreen() {
         >
             <AuthStack.Screen name={AppScreens.LOGIN_SCREEN} component={LoginScreen} />
             <AuthStack.Screen name={AppScreens.REGISTER_SCREEN} component={RegisterScreen} />
+            <AuthStack.Screen name={AppScreens.RECOVER_CREDENTIALS_SCREEN} component={RecoverCredentialsScreen} />
         </AuthStack.Navigator>
     )
 }
