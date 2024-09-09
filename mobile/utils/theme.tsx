@@ -13,10 +13,10 @@ export type CustomThemeType = ThemeType & {
         text: string;
         cardBorder: string;
     };
-    fontFamily: {
-        normal: string;
-        bold: string
-    };
+    // fontFamily: {
+    //     normal: string;
+    //     bold: string
+    // };
     fontSize: {
         small: number;
         medium: number;
@@ -57,10 +57,10 @@ export const customTheme: CustomThemeType = {
         text: "#333333",
         cardBorder: "lightgray",
     },
-    fontFamily: {
-        normal: "Poppins-Regular",
-        bold: "Poppins-Bold"
-    },
+    // fontFamily: {
+    //     normal: "Poppins-Regular",
+    //     bold: "Poppins-Bold"
+    // },
     fontSize: {
         small: moderateScale(9),
         medium: moderateScale(16),
