@@ -34,6 +34,15 @@ export const authProvider: AuthProvider = {
       return Promise.resolve();
     }
   },
-  checkError: async () => {},
-  getPermissions: async () => {},
+  checkError: async (error) => {
+    const status = error.status;
+    if (status === 401 || status === 403) {
+      localStorage.clear();
+      return Promise.reject();
+    }
+    return Promise.resolve();
+  },
+  getPermissions: async () => {
+    return localStorage.getItem("token") ? Promise.resolve() : Promise.reject();
+  },
 };

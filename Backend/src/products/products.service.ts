@@ -3,7 +3,13 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
-import { DataSource, FindOneOptions, FindOptions, Repository } from "typeorm";
+import {
+  DataSource,
+  FindManyOptions,
+  FindOneOptions,
+  FindOptions,
+  Repository,
+} from "typeorm";
 
 @Injectable()
 export class ProductsService {
@@ -17,8 +23,9 @@ export class ProductsService {
     return product;
   }
 
-  findAll() {
-    const products = this.productRepository.find();
+  async findAll(filter: FindManyOptions = {}) {
+    filter.relations = ["combinations"];
+    const products = this.productRepository.find(filter);
     return products;
   }
 
