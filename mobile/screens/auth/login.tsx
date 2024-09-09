@@ -72,11 +72,11 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                             render={({ field: { onChange, value } }) => (
                                 <>
                                     <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                        <Text color={customTheme.colors.secondary} fontSize={'xs'}>Email</Text>
+                                        <Text color='secondary' fontSize={'xs'}>Email</Text>
                                     </LabelContainer>
                                     <Input
                                         fontSize={'sm'}
-                                        mb={verticalScale(10)}
+                                        mb={'lg'}
                                         placeholder="mail@mail.com"
                                         placeholderTextColor={"black"}
                                         h={verticalScale(35)}
@@ -99,7 +99,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                             render={({ field: { onChange, value } }) => (
                                 <>
                                     <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                        <Text color={customTheme.colors.secondary}>Contraseña</Text>
+                                        <Text color='secondary'>Contraseña</Text>
                                     </LabelContainer>
                                     <Input
                                         fontSize={'sm'}
@@ -108,7 +108,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         onChangeText={onChange}
                                         value={value}
                                         h={verticalScale(35)}
-                                        mb={verticalScale(10)}
+                                        mb={'lg'}
                                         secureTextEntry={visibility}
                                         suffix={
                                             <TouchableOpacity onPress={toggleVisibility}>
@@ -117,7 +117,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         }
                                     />
                                     <Div alignSelf="flex-start" mt={-5}>
-                                        <Text color={customTheme.colors.secondary} fontSize={customTheme.fontSize.small}>Olvidaste tus credenciales?</Text>
+                                        <Text color='secondary' fontSize={customTheme.fontSize.small}>Olvidaste tus credenciales?</Text>
                                     </Div>
                                     <ErrorInputMessageContainer>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}
@@ -133,7 +133,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                         <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
                         <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
                     </Div>
-                    <Button bg={customTheme.colors.secondary} color="black" w={'100%'}>Login</Button>
+                    <Button bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
             </MainLoginContainer>
         </ScrollView>
