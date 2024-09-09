@@ -12,7 +12,9 @@ import { ProductsService } from "./products.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Public } from "authentication/public";
-import { FindOneOptions } from "typeorm";
+import { FindManyOptions, FindOneOptions } from "typeorm";
+import { Product } from "./entities/product.entity";
+import { QueryValidationPipe } from "pipes/query-validation.pipe";
 
 @Public()
 @Controller("products")
@@ -25,8 +27,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(
+    @Query(QueryValidationPipe)
+    options: FindManyOptions<Product>
+  ) {
+    return this.productsService.findAll(options);
   }
 
   @Get(":id")

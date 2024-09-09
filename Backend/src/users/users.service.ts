@@ -18,7 +18,8 @@ export class UsersService {
    */
   async findAll(options?: FindManyOptions<User>): Promise<User[]> {
     const users = await this.userRepository.find(options);
-    return users; // devuelve todos los usuarios encontradoss
+
+    return users;
   }
   /**
    * @param email
