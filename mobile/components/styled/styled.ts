@@ -188,16 +188,6 @@ export const CardTittle = styled(Text)`
   font-size: ${({ theme }) => theme.fontSizes.medium}px;
 `;
 
-export const ListCard = styled(Div)`
-  ${commonViewStyles};
-  height: ${verticalScale(100)}px;
-  ${inheritBackground};
-  width: 100%;
-  border-bottom-width: ${scale(2)}px;
-  border-bottom-color: ${({ theme }) => theme.colors.cardBorder}px;
-  ${flexRow};
-`;
-
 export const InfoCard = styled(Div)`
   ${commonViewStyles};
   height: ${verticalScale(80)}px;
