@@ -9,6 +9,7 @@ import * as yup from "yup"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginBottomContainer, LoginInputContainer, LoginTitleContainer, LoginTopContainer, MainLoginContainer } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
 import { useMutate } from '../../hooks/useMutate'
+import { AppScreenProps, AppScreens } from "../../navigation/screens"
 import authService from '../../service/auth.service'
 import { UserInfo } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
@@ -19,7 +20,7 @@ const validationSchema = yup.object({
     password: yup.string().required("Requerido").min(8, 'La contraseña debe tener al menos 8 caracteres'),
 })
 
-const LoginScreen = () => {
+const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ navigation }) => {
     const { setCurrentUser } = useContext(AuthContext)
     const [visibility, setVisibility] = useState(true)
 
@@ -53,8 +54,12 @@ const LoginScreen = () => {
         }
     }
 
+    const navigateToRegister = () => {
+        navigation.navigate(AppScreens.REGISTER_SCREEN)
+    }
+
     return (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView>
             <MainLoginContainer>
                 <LoginTopContainer>
                     <LoginTitleContainer>
@@ -67,11 +72,11 @@ const LoginScreen = () => {
                             render={({ field: { onChange, value } }) => (
                                 <>
                                     <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                        <Text color={customTheme.colors.secondary} fontSize={'xs'}>Email</Text>
+                                        <Text color='secondary' fontSize={'xs'}>Email</Text>
                                     </LabelContainer>
                                     <Input
                                         fontSize={'sm'}
-                                        mb={verticalScale(10)}
+                                        mb={'lg'}
                                         placeholder="mail@mail.com"
                                         placeholderTextColor={"black"}
                                         h={verticalScale(35)}
@@ -81,10 +86,6 @@ const LoginScreen = () => {
                                         }}
                                         focusBorderColor="blue700"
                                         value={value}
-                                        style={{
-                                            lineHeight: verticalScale(18), // Ajustamos el line-height para centrar el texto verticalmente
-                                            textAlignVertical: 'center', // Alineamos el texto en el centro verticalmente
-                                        }}
                                     />
                                     <ErrorInputMessageContainer>
                                         {errors.email && <ErrorMessageText>{errors.email.message as string}</ErrorMessageText>}
@@ -98,7 +99,7 @@ const LoginScreen = () => {
                             render={({ field: { onChange, value } }) => (
                                 <>
                                     <LabelContainer alignSelf="flex-start" mb={customTheme.spacing.xs}>
-                                        <Text color={customTheme.colors.secondary}>Contraseña</Text>
+                                        <Text color='secondary'>Contraseña</Text>
                                     </LabelContainer>
                                     <Input
                                         fontSize={'sm'}
@@ -107,7 +108,7 @@ const LoginScreen = () => {
                                         onChangeText={onChange}
                                         value={value}
                                         h={verticalScale(35)}
-                                        mb={verticalScale(10)}
+                                        mb={'lg'}
                                         secureTextEntry={visibility}
                                         suffix={
                                             <TouchableOpacity onPress={toggleVisibility}>
@@ -116,7 +117,7 @@ const LoginScreen = () => {
                                         }
                                     />
                                     <Div alignSelf="flex-start" mt={-5}>
-                                        <Text color={customTheme.colors.secondary} fontSize={customTheme.fontSize.small}>Olvidaste tus credenciales?</Text>
+                                        <Text color='secondary' fontSize={customTheme.fontSize.small}>Olvidaste tus credenciales?</Text>
                                     </Div>
                                     <ErrorInputMessageContainer>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}
@@ -127,12 +128,12 @@ const LoginScreen = () => {
                         />
                     </LoginInputContainer>
                 </LoginTopContainer>
-                <LoginBottomContainer h={'65%'} py={customTheme.spacing.small} justifyContent="space-between">
+                <LoginBottomContainer>
                     <Div flexDir="row">
-                        <Text fontSize={'sm'}>No tienes cuenta?</Text>
-                        <Text fontSize={'sm'} fontWeight="600"> Registrate</Text>
+                        <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
+                        <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
                     </Div>
-                    <Button bg={customTheme.colors.secondary} color="black" w={'100%'}>Login</Button>
+                    <Button bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
             </MainLoginContainer>
         </ScrollView>

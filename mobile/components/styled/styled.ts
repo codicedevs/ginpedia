@@ -80,7 +80,7 @@ export const MainLoginContainer = styled(Div)`
 
 export const LoginTitleContainer = styled(Div)`
   justify-content: space-around;
-  height: 35%;
+  height: ${verticalScale(100)};
   padding-bottom: 10px;
 `;
 
@@ -100,14 +100,14 @@ export const LoginInputContainer = styled(Div)`
 `;
 
 export const LoginTopContainer = styled(Div)`
-  height: 35%;
+  height: 40%;
   ${scrollable}
 `;
 
 export const LoginBottomContainer = styled(Div)`
   justify-content: space-between;
   padding-vertical: ${({ theme }) => theme.spacing.small}px;
-  height: 65%;
+  height: 60%;
 `
 
 export const LoginInput = styled.TextInput`
@@ -156,7 +156,7 @@ export const LoginButtonText = styled(Text)`
 `;
 
 export const ErrorInputMessageContainer = styled(Div)`
-  height: ${verticalScale(10)}px;
+  height: ${verticalScale(12)}px;
 `;
 
 export const ErrorMessageText = styled(Text)`
