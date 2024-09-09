@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FadeWrapper } from "../components/fadeView";
 import LoginScreen from "../screens/auth/login";
+import RecoverCredentialsScreen from "../screens/auth/recoverCredentials";
 import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
 import SettingsScreen from "../screens/settings";
@@ -15,21 +16,22 @@ const SettingsStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator<AppScreensParamList>();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const HomeStack = createNativeStackNavigator<AppScreensParamList>();
 
 
 export function HomeStackScreen() {
     return (
-        <Drawer.Navigator
+        <HomeStack.Navigator
             screenOptions={{
                 headerShown: false
             }}>
-            <Drawer.Screen name={AppScreens.HOME_SCREEN} component={(props) => (
+            <HomeStack.Screen name={AppScreens.HOME_SCREEN} component={(props) => (
                 <FadeWrapper>
                     <HomeScreen {...props} />
                 </FadeWrapper>
             )} />
-            <Drawer.Screen name={AppScreens.TRIAL1_SCREEN} component={Trialscreen} />
-        </Drawer.Navigator>
+            <HomeStack.Screen name={AppScreens.TRIAL1_SCREEN} component={Trialscreen} />
+        </HomeStack.Navigator>
     );
 }
 
@@ -57,7 +59,10 @@ export function TabStackScreen() {
 
 export function Principal() {
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
             <Drawer.Screen name="TabStackScreen" component={TabStackScreen} />
         </Drawer.Navigator>
     )
@@ -73,6 +78,7 @@ export function AuthStackScreen() {
         >
             <AuthStack.Screen name={AppScreens.LOGIN_SCREEN} component={LoginScreen} />
             <AuthStack.Screen name={AppScreens.REGISTER_SCREEN} component={RegisterScreen} />
+            <AuthStack.Screen name={AppScreens.RECOVER_CREDENTIALS_SCREEN} component={RecoverCredentialsScreen} />
         </AuthStack.Navigator>
     )
 }

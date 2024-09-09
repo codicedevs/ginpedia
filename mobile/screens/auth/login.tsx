@@ -58,6 +58,10 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
         navigation.navigate(AppScreens.REGISTER_SCREEN)
     }
 
+    const navigateToCredentialsRecover = () => {
+        navigation.navigate(AppScreens.RECOVER_CREDENTIALS_SCREEN)
+    }
+
     return (
         <ScrollView>
             <MainLoginContainer>
@@ -117,7 +121,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         }
                                     />
                                     <Div alignSelf="flex-start" mt={-5}>
-                                        <Text color='secondary' fontSize={customTheme.fontSize.small}>Olvidaste tus credenciales?</Text>
+                                        <Text color='secondary' fontSize={customTheme.fontSize.small} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</Text>
                                     </Div>
                                     <ErrorInputMessageContainer>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}

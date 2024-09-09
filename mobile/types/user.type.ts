@@ -9,6 +9,10 @@ export interface UserInfoRegister {
     password: string
 }
 
+export interface UserInfoRecover {
+    email: string
+}
+
 export interface IUser {
     _id: number,
     documento: string,

@@ -67,7 +67,7 @@ export const ModalTextContainer = styled(Div)`
 `
 
 export const YellowBorderText = styled(Text)`
-  border-bottom-width: 2px;
+  border-bottom-width: 3px;
   border-bottom-color: ${({ theme }) => theme.colors.secondary}
 `;
 
