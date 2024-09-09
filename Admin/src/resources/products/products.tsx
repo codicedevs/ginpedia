@@ -28,18 +28,3 @@ export const ProductList = () => (
     </Datagrid>
   </List>
 );
-
-const CombinationList = () => {
-  const record = useRecordContext();
-  console.log(record);
-
-  return record ? (
-    <ul>
-      {record.combinations.map((product: any) => (
-        <li key={product.id}>
-          {product.name} - {product.type}
-        </li>
-      ))}
-    </ul>
-  ) : null;
-};
