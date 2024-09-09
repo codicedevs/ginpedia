@@ -15,21 +15,22 @@ const SettingsStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator<AppScreensParamList>();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const HomeStack = createNativeStackNavigator<AppScreensParamList>();
 
 
 export function HomeStackScreen() {
     return (
-        <Drawer.Navigator
+        <HomeStack.Navigator
             screenOptions={{
                 headerShown: false
             }}>
-            <Drawer.Screen name={AppScreens.HOME_SCREEN} component={(props) => (
+            <HomeStack.Screen name={AppScreens.HOME_SCREEN} component={(props) => (
                 <FadeWrapper>
                     <HomeScreen {...props} />
                 </FadeWrapper>
             )} />
-            <Drawer.Screen name={AppScreens.TRIAL1_SCREEN} component={Trialscreen} />
-        </Drawer.Navigator>
+            <HomeStack.Screen name={AppScreens.TRIAL1_SCREEN} component={Trialscreen} />
+        </HomeStack.Navigator>
     );
 }
 
@@ -57,7 +58,10 @@ export function TabStackScreen() {
 
 export function Principal() {
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            screenOptions={{
+                headerShown: false
+            }}>
             <Drawer.Screen name="TabStackScreen" component={TabStackScreen} />
         </Drawer.Navigator>
     )
