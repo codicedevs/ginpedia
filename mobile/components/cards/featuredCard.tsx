@@ -3,7 +3,7 @@ import { scale, verticalScale } from "react-native-size-matters"
 import { TitleGenerator } from "../../utils/text"
 import { customTheme } from "../../utils/theme"
 
-export const FeaturedCard = ({ image, title, rating, isLoading, alreadyFetched }: { image: string, title: string, rating: string, isLoading: boolean, alreadyFetched: boolean }) => {
+export const FeaturedCard = ({ image, title, rating, isLoading, alreadyFetched }: CardProps) => {
     if (isLoading && !alreadyFetched) {
         return (
             <Div h={verticalScale(170)} w={scale(180)}>
@@ -19,7 +19,7 @@ export const FeaturedCard = ({ image, title, rating, isLoading, alreadyFetched }
     }
 
     return (
-        <Div p={customTheme.spacing.medium} h={verticalScale(170)} w={scale(180)} rounded='xl' flexDir="row" style={{ backgroundColor: "grey" }} mr={'md'} >
+        <Div p={customTheme.spacing.medium} h={verticalScale(170)} w={scale(180)} rounded='xl' flexDir="row" bg="gray" mr={'md'} >
             <Div flex={1}>
                 <Div flexDir="row">
                     <Icon color="secondary" mr={'md'} name="star" />

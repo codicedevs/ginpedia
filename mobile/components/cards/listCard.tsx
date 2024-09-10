@@ -2,7 +2,7 @@ import { Div, Icon, Image, Skeleton, Text } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { TitleGenerator } from "../../utils/text";
 
-export const ListCard = ({ image, title, rating, isLoading, alreadyFetched }: { image: string, title: string, rating: string, isLoading: boolean, alreadyFetched: boolean }) => {
+export const ListCard = ({ image, title, rating, isLoading, alreadyFetched }: CardProps) => {
     if (isLoading && !alreadyFetched) {
         return (
             <Div w={'100%'} mb={'sm'}>
@@ -19,7 +19,7 @@ export const ListCard = ({ image, title, rating, isLoading, alreadyFetched }: { 
     }
 
     return (
-        <Div p={'xl'} h={verticalScale(100)} w={'100%'} rounded='xl' flexDir="row" style={{ backgroundColor: "grey" }} mb={10} >
+        <Div p={'xl'} h={verticalScale(100)} w={'100%'} rounded='xl' flexDir="row" bg="grey" mb={10} >
             <Div flex={6}>
                 <Div flexDir="row">
                     <Icon color="secondary" mr={'md'} name="star" />
