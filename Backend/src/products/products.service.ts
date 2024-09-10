@@ -92,22 +92,22 @@ export class ProductsService {
     }
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(sourceId: number, updateProductDto: UpdateProductDto) {
     //Traerme el producto por ID con el array de ID de combinations.
     const product = await this.productRepository.findOneOrFail({
-      where: { id: id },
+      where: { id: sourceId },
       relations: ["combinations"],
     });
-    const combination = await this.getProductCombinations(id);
+    const combination = await this.getProductCombinations(sourceId);
     //Comparar las combinations de product y del DTO
     const prev = combination.map((c: Product) => c.id);
     const curr = updateProductDto.combinations;
     const { toRemove, toAdd } = compareArrays(prev, curr);
-    for (const obj of toRemove) {
-      this.deleteCombination(id, obj);
+    for (const target of toRemove) {
+      this.deleteCombination(sourceId, target);
     }
-    for (const obj of toAdd) {
-      this.addCombination(id, obj);
+    for (const target of toAdd) {
+      this.addCombination(sourceId, target);
     }
 
     return product;
