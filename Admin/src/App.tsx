@@ -9,7 +9,11 @@ import { Layout } from "./Layout";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
 import { UserCreate, UserList } from "./resources/users/users";
-import { ProductList } from "./resources/products/products";
+import {
+  ProductCreate,
+  ProductEdit,
+  ProductList,
+} from "./resources/products/products";
 
 export const App = () => (
   <Admin
@@ -27,8 +31,9 @@ export const App = () => (
     <Resource
       name="products"
       list={ProductList}
-      show={ShowGuesser}
-      edit={EditGuesser}
+      show={ProductEdit}
+      edit={ProductEdit}
+      create={ProductCreate}
     />
   </Admin>
 );

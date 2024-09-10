@@ -21,7 +21,7 @@ export const UserList = () => (
 );
 
 export const UserCreate = () => (
-  <Create>
+  <Create redirect="list">
     <SimpleForm>
       <TextInput source="name" />
       <TextInput source="email" />

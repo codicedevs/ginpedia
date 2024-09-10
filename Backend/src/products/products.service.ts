@@ -8,8 +8,21 @@ import {
   FindManyOptions,
   FindOneOptions,
   FindOptions,
+  Like,
   Repository,
 } from "typeorm";
+import { compareArrays } from "utils/utils";
+import { compare } from "bcrypt";
+
+function getKeys(obj: any): any {
+  const keys: any = {};
+  for (const key in obj) {
+    if (typeof obj[key] === "string") keys[key] = obj[key];
+    keys[key] = Like(`%${obj[key].like}%`);
+  }
+
+  return keys;
+}
 
 @Injectable()
 export class ProductsService {
@@ -18,14 +31,19 @@ export class ProductsService {
     private readonly productRepository: Repository<Product>,
     private readonly datasource: DataSource
   ) {}
-  create(createProductDto: CreateProductDto) {
-    const product = this.productRepository.save(createProductDto);
+  async create(createProductDto: CreateProductDto) {
+    const product = await this.productRepository.save(createProductDto);
+    if (createProductDto.combinations) {
+      for (const comb of createProductDto.combinations) {
+        this.addCombination(+product.id, +comb);
+      }
+    }
     return product;
   }
 
   async findAll(filter: FindManyOptions = {}) {
-    filter.relations = ["combinations"];
-    const products = this.productRepository.find(filter);
+    filter.where = getKeys(filter.where);
+    const products = await this.productRepository.find(filter);
     return products;
   }
 
@@ -33,12 +51,14 @@ export class ProductsService {
     id: number,
     filter: FindOneOptions = {},
     withCombination = false
-  ) {
+  ): Promise<Product> {
     filter.where = { id };
     const product = await this.productRepository.findOneOrFail(filter);
-
     if (withCombination) {
-      product.combinations = await this.getProductCombinations(id);
+      const combinations = await this.getProductCombinations(id);
+      product.combinations = combinations.map(
+        (combination: Product) => combination.id
+      );
     }
     return product;
   }
@@ -72,8 +92,25 @@ export class ProductsService {
     }
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(sourceId: number, updateProductDto: UpdateProductDto) {
+    //Traerme el producto por ID con el array de ID de combinations.
+    const product = await this.productRepository.findOneOrFail({
+      where: { id: sourceId },
+      relations: ["combinations"],
+    });
+    const combination = await this.getProductCombinations(sourceId);
+    //Comparar las combinations de product y del DTO
+    const prev = combination.map((c: Product) => c.id);
+    const curr = updateProductDto.combinations;
+    const { toRemove, toAdd } = compareArrays(prev, curr);
+    for (const target of toRemove) {
+      this.deleteCombination(sourceId, target);
+    }
+    for (const target of toAdd) {
+      this.addCombination(sourceId, target);
+    }
+
+    return product;
   }
 
   remove(id: number) {
