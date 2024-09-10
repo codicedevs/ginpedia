@@ -41,7 +41,7 @@ export class ProductsService {
     return product;
   }
 
-  async findAll(filter: any = {}) {
+  async findAll(filter: FindManyOptions = {}) {
     filter.where = getKeys(filter.where);
     const products = await this.productRepository.find(filter);
     return products;
