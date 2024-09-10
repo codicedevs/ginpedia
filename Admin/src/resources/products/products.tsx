@@ -51,11 +51,7 @@ export const ProductCreate = (props: PropsWithChildren) => (
       <TextInput source="image" />
       <TextInput source="origin" />
       <TextInput source="graduation" />
-      <ReferenceArrayInput
-        source="combinations"
-        reference="products"
-        defaultValue={[16]}
-      >
+      <ReferenceArrayInput source="combinations" reference="products">
         <AutocompleteArrayInput
           filterToQuery={(text) => ({ name: { like: text } })}
         />
@@ -75,7 +71,11 @@ export const ProductEdit = (props: any) => {
         <TextInput source="image" />
         <TextInput source="origin" />
         <TextInput source="graduation" />
-        <ReferenceArrayInput source="combinations" reference="products" />
+        <ReferenceArrayInput source="combinations" reference="products">
+          <AutocompleteArrayInput
+            filterToQuery={(text) => ({ name: { like: text } })}
+          />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Edit>
   );
