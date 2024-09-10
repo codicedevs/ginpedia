@@ -9,17 +9,18 @@ import { CountInterceptor } from "interceptors/count.interceptor";
 import { ConnectionSource } from "config/typeorm";
 import * as cors from "cors";
 import { ParseWhereInterceptor } from "interceptors/parseWhere.interceptor";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   await ConnectionSource.initialize();
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes();
+  app.useGlobalPipes(new ValidationPipe());
   // new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }) // no permite campos adicionales,comentado porque me vuelve loco en postman
   app.useGlobalGuards(
     new AuthGuard(new JwtService(), new Reflector()),
     new RolesGuard(new Reflector())
   );
-  app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
+  // app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
   app.use(
     cors({
       origin: "http://localhost:5173",

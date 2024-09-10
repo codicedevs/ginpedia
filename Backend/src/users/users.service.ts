@@ -13,6 +13,15 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
+  async create(createUser: CreateUserDto): Promise<User> {
+    const hashedPassword = await bcrypt.hash(createUser.password, 8);
+    const userAndHashedPassword = {
+      ...createUser,
+      password: hashedPassword,
+    } as User;
+    const user = await this.userRepository.save(userAndHashedPassword);
+    return user;
+  }
   /**
    * @returns
    */
@@ -40,18 +49,6 @@ export class UsersService {
   /**
    * @param user
    */
-  async create(createUser: CreateUserDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUser.password, 8);
-    const userAndHashedPassword = {
-      ...createUser,
-      password: hashedPassword,
-    } as User; //es necesario guardar la instancia del objeto User
-    //como una entidad para que la biblioteca pueda gestionar la persistencia de los datos en la base de datos(postgresql en nuestro caso).
-    // aqui nuestra entidad se pone en juego y evita por ejemplo, crear dos usuarios con el mismo correo electronico
-    const user = await this.userRepository.save(userAndHashedPassword);
-    // incorporar aca el servicio que envia un e mail al usuario que se ha registrado, dando la bienvenida (email service)
-    return user;
-  }
   /**
    * @param id
    * @param updateUser

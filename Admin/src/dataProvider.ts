@@ -25,6 +25,17 @@ const baseProvider = simpleRestProvider("http://localhost:3000", httpClient);
 export const dataProvider = {
   ...baseProvider,
 
+  getOne: (resource: string, params: any) => {
+    params.withCombination = false;
+    if ((resource = "products")) {
+      params.withCombination = true;
+    }
+    const url = `${BASE_URL}/${resource}/${params.id}?withCombination=${params.withCombination}`;
+    return httpClient(url).then(({ json }) => ({
+      data: json,
+    }));
+  },
+
   getList: (resource: string, params: any) => {
     const { page, perPage } = params.pagination || { page: 1, perPage: 10 };
     const { field, order } = params.sort || { field: "id", order: "ASC" };
