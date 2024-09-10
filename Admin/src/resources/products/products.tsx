@@ -62,7 +62,7 @@ export const ProductCreate = (props: PropsWithChildren) => (
 
 export const ProductEdit = (props: any) => {
   return (
-    <Edit {...props} title="Edit Product">
+    <Edit {...props} title="Edit Product" redirect="list">
       <SimpleForm>
         <TextField source="id" label="ID" />
         <TextInput source="name" label="Nombre" />
