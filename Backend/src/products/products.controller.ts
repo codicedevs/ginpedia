@@ -30,7 +30,7 @@ export class ProductsController {
   @Get()
   findAll(
     @Query(QueryValidationPipe)
-    options: any
+    options: FindManyOptions
   ) {
     return this.productsService.findAll(options);
   }
