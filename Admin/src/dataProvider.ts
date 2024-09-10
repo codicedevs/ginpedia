@@ -27,7 +27,7 @@ export const dataProvider = {
 
   getOne: (resource: string, params: any) => {
     params.withCombination = false;
-    if ((resource = "products")) {
+    if (resource === "products") {
       params.withCombination = true;
     }
     const url = `${BASE_URL}/${resource}/${params.id}?withCombination=${params.withCombination}`;
