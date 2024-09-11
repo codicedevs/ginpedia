@@ -20,7 +20,6 @@ export class RatingsService {
 
   async createRating(createRatingDto: CreateRatingDto) {
     const { productId, userId, rating } = createRatingDto;
-
     const user = await this.userRepository.findOneByOrFail({ id: userId });
 
     const ratingExists = await this.ratingRepository.findOne({
