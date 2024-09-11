@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { CreateRatingDto } from "./dto/create-rating.dto";
 import { UpdateRatingDto } from "./dto/update-rating.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -20,16 +20,29 @@ export class RatingsService {
 
   async createRating(createRatingDto: CreateRatingDto) {
     const { productId, userId, rating } = createRatingDto;
-    const product = await this.productRepository.findOneByOrFail({
-      id: productId,
+    const ratingExists = await this.ratingRepository.findOne({
+      where: { product: { id: productId }, user: { id: userId } },
     });
+    if (ratingExists) throw new HttpException("Rating already exists", 409);
+    const product = await this.productRepository.findOneOrFail({
+      where: { id: productId },
+      relations: ["ratings"],
+    });
+    const ratingFinal = product.rating
+      ? (product.ratings.length * product.rating + rating) /
+        (product.ratings.length + 1)
+      : rating;
     const user = await this.userRepository.findOneByOrFail({ id: userId });
-
-    return this.ratingRepository.save({
+    await this.ratingRepository.save({
       product: product,
       user: user,
       rating,
     });
+    await this.productRepository.update(
+      { id: productId },
+      { rating: ratingFinal }
+    );
+    return { productId, userId, rating };
   }
 
   findAll() {

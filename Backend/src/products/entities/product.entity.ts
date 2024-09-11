@@ -42,6 +42,9 @@ export class Product {
   @Column()
   graduation?: string;
 
+  @Column({ nullable: true, type: "float" })
+  rating?: number;
+
   @OneToMany(() => Rating, (rating) => rating.product)
   ratings: Rating[];
 
