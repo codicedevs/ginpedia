@@ -16,11 +16,11 @@ interface ConfirmationModalProps {
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isVisible, onConfirm, onCancel, confirmText = 'Confirmar', declineText, title, subTitle }) => {
     return (
         <Overlay visible={isVisible} p={customTheme.spacing.medium} h={scale(200)} >
-            <Div h={'50%'} alignItems="flex-start" justifyContent="center" >
+            <Div flex={1} alignItems="flex-start" justifyContent="center" >
                 <TitleGenerator title={title} />
-                <Text mt={scale(5)} fontSize='md'>{subTitle}</Text>
+                <Text mt={scale(5)} fontSize='sm'>{subTitle}</Text>
             </Div>
-            <Div h={'50%'} justifyContent="space-around" flexDir="row">
+            <Div flex={1} justifyContent="space-around" flexDir="row">
                 <Button
                     alignSelf="center"
                     onPress={onConfirm}
