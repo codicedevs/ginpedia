@@ -13,10 +13,13 @@ export type CustomThemeType = ThemeType & {
         text: string;
         cardBorder: string;
     };
-    // fontFamily: {
-    //     normal: string;
-    //     bold: string
-    // };
+    fontFamily: {
+        normal: string;
+        secondary: string;
+        bold: string;
+        mItalic: string;
+        light: string
+    };
     fontSize: {
         small: number;
         medium: number;
@@ -57,10 +60,13 @@ export const customTheme: CustomThemeType = {
         text: "#333333",
         cardBorder: "lightgray",
     },
-    // fontFamily: {
-    //     normal: "Poppins-Regular",
-    //     bold: "Poppins-Bold"
-    // },
+    fontFamily: {
+        normal: "Montserrat-regular",
+        bold: "Montserrat-Bold",
+        light: "Monsterrat-Light",
+        mItalic: "Montserrat-MediumItalic",
+        secondary: "DMSerifDisplay-Regular",
+    },
     fontSize: {
         small: moderateScale(9),
         medium: moderateScale(16),
@@ -87,7 +93,7 @@ export const customTheme: CustomThemeType = {
     name: "myTheme",
     components: {
         Text: {
-            fontFamily: "Poppins-Regular"
+            fontFamily: "Montserrat-Regular"
         },
         Input: {
             p: 0,
