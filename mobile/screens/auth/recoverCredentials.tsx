@@ -8,6 +8,7 @@ import * as yup from "yup"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer } from "../../components/styled/styled"
 import { UserInfoRecover } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
+import { customTheme } from "../../utils/theme"
 
 const validationSchema = yup.object({
     email: yup.string().required("Requerido").email('Debe ser un email válido'),
@@ -31,7 +32,7 @@ const RecoverCredentialsScreen = () => {
                 <MainLoginContainer>
                     <Div h={'70%'}>
                         <LoginTitleContainer>
-                            <Text fontSize={'sm'}>Ginpedia</Text>
+                            <Text fontFamily={customTheme.fontFamily.secondary} fontSize={'sm'}>Ginpedia</Text>
                             <TitleGenerator title="Recuperar credenciales" />
                         </LoginTitleContainer>
                         <Text fontSize={'xs'} mb={verticalScale(20)}>Ingrese su email para recuperar sus credenciales</Text>

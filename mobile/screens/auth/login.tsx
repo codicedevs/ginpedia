@@ -67,7 +67,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
             <MainLoginContainer>
                 <LoginTopContainer>
                     <LoginTitleContainer>
-                        <Text fontSize={'sm'}>Ginpedia</Text>
+                        <Text fontFamily={customTheme.fontFamily.secondary} fontSize={'sm'}>Ginpedia</Text>
                         <TitleGenerator title="Login" />
                     </LoginTitleContainer>
                     <LoginInputContainer>
@@ -121,7 +121,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         }
                                     />
                                     <Div alignSelf="flex-start" mt={-5}>
-                                        <Text color='secondary' fontSize={customTheme.fontSize.small} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</Text>
+                                        <Text color='secondary' fontSize={customTheme.fontSize.small} fontFamily={customTheme.fontFamily.mItalic} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</Text>
                                     </Div>
                                     <ErrorInputMessageContainer>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}
@@ -134,8 +134,8 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                 </LoginTopContainer>
                 <LoginBottomContainer>
                     <Div flexDir="row">
-                        <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
-                        <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
+                        <Text fontSize={'sm'}>No tienes cuenta?</Text>
+                        <Text fontSize={'sm'} fontFamily={customTheme.fontFamily.bold} onPress={navigateToRegister}> Registrate</Text>
                     </Div>
                     <Button bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
