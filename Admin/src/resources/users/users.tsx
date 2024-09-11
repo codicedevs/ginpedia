@@ -5,8 +5,9 @@ import {
   EmailField,
   Create,
   SimpleForm,
-  ReferenceInput,
   TextInput,
+  EditButton,
+  DeleteButton,
 } from "react-admin";
 
 export const UserList = () => (
@@ -16,6 +17,8 @@ export const UserList = () => (
       <TextField source="name" />
       <EmailField source="email" />
       <TextField source="roles" />
+      <EditButton />
+      <DeleteButton />
     </Datagrid>
   </List>
 );

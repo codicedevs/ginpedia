@@ -51,7 +51,10 @@ export class Product {
   @OneToMany(() => Bookmark, (bookmark) => bookmark.product)
   bookmarks: Bookmark[];
 
-  @ManyToMany(() => Product, (product) => product.combinations)
+  @ManyToMany(() => Product, (product) => product.combinations, {
+    cascade: ["insert", "update"],
+    onDelete: "CASCADE",
+  })
   @JoinTable({
     name: "combinations",
     joinColumn: { name: "primaryProductId", referencedColumnName: "id" },

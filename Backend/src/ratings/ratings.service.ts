@@ -21,10 +21,6 @@ export class RatingsService {
   async createRating(createRatingDto: CreateRatingDto) {
     const { productId, userId, rating } = createRatingDto;
 
-    const product = await this.productRepository.findOneOrFail({
-      where: { id: productId },
-      relations: ["ratings"],
-    });
     const user = await this.userRepository.findOneByOrFail({ id: userId });
 
     const ratingExists = await this.ratingRepository.findOne({
@@ -33,6 +29,10 @@ export class RatingsService {
     if (ratingExists) {
       await this.ratingRepository.update({ id: ratingExists.id }, { rating });
     } else {
+      const product = await this.productRepository.findOneOrFail({
+        where: { id: productId },
+        relations: ["ratings"],
+      });
       await this.ratingRepository.save({
         product: product,
         user: user,

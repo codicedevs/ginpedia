@@ -6,7 +6,9 @@ import {
   ChipField,
   Create,
   Datagrid,
+  DeleteButton,
   Edit,
+  EditButton,
   List,
   ReferenceArrayField,
   ReferenceArrayInput,
@@ -39,6 +41,8 @@ export const ProductList = () => (
       <TextField source="origin" />
       <TextField source="graduation" />
       <TextField source="rating" />
+      <EditButton label={""} style={{ padding: 0 }} />
+      <DeleteButton label={""} />
     </Datagrid>
   </List>
 );
