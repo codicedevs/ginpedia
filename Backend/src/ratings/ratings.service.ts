@@ -20,27 +20,40 @@ export class RatingsService {
 
   async createRating(createRatingDto: CreateRatingDto) {
     const { productId, userId, rating } = createRatingDto;
-    const ratingExists = await this.ratingRepository.findOne({
-      where: { product: { id: productId }, user: { id: userId } },
-    });
-    if (ratingExists) throw new HttpException("Rating already exists", 409);
+
     const product = await this.productRepository.findOneOrFail({
       where: { id: productId },
       relations: ["ratings"],
     });
-    const ratingFinal = product.rating
-      ? (product.ratings.length * product.rating + rating) /
-        (product.ratings.length + 1)
-      : rating;
     const user = await this.userRepository.findOneByOrFail({ id: userId });
-    await this.ratingRepository.save({
-      product: product,
-      user: user,
-      rating,
+
+    const ratingExists = await this.ratingRepository.findOne({
+      where: { product: { id: productId }, user: { id: userId } },
     });
+    if (ratingExists) {
+      await this.ratingRepository.update({ id: ratingExists.id }, { rating });
+    } else {
+      await this.ratingRepository.save({
+        product: product,
+        user: user,
+        rating,
+      });
+    }
+
+    const updatedProduct = await this.productRepository.findOneOrFail({
+      where: { id: productId },
+      relations: ["ratings"],
+    });
+
+    const newRating =
+      updatedProduct?.ratings
+        .map((rating) => rating.rating)
+        .reduce((acc, rating) => acc + rating, 0) /
+      updatedProduct.ratings.length;
+
     await this.productRepository.update(
       { id: productId },
-      { rating: ratingFinal }
+      { rating: newRating }
     );
     return { productId, userId, rating };
   }
