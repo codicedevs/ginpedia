@@ -65,7 +65,7 @@ const RecoverCredentialsScreen = () => {
                             />
                         </Div>
                     </Div>
-                    <Div h={'30%'} justifyContent="flex-end">
+                    <Div pb={'xl'} h={'30%'} justifyContent="flex-end">
                         <Button bg='secondary' color="black" onPress={handleSubmit(onSubmit)} w={'100%'}>Enviar</Button>
                     </Div>
                 </MainLoginContainer>

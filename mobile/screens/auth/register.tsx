@@ -183,7 +183,7 @@ const RegisterScreen = () => {
                             />
                         </Div>
                     </Div>
-                    <Div h={'30%'} justifyContent="flex-end">
+                    <Div h={'30%'} pb={'xl'} justifyContent="flex-end">
                         <Button bg='secondary' onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
                     </Div>
                 </MainLoginContainer>

@@ -106,7 +106,6 @@ export const LoginTopContainer = styled(Div)`
 
 export const LoginBottomContainer = styled(Div)`
   justify-content: space-between;
-  padding-vertical: ${({ theme }) => theme.spacing.small}px;
   height: 60%;
 `
 

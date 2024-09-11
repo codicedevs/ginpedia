@@ -132,7 +132,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                         />
                     </LoginInputContainer>
                 </LoginTopContainer>
-                <LoginBottomContainer>
+                <LoginBottomContainer pb={'xl'}>
                     <Div flexDir="row">
                         <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
                         <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
