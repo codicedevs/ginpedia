@@ -34,10 +34,11 @@ export const ProductList = () => (
       <TextField source="id" />
       <TextField source="name" />
       <TextField source="description" />
-      <SelectField source="type" />
+      <TextField source="type" />
       <TextField source="image" />
       <TextField source="origin" />
       <TextField source="graduation" />
+      <TextField source="rating" />
     </Datagrid>
   </List>
 );

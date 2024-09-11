@@ -91,11 +91,29 @@ Nest Base es un repositorio base, ejemplo y documentacion. Sirve como punto de p
 # development
 $ yarn  start
 
-# watch mode 
+# watch mode
 $ yarn run start:dev
 
 # production mode
 $ yarn run start:prod
+```
+
+## Migraciones
+
+Cada vez que haya un cambio en la BD o en las entidades del backend que se comunican con ella hay que generar una migracion con el comando
+
+```bash
+
+# Generate
+npm run migration:generate --name=MigrationName
+```
+
+Despues hay que correr la migracion con el comando (ejecuta la ultima migracion generada)
+
+```bash
+
+npm run migration:run
+
 ```
 
 ```
