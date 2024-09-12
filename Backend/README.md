@@ -77,11 +77,12 @@ Nest Base es un repositorio base, ejemplo y documentacion. Sirve como punto de p
   DB_USERNAME=postgres</br>
   DB_PASSWORD=postgres</br>
   DB_DATABASE=nestbase</br>
+
   JWT_ACCESS_SECRET=secretkeyaccesstoken</br>
   JWT_ACCESS_EXPIRES=15m</br>
   JWT_REFRESH_SECRET=secretkeyrefreshtoken</br>
   JWT_REFRESH_EXPIRES=15d</br>
-  SERVER_PORT=3001</br>
+  SERVER_PORT=3000</br>
 
 - La contraseña por defecto es postgres
 
