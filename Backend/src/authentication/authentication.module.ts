@@ -6,10 +6,12 @@ import { AuthGuard } from "./auth.guard";
 import { EmailService } from "email/email.service";
 import { jwtSetting } from "settings";
 import { UsersModule } from "users/users.module";
-
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { User } from "users/entities/user.entity";
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: jwtSetting.JWT_ACCESS_SECRET, // secret key para JWT
       signOptions: { expiresIn: jwtSetting.JWT_ACCESS_EXPIRES }, // Configurar según tus necesidades, es el tiempo de expiracion
@@ -20,4 +22,4 @@ import { UsersModule } from "users/users.module";
   providers: [AuthService, AuthGuard, EmailService],
   exports: [AuthService],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

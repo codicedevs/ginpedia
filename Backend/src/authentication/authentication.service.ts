@@ -8,11 +8,15 @@ import * as bcrypt from "bcrypt";
 import { UsersService } from "users/users.service";
 import { EmailService } from "email/email.service";
 import { jwtSetting } from "settings";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "users/entities/user.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
     private emailService: EmailService
   ) {}
@@ -26,7 +30,11 @@ export class AuthService {
    */
 
   async signIn(email: string, password: string) {
-    const user = await this.usersService.findOneByEmailOrFail(email);
+    console.log(email, password);
+    const user = await this.userRepository.findOneOrFail({
+      where: { email: email },
+    });
+    console.log("mengano", user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error();
@@ -71,15 +79,15 @@ export class AuthService {
    */
 
   async passwordRecovery(email: string) {
-    const user = await this.usersService.findOneByEmailOrFail(email);
+    const user = await this.userRepository.findOneByOrFail({ email });
     const resetKey = Math.floor(Math.random() * (99999 - 10000) + 10000);
     const resetKeyTimeStamp = new Date().toISOString();
-    await this.usersService.update(user.id, {
+    await this.userRepository.update(user.id, {
       resetKey: resetKey.toString(),
       resetKeyTimeStamp: resetKeyTimeStamp,
     });
     await this.emailService.sendPasswordRecovery(user, resetKey);
-    const userUpdated = await this.usersService.findOneByEmailOrFail(email);
+    const userUpdated = await this.userRepository.findOneByOrFail({ email });
     return { userUpdated, resetKey };
   }
   /**
@@ -95,9 +103,9 @@ export class AuthService {
     email: string;
     password: string;
   }) {
-    const user = await this.usersService.findOneByEmailOrFail(
-      resetPassBody.email
-    );
+    const user = await this.userRepository.findOneByOrFail({
+      email: resetPassBody.email,
+    });
     if (user.resetKey !== resetPassBody.resetKey) {
       throw new UnauthorizedException({ message: "Reset Key Invalid" });
     }
@@ -116,11 +124,11 @@ export class AuthService {
       });
     }
     // Actualiza la contraseña del usuario cuando el proceso de resetKey es exitoso
-    await this.usersService.update(user.id, {
+    await this.userRepository.update(user.id, {
       password: resetPassBody.password,
     });
     // Resetea el resetKey en el modelo de usuario cuando es usado exitosamente
-    await this.usersService.update(user.id, {
+    await this.userRepository.update(user.id, {
       resetKey: undefined,
     });
     return;

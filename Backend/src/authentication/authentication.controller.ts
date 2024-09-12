@@ -22,6 +22,7 @@ export class AuthController {
 
   @Post("signin")
   async signIn(@Body() signInDto: SignInDTO) {
+    console.log(signInDto);
     try {
       const result = await this.authService.signIn(
         signInDto.email,
