@@ -30,12 +30,12 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
                 <Div flex={1}>
                     <ScrollDiv >
                         <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
                     </ScrollDiv>
                 </Div>
             </Div>
