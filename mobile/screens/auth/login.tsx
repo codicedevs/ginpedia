@@ -38,7 +38,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
         const res = await authService.login(data.email, data.password);
         if (res) {
             await AsyncStorage.setItem('refresh', res.refreshToken ?? '');
-            await AsyncStorage.setItem('access', res.token ?? '');
+            await AsyncStorage.setItem('access', res.accessToken ?? '');
         }
         return res;
     }
@@ -137,7 +137,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                         <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
                         <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
                     </Div>
-                    <Button bg='secondary' color="black" w={'100%'}>Login</Button>
+                    <Button onPress={handleSubmit(onSubmit)} bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
             </MainLoginContainer>
         </ScrollView>

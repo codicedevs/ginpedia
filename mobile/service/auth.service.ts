@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/config";
 import { HttpService } from "./http.service";
 
 interface LoginProps {
-    token: string;
+    accessToken: string;
     refreshToken: string;
     user: any;
 }
@@ -17,8 +17,8 @@ export class AuthService extends HttpService {
     login = async (username: string, password: string) => {
         let loginProps: LoginProps | null = null;
         try {
-            const res = await axios.post<LoginProps>(`${BASE_URL}/auth/login`, { username, pass: password });
-            this.saveAccessToken(res.data.token);
+            const res = await axios.post<LoginProps>(`${BASE_URL}/auth/signin`, { username, password });
+            this.saveAccessToken(res.data.accessToken);
             this.saveRefreshToken(res.data.refreshToken);
             loginProps = res.data;
         } catch (err) {
