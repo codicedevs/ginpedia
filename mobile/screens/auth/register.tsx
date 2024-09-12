@@ -8,13 +8,12 @@ import { Button, Div, Icon, Input, Text } from "react-native-magnus"
 import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
 import { ConfirmationModal } from "../../components/modal/confirmationModal"
-import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer } from "../../components/styled/styled"
+import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
 import { useMutate } from '../../hooks/useMutate'
 import authService from '../../service/auth.service'
 import { UserInfoRegister } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
-import { customTheme } from "../../utils/theme"
 
 const validationSchema = yup.object({
     username: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
@@ -79,7 +78,7 @@ const RegisterScreen = () => {
                 <MainLoginContainer>
                     <Div h={'70%'}>
                         <LoginTitleContainer>
-                            <Text fontFamily={customTheme.fontFamily.secondary} fontSize={'sm'}>Ginpedia</Text>
+                            <TitleText fontSize={'sm'}>Ginpedia</TitleText>
                             <TitleGenerator title="Crear cuenta" />
                         </LoginTitleContainer>
                         <Div h={'auto'} alignItems="center" justifyContent="center">
