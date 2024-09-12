@@ -8,7 +8,8 @@ export enum AppScreens {
     TRIAL2_SCREEN = 'Trial2',
     SETTINGS_SCREEN = 'Settings',
     RECOVER_CREDENTIALS_SCREEN = 'RecoverCredentials',
-    REGISTER_SCREEN = 'Register'
+    REGISTER_SCREEN = 'Register',
+    PRODUCT_LIST_SCREEN = 'ProductList'
 }
 
 export type AppScreensParamList = {
@@ -18,7 +19,8 @@ export type AppScreensParamList = {
     [AppScreens.TRIAL2_SCREEN]: undefined;
     [AppScreens.SETTINGS_SCREEN]: undefined;
     [AppScreens.RECOVER_CREDENTIALS_SCREEN]: undefined;
-    [AppScreens.REGISTER_SCREEN]: undefined
+    [AppScreens.REGISTER_SCREEN]: undefined;
+    [AppScreens.PRODUCT_LIST_SCREEN]: undefined
 }
 
 export type AppScreenProps<T extends AppScreens> = {

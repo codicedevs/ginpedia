@@ -6,7 +6,7 @@ import { ScrollView, TouchableOpacity } from "react-native"
 import { Button, Div, Icon, Input, Text } from "react-native-magnus"
 import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
-import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginBottomContainer, LoginInputContainer, LoginTitleContainer, LoginTopContainer, MainLoginContainer } from "../../components/styled/styled"
+import { BoldText, ErrorInputMessageContainer, ErrorMessageText, ItalicText, LabelContainer, LoginBottomContainer, LoginInputContainer, LoginTitleContainer, LoginTopContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
 import { useMutate } from '../../hooks/useMutate'
 import { AppScreenProps, AppScreens } from "../../navigation/screens"
@@ -38,7 +38,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
         const res = await authService.login(data.email, data.password);
         if (res) {
             await AsyncStorage.setItem('refresh', res.refreshToken ?? '');
-            await AsyncStorage.setItem('access', res.token ?? '');
+            await AsyncStorage.setItem('access', res.accessToken ?? '');
         }
         return res;
     }
@@ -67,7 +67,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
             <MainLoginContainer>
                 <LoginTopContainer>
                     <LoginTitleContainer>
-                        <Text fontSize={'sm'}>Ginpedia</Text>
+                        <TitleText fontSize={'sm'}>Ginpedia</TitleText>
                         <TitleGenerator title="Login" />
                     </LoginTitleContainer>
                     <LoginInputContainer>
@@ -121,7 +121,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                         }
                                     />
                                     <Div alignSelf="flex-start" mt={-5}>
-                                        <Text color='secondary' fontSize={customTheme.fontSize.small} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</Text>
+                                        <ItalicText color='secondary' fontSize={customTheme.fontSize.small} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</ItalicText>
                                     </Div>
                                     <ErrorInputMessageContainer>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}
@@ -134,10 +134,10 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                 </LoginTopContainer>
                 <LoginBottomContainer pb={'xl'}>
                     <Div flexDir="row">
-                        <Text fontSize={'sm'} fontWeight="300">No tienes cuenta?</Text>
-                        <Text fontSize={'sm'} fontWeight="600" onPress={navigateToRegister}> Registrate</Text>
+                        <Text fontSize={'sm'}>No tienes cuenta?</Text>
+                        <BoldText fontSize={'sm'} onPress={navigateToRegister}> Registrate</BoldText>
                     </Div>
-                    <Button bg='secondary' color="black" w={'100%'}>Login</Button>
+                    <Button onPress={handleSubmit(onSubmit)} bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
             </MainLoginContainer>
         </ScrollView>

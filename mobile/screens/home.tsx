@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { verticalScale } from 'react-native-size-matters'
 import { FeaturedCard } from '../components/cards/featuredCard'
 import { ListCard } from '../components/cards/listCard'
+import { TitleText } from '../components/styled/styled'
 import { AppScreenProps, AppScreens } from '../navigation/screens'
 import { TitleGenerator } from '../utils/text'
 
@@ -27,7 +28,7 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
             <Div flex={1} px={'xl'}>
                 <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
                     <Div flexDir='row' justifyContent='space-between' alignItems='center' py={'lg'} mb={'sm'} >
-                        <Text>Ginpedia</Text>
+                        <TitleText>Ginpedia</TitleText>
                         <Div h={50} w={50} bg='black' rounded={'circle'}></Div>
                     </Div>
                     <Div mb={'xl'}>

@@ -8,8 +8,8 @@ import LoginScreen from "../screens/auth/login";
 import RecoverCredentialsScreen from "../screens/auth/recoverCredentials";
 import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
+import ProductListScreen from "../screens/productsList";
 import SettingsScreen from "../screens/settings";
-import Trialscreen from "../screens/trial";
 import Trialscreen2 from "../screens/trial2";
 import { AppScreens, AppScreensParamList } from "./screens";
 
@@ -31,7 +31,7 @@ export function HomeStackScreen() {
                     <HomeScreen {...props} />
                 </FadeWrapper>
             )} />
-            <HomeStack.Screen name={AppScreens.TRIAL1_SCREEN} component={Trialscreen} />
+            <HomeStack.Screen name={AppScreens.PRODUCT_LIST_SCREEN} component={ProductListScreen} />
         </HomeStack.Navigator>
     );
 }
