@@ -11,6 +11,7 @@ import {
 } from "react-admin";
 
 import Box from "@mui/material/Box";
+import { boxStyle } from "../products/products";
 
 export const UserList = () => (
   <List>
@@ -19,7 +20,7 @@ export const UserList = () => (
       <TextField source="name" />
       <EmailField source="email" />
       <TextField source="roles" />
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+      <Box sx={boxStyle}>
         <EditButton label={""} style={{ padding: 0 }} />
         <DeleteButton label={""} />
       </Box>

@@ -25,6 +25,8 @@ import {
   useResourceContext,
 } from "react-admin";
 
+export const boxStyle = { display: "flex", justifyContent: "flex-end", gap: 1 };
+
 const productTypeChoices = [
   { id: "gin", name: "Gin" },
   { id: "tonica", name: "Tónica" },
@@ -42,7 +44,7 @@ export const ProductList = () => (
       <TextField source="origin" />
       <TextField source="graduation" />
       <TextField source="rating" />
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+      <Box sx={boxStyle}>
         <EditButton label={""} style={{ padding: 0 }} />
         <DeleteButton label={""} />
       </Box>
