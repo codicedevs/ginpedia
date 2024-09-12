@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { PropsWithChildren } from "react";
 import {
   ArrayField,
@@ -41,8 +42,10 @@ export const ProductList = () => (
       <TextField source="origin" />
       <TextField source="graduation" />
       <TextField source="rating" />
-      <EditButton label={""} style={{ padding: 0 }} />
-      <DeleteButton label={""} />
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+        <EditButton label={""} style={{ padding: 0 }} />
+        <DeleteButton label={""} />
+      </Box>
     </Datagrid>
   </List>
 );

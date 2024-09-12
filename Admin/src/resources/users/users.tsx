@@ -10,6 +10,8 @@ import {
   DeleteButton,
 } from "react-admin";
 
+import Box from "@mui/material/Box";
+
 export const UserList = () => (
   <List>
     <Datagrid>
@@ -17,8 +19,10 @@ export const UserList = () => (
       <TextField source="name" />
       <EmailField source="email" />
       <TextField source="roles" />
-      <EditButton />
-      <DeleteButton />
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+        <EditButton label={""} style={{ padding: 0 }} />
+        <DeleteButton label={""} />
+      </Box>
     </Datagrid>
   </List>
 );
