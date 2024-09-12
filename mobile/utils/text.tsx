@@ -1,6 +1,6 @@
 import React from 'react';
-import { Div, Text } from 'react-native-magnus';
-import { YellowBorderText } from '../components/styled/styled';
+import { Div } from 'react-native-magnus';
+import { TitleText, YellowBorderText } from '../components/styled/styled';
 
 export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: string }) => {
     const firstWords = title.slice(0, 2);
@@ -9,15 +9,16 @@ export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: 
     return (
         <Div flexDir='row'>
             <YellowBorderText>
-                <Text
+                <TitleText
                     fontSize={size}
                 >
                     {firstWords}
-                </Text>
+                </TitleText>
             </YellowBorderText>
-            <Text
+            <TitleText
+
                 fontSize={size}
-            >{restOfText}</Text>
+            >{restOfText}</TitleText>
         </Div>
     );
 };
