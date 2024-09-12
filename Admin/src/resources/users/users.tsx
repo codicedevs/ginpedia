@@ -5,9 +5,13 @@ import {
   EmailField,
   Create,
   SimpleForm,
-  ReferenceInput,
   TextInput,
+  EditButton,
+  DeleteButton,
 } from "react-admin";
+
+import Box from "@mui/material/Box";
+import { boxStyle } from "../products/products";
 
 export const UserList = () => (
   <List>
@@ -16,6 +20,10 @@ export const UserList = () => (
       <TextField source="name" />
       <EmailField source="email" />
       <TextField source="roles" />
+      <Box sx={boxStyle}>
+        <EditButton label={""} style={{ padding: 0 }} />
+        <DeleteButton label={""} />
+      </Box>
     </Datagrid>
   </List>
 );

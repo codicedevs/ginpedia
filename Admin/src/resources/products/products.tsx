@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { PropsWithChildren } from "react";
 import {
   ArrayField,
@@ -6,7 +7,9 @@ import {
   ChipField,
   Create,
   Datagrid,
+  DeleteButton,
   Edit,
+  EditButton,
   List,
   ReferenceArrayField,
   ReferenceArrayInput,
@@ -21,6 +24,8 @@ import {
   TextInput,
   useResourceContext,
 } from "react-admin";
+
+export const boxStyle = { display: "flex", justifyContent: "flex-end", gap: 1 };
 
 const productTypeChoices = [
   { id: "gin", name: "Gin" },
@@ -39,6 +44,10 @@ export const ProductList = () => (
       <TextField source="origin" />
       <TextField source="graduation" />
       <TextField source="rating" />
+      <Box sx={boxStyle}>
+        <EditButton label={""} style={{ padding: 0 }} />
+        <DeleteButton label={""} />
+      </Box>
     </Datagrid>
   </List>
 );
