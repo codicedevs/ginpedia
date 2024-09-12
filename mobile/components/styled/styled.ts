@@ -71,6 +71,20 @@ export const YellowBorderText = styled(Text)`
   border-bottom-color: ${({ theme }) => theme.colors.secondary}
 `;
 
+//Textos
+export const TitleText = styled(Text)`
+  font-family:${({ theme }) => theme.fontFamily.secondary}
+`
+
+export const BoldText = styled(Text)`
+  font-family:${({ theme }) => theme.fontFamily.bold}
+`
+
+export const ItalicText = styled(Text)`
+  font-family:${({ theme }) => theme.fontFamily.mItalic}
+`
+//\ T
+
 // LOGIN
 
 export const MainLoginContainer = styled(Div)`

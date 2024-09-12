@@ -8,7 +8,7 @@ import { Button, Div, Icon, Input, Text } from "react-native-magnus"
 import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
 import { ConfirmationModal } from "../../components/modal/confirmationModal"
-import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer } from "../../components/styled/styled"
+import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
 import { useMutate } from '../../hooks/useMutate'
 import authService from '../../service/auth.service'
@@ -60,7 +60,7 @@ const RegisterScreen = () => {
         const res = await authService.login(data.email, data.password);
         if (res) {
             await AsyncStorage.setItem('refresh', res.refreshToken ?? '');
-            await AsyncStorage.setItem('access', res.token ?? '');
+            await AsyncStorage.setItem('access', res.accessToken ?? '');
         }
         return res;
     }
@@ -78,7 +78,7 @@ const RegisterScreen = () => {
                 <MainLoginContainer>
                     <Div h={'70%'}>
                         <LoginTitleContainer>
-                            <Text fontSize={'sm'}>Ginpedia</Text>
+                            <TitleText fontSize={'sm'}>Ginpedia</TitleText>
                             <TitleGenerator title="Crear cuenta" />
                         </LoginTitleContainer>
                         <Div h={'auto'} alignItems="center" justifyContent="center">

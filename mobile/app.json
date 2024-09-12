@@ -5,8 +5,12 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Poppins-Bold.ttf",
-            "./assets/fonts/Poppins-Regular.ttf"
+            "./assets/fonts/DMSerifDisplay-Regular.ttf",
+            "./assets/fonts/Montserrat-Bold.ttf",
+            "./assets/fonts/Montserrat-SemiBold.ttf",
+            "./assets/fonts/Montserrat-Regular.ttf",
+            "./assets/fonts/Montserrat-MediumItalic.ttf",
+            "./assets/fonts/Montserrat-Light.ttf"
           ]
         }
       ],
@@ -37,6 +41,9 @@
         "backgroundColor": "#ffffff"
       }
     },
+    "permissions": [
+      "android.permission.RECORD_AUDIO"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }
