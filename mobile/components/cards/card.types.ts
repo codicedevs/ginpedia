@@ -3,5 +3,6 @@ interface CardProps {
     title: string;
     rating: string;
     isLoading: boolean;
-    alreadyFetched: boolean
+    alreadyFetched: boolean;
+    punctuation?: string
 }
