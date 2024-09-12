@@ -11,8 +11,6 @@ import { FilterOptions } from '../types/list.types';
 import { QUERY_KEYS } from '../types/query.types';
 import { User } from '../types/user.type';
 
-
-
 function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIST_SCREEN>) {
     const [option, setOption] = useState<FilterOptions>(FilterOptions.GIN)
     const { data } = useFetch<User>(userService.getAll, QUERY_KEYS.USERS, { meta: { triggerGlobalLoader: false } });
