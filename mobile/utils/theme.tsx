@@ -61,7 +61,7 @@ export const customTheme: CustomThemeType = {
         cardBorder: "lightgray",
     },
     fontFamily: {
-        normal: "Montserrat-regular",
+        normal: "Montserrat-Regular",
         bold: "Montserrat-Bold",
         light: "Monsterrat-Light",
         mItalic: "Montserrat-MediumItalic",
