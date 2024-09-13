@@ -3,16 +3,16 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { LoadingText, SpinnerContainer } from './styled/styled';
 
-const SpinnerScreen = () => {
+const SpinnerScreen = ({ show }: { show: boolean }) => {
     const isFetching = useIsFetching({
         predicate: (query) => query.meta?.triggerGlobalLoader === true,
     });
 
-    if (isFetching === 0) return null;
+    if (!show) return null;
 
     return (
         <SpinnerContainer>
-            <ActivityIndicator size="large" color="#ffffff" />
+            <ActivityIndicator size="large" color="black" />
             <LoadingText >Cargando...</LoadingText>
         </SpinnerContainer>
     );
