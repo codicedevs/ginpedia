@@ -3,7 +3,7 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { LoadingText, SpinnerContainer } from './styled/styled';
 
-const SpinnerScreen = ({ show }: { show: boolean }) => {
+const Spinner = ({ show }: { show: boolean }) => {
     const isFetching = useIsFetching({
         predicate: (query) => query.meta?.triggerGlobalLoader === true,
     });
@@ -18,4 +18,4 @@ const SpinnerScreen = ({ show }: { show: boolean }) => {
     );
 }
 
-export default SpinnerScreen;
+export default Spinner;

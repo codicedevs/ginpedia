@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import SpinnerScreen from "../components/spinnerScreen";
+import Spinner from "../components/spinnerScreen";
 
 type LoadingContextType = {
     isLoadingScreen: boolean;
@@ -21,7 +21,7 @@ export function LoadingProvider(props: React.PropsWithChildren) {
         <LoadingContext.Provider
             value={{ isLoadingScreen, setIsLoading }}
         >
-            <SpinnerScreen show={isLoadingScreen} />
+            <Spinner show={isLoadingScreen} />
             {props.children}
         </LoadingContext.Provider>
     )
