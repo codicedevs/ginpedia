@@ -1,29 +1,38 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLoading } from "../context/loadingProvider";
 
-function useOptimistic<T>(key: string, mutationFn: any, onSuccess = () => { }, onError = () => { }) {
+function useOptimistic<T>(key: string, mutationFn: any, onSuccess = () => { }, onError = () => { }, activatesLoader = false) {
     const queryClient = useQueryClient();
+    const { setIsLoading } = useLoading();
 
     return useMutation({
         mutationFn,
         onMutate: async (data: T) => {
-            await queryClient.cancelQueries({ queryKey: [key] })
+            setIsLoading(activatesLoader);
 
-            const previousData = queryClient.getQueryData([key])
+            await queryClient.cancelQueries({ queryKey: [key] });
+
+            const previousData = queryClient.getQueryData([key]);
 
             queryClient.setQueryData([key], (old: T[]) => {
-                console.log(old)
-                return ([...old, data])
-            })
+                console.log(old);
+                return ([...old, data]);
+            });
 
-            return { previousData }
+            return { previousData };
         },
-        onSuccess,
+        onSuccess: () => {
+            setIsLoading(false);
+            onSuccess();
+        },
         onError: (e, data, context) => {
-            queryClient.setQueryData([key], context?.previousData)
-            onError()
+            queryClient.setQueryData([key], context?.previousData);
+            setIsLoading(false);
+            onError();
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [key] })
+            setIsLoading(false);
+            queryClient.invalidateQueries({ queryKey: [key] });
         }
     });
 }

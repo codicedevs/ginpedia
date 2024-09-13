@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useLoading } from "../context/loadingProvider";
 
 type FetchFunction<T> = () => Promise<T[]>;
 
-function useFetch<T>(fn: FetchFunction<T>, key: string, options = {}) {
-    return useQuery<T[]>({
+function useFetch<T>(fn: FetchFunction<T>, key: string, activatesLoader = false) {
+    const { setIsLoading } = useLoading();
+
+    const query = useQuery<T[]>({
         queryKey: [key],
         queryFn: fn,
         initialData: [
@@ -22,15 +26,16 @@ function useFetch<T>(fn: FetchFunction<T>, key: string, options = {}) {
                 title: "Initial Item 3",
                 completed: true
             }
-        ] as T[],
-        ...options,
-        meta: {
-            triggerGlobalLoader: false, // Activar por defecto
-            ...options.meta,
-        },
+        ] as T[]
     });
+
+    useEffect(() => {
+        if (activatesLoader) {
+            setIsLoading(query.isLoading || query.isFetching);
+        }
+    }, [query.isLoading, query.isFetching]);
+
+    return query;
 }
-
-
 
 export default useFetch;
