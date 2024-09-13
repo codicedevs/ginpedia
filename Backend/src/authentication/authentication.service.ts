@@ -30,7 +30,6 @@ export class AuthService {
    */
 
   async signIn(email: string, password: string) {
-    console.log(email, password);
     const user = await this.userRepository.findOneOrFail({
       where: { email: email },
     });

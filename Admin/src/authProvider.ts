@@ -1,7 +1,7 @@
 import { axiosInstance } from "./config/axiosConfig";
 
 export interface AuthProvider {
-  login: (params: { email: string; password: string }) => Promise<void>;
+  login: (params: { username: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   checkError: (error: any) => Promise<void>;
@@ -9,10 +9,10 @@ export interface AuthProvider {
 }
 
 export const authProvider: AuthProvider = {
-  login: async ({ email, password }) => {
+  login: async ({ username, password }) => {
     try {
       const { data } = await axiosInstance.post("auth/signin", {
-        email,
+        email: username,
         password,
       });
       localStorage.setItem("token", JSON.stringify(data.accessToken));

@@ -70,6 +70,7 @@ export class UsersController {
     @Param("id", ParseIntPipe) id: number,
     @Body() updateUser: UpdateUserDto
   ) {
+    console.log(updateUser, "user");
     const updatedUser = await this.userService.update(id, updateUser);
     return { message: "User updated", user: updatedUser };
   }

@@ -1,10 +1,4 @@
-import {
-  Admin,
-  Resource,
-  ListGuesser,
-  ShowGuesser,
-  EditGuesser,
-} from "react-admin";
+import { Admin, Resource, ShowGuesser, EditGuesser } from "react-admin";
 import { Layout } from "./Layout";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";

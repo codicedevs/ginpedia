@@ -30,5 +30,5 @@ export class UpdateProductDto {
   graduation?: string;
   @IsOptional()
   @IsArray()
-  combinations: number[];
+  combinations?: number[];
 }

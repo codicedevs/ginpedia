@@ -1,6 +1,23 @@
 import simpleRestProvider from "ra-data-simple-rest";
-import { fetchUtils } from "react-admin";
+import { CreateParams, fetchUtils, UpdateParams } from "react-admin";
 import { BASE_URL } from "./config";
+
+type PostParams = {
+  id: string;
+  picture: {
+    rawFile: File;
+    src?: string;
+  };
+};
+
+const createPostFormData = (
+  params: CreateParams<PostParams> | UpdateParams<PostParams>,
+) => {
+  const formData = new FormData();
+  params.data.picture?.rawFile &&
+    formData.append("file", params.data.picture.rawFile);
+  return formData;
+};
 
 const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   if (!options.headers) {
@@ -70,5 +87,73 @@ export const dataProvider = {
         total: parseInt(headers.get("X-Total-Count")!, 10),
       };
     });
+  },
+
+  create: (resource: string, params: any) => {
+    console.log("los params", params);
+    if (resource === "products") {
+      const { uploads, ...rest } = params.data;
+      return fetchUtils
+        .fetchJson(`${BASE_URL}/${resource}`, {
+          method: "POST",
+          body: JSON.stringify(rest),
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+        })
+        .then(({ json }) => {
+          console.log("cara", uploads);
+          if (uploads?.rawFile) {
+            const imageFormData = new FormData();
+            imageFormData.append("file", uploads.rawFile);
+            fetchUtils
+              .fetchJson(`${BASE_URL}/${resource}/${json.id}/upload`, {
+                method: "POST",
+                body: imageFormData,
+              })
+              .then(() => {
+                return { data: json };
+              });
+          }
+          return {
+            data: json,
+          };
+        });
+    }
+  },
+
+  update: (resource: string, params: any) => {
+    if (resource === "products") {
+      const { image, ...rest } = params.data; // Exclude picture from the rest object
+      return fetchUtils
+        .fetchJson(`${BASE_URL}/${resource}/${params.id}`, {
+          method: "PUT",
+          body: JSON.stringify(rest), // Send the rest of the data as JSON
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+        })
+        .then(({ json }) => {
+          // After updating the product, upload the image
+          if (image?.rawFile) {
+            const imageFormData = new FormData();
+            imageFormData.append("file", image.rawFile);
+            imageFormData.forEach((value, key) => {});
+
+            fetchUtils
+              .fetchJson(`${BASE_URL}/${resource}/${params.id}/upload`, {
+                method: "POST",
+                body: imageFormData,
+              })
+              .then(() => {
+                return { data: json };
+              });
+          }
+          return {
+            data: json,
+          };
+        });
+    }
+    // baseProvider.update(resource, params);
   },
 };
