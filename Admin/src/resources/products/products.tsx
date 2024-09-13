@@ -67,7 +67,7 @@ export const ProductCreate = (props: PropsWithChildren) => (
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" />
       <SelectInput source="type" choices={productTypeChoices} />
-      <ImageInput source="uploads" label="Imagenes"></ImageInput>
+      <ImageInput source="image" label="Imagenes"></ImageInput>
       <TextInput source="origin" />
       <TextInput source="graduation" />
       <ReferenceArrayInput source="combinations" reference="products">
@@ -94,7 +94,9 @@ export const ProductEdit = (props: any) => {
           source="image"
           accept={{ "image/*": [".png", ".jpg"] }}
           label="Cambiar imagen"
-        ></ImageInput>
+        >
+          <ImageField source="src" title="title" />
+        </ImageInput>
 
         <TextInput source="origin" />
         <TextInput source="graduation" />

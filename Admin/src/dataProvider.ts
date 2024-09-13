@@ -90,9 +90,8 @@ export const dataProvider = {
   },
 
   create: (resource: string, params: any) => {
-    console.log("los params", params);
     if (resource === "products") {
-      const { uploads, ...rest } = params.data;
+      const { image, ...rest } = params.data;
       return fetchUtils
         .fetchJson(`${BASE_URL}/${resource}`, {
           method: "POST",
@@ -102,10 +101,9 @@ export const dataProvider = {
           }),
         })
         .then(({ json }) => {
-          console.log("cara", uploads);
-          if (uploads?.rawFile) {
+          if (image?.rawFile) {
             const imageFormData = new FormData();
-            imageFormData.append("file", uploads.rawFile);
+            imageFormData.append("file", image.rawFile);
             fetchUtils
               .fetchJson(`${BASE_URL}/${resource}/${json.id}/upload`, {
                 method: "POST",
@@ -120,6 +118,7 @@ export const dataProvider = {
           };
         });
     }
+    baseProvider.create(resource, params);
   },
 
   update: (resource: string, params: any) => {
@@ -154,6 +153,6 @@ export const dataProvider = {
           };
         });
     }
-    // baseProvider.update(resource, params);
+    baseProvider.update(resource, params);
   },
 };

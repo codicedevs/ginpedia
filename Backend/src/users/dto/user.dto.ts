@@ -18,7 +18,7 @@ export class UpdateUserDto {
   name?: string;
   @IsEmail()
   email?: string;
-  @MinLength(8)
+  @MinLength(4)
   password?: string;
   resetKey?: string;
   resetKeyTimeStamp?: string;

@@ -12,10 +12,12 @@ export class Bookmark {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.bookmarks)
+  @ManyToOne(() => User, (user) => user.bookmarks, { onDelete: "CASCADE" })
   user: User;
 
-  @ManyToOne(() => Product, (product) => product.bookmarks)
+  @ManyToOne(() => Product, (product) => product.bookmarks, {
+    onDelete: "CASCADE",
+  })
   product: Product;
 
   @Column({
