@@ -1,28 +1,27 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import SpinnerScreen from "../components/spinnerScreen";
+import Spinner from "../components/spinnerScreen";
 
 type LoadingContextType = {
-    loadingScreen: boolean;
-    setLoadingScreen: (loadingScreen: boolean) => void;
+    isLoadingScreen: boolean;
+    setIsLoading: (isLoadingScreen: boolean) => void;
 };
 
 const LoadingContext = createContext<LoadingContextType>({
-    loadingScreen: false,
-    setLoadingScreen: () => { }
+    isLoadingScreen: false,
+    setIsLoading: () => { }
 });
 
 
 export function LoadingProvider(props: React.PropsWithChildren) {
-    const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
+    const [isLoadingScreen, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log('Loading Screen State:', loadingScreen, 'q pasa aca');
-    }, [loadingScreen])
+    }, [isLoadingScreen])
     return (
         <LoadingContext.Provider
-            value={{ loadingScreen, setLoadingScreen }}
+            value={{ isLoadingScreen, setIsLoading }}
         >
-            <SpinnerScreen />
+            <Spinner show={isLoadingScreen} />
             {props.children}
         </LoadingContext.Provider>
     )
