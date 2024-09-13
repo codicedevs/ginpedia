@@ -2,7 +2,12 @@ import React from 'react';
 import { Div, Text } from 'react-native-magnus';
 import { TitleText, YellowBorderText } from '../components/styled/styled';
 
-export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: string }) => {
+type TitleProps = {
+    title: string,
+    size?: string
+}
+
+export const TitleGenerator = ({ title, size = '2xl' }: TitleProps) => {
 
     if (!title) {
         return (

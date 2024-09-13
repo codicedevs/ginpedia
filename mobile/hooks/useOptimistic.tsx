@@ -1,7 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLoading } from "../context/loadingProvider";
 
-function useOptimistic<T>(key: string, mutationFn: any, onSuccess = () => { }, onError = () => { }, activatesLoader = false) {
+type MutationFunction<T> = (variables: T) => Promise<any>;
+type SuccessHandler = (result?: any) => void;
+type ErrorHandler = (error: any) => void;
+
+function useOptimistic<T>(
+    key: string,
+    mutationFn: MutationFunction<T>,
+    onSuccess: SuccessHandler = () => { },
+    onError: ErrorHandler = () => { },
+    activatesLoader: boolean = false
+) {
     const queryClient = useQueryClient();
     const { setIsLoading } = useLoading();
 
@@ -28,7 +38,7 @@ function useOptimistic<T>(key: string, mutationFn: any, onSuccess = () => { }, o
         onError: (e, data, context) => {
             queryClient.setQueryData([key], context?.previousData);
             setIsLoading(false);
-            onError();
+            onError(e);
         },
         onSettled: () => {
             setIsLoading(false);

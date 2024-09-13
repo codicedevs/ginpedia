@@ -3,7 +3,11 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { LoadingText, SpinnerContainer } from './styled/styled';
 
-const Spinner = ({ show }: { show: boolean }) => {
+type SpinnerProps = {
+    show: boolean
+}
+
+const Spinner = ({ show }: SpinnerProps) => {
     const isFetching = useIsFetching({
         predicate: (query) => query.meta?.triggerGlobalLoader === true,
     });

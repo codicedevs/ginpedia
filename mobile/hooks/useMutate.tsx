@@ -9,7 +9,7 @@ export function useMutate(
     mutationFn: MutationFunction,
     onSuccess: SuccessHandler = () => { },
     onError: ErrorHandler = () => { },
-    activatesLoader = false
+    activatesLoader: boolean = false
 ) {
     const { setIsLoading } = useLoading();
 
