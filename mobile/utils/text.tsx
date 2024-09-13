@@ -10,12 +10,10 @@ export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: 
         );
     }
 
-    // Dividimos el texto por palabras, obtenemos la primera palabra y el resto
     const words = title.split(' ');
-    const firstWord = words[0]; // Primera palabra
-    const restOfText = words.slice(1).join(' '); // El resto del texto
+    const firstWord = words[0];
+    const restOfText = words.slice(1).join(' ');
 
-    // Dividimos la primera palabra en las primeras 2 letras y el resto
     const firstTwoLetters = firstWord.slice(0, 2);
     const restOfFirstWord = firstWord.slice(2);
 
