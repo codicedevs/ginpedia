@@ -6,22 +6,25 @@ import { verticalScale } from 'react-native-size-matters'
 import { FeaturedCard } from '../components/cards/featuredCard'
 import { ListCard } from '../components/cards/listCard'
 import { TitleText } from '../components/styled/styled'
+import useFetch from '../hooks/useGet'
 import { AppScreenProps, AppScreens } from '../navigation/screens'
+import productService from '../service/product.service'
+import { Product } from '../types/product.type'
 import { TitleGenerator } from '../utils/text'
 
 const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigation }) => {
-    // const fetchTodo = async () => {
-    //     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const fetchFeature = async () => {
 
-    //     await delay(10000);
-    //     const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-    //     if (!response.ok) {
-    //         throw new Error('Error al obtener los datos');
-    //     }
-    //     return response.json(); // Devolver los datos en formato JSON
-    // };
+        const res = await productService.getAll()
 
-    // const { data, isFetching, isFetched } = useFetch(fetchTodo, 'todo-1'); llamada falsa para probar skeletton
+        const sortedProducts = res.sort((a, b) => b.rating - a.rating);
+
+        return sortedProducts;
+    };
+
+    const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, 'products');
+
+    console.log(data)
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style='auto' />
@@ -35,9 +38,12 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
                         <TitleGenerator title="Destacados" />
                     </Div>
                     <ScrollDiv flexDir='row' horizontal showsHorizontalScrollIndicator={false} mb={'xl'}>
-                        <FeaturedCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <FeaturedCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <FeaturedCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        {
+                            data &&
+                            data?.slice(0, 3).map((d) => (
+                                <FeaturedCard alreadyFetched={true} isLoading={false} image='random' title={d.name} rating={d.rating} />
+                            ))
+                        }
                     </ScrollDiv>
                     <Div mb={'xl'}>
                         <TitleGenerator title="Añadidos recientemente" />
@@ -49,9 +55,12 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
                             )
                         }) Prueba con datos falsos
                     } */}
-                    <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                    <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                    <ListCard alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                    {
+                        data &&
+                        data?.map((d) => (
+                            <ListCard alreadyFetched={true} isLoading={false} image='random' title={d.name} rating={d.rating} />
+                        ))
+                    }
                     <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>
                         <Text color='secondary'>Ver todos</Text>
                         <Icon mx={10} color='secondary' fontSize={'xl'} name='arrowright' />
