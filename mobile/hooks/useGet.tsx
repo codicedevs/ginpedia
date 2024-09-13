@@ -4,7 +4,7 @@ import { useLoading } from "../context/loadingProvider";
 
 type FetchFunction<T> = () => Promise<T[]>;
 
-function useFetch<T>(fn: FetchFunction<T>, key: string, activatesLoader: boolean = false) {
+function useFetch<T>(fn: FetchFunction<T>, key: string, triggerLoader: boolean = false) {
     const { setIsLoading } = useLoading();
 
     const query = useQuery<T[]>({
@@ -30,7 +30,7 @@ function useFetch<T>(fn: FetchFunction<T>, key: string, activatesLoader: boolean
     });
 
     useEffect(() => {
-        if (activatesLoader) {
+        if (triggerLoader) {
             setIsLoading(query.isLoading || query.isFetching);
         }
     }, [query.isLoading, query.isFetching]);

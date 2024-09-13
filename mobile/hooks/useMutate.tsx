@@ -9,14 +9,16 @@ export function useMutate(
     mutationFn: MutationFunction,
     onSuccess: SuccessHandler = () => { },
     onError: ErrorHandler = () => { },
-    activatesLoader: boolean = false
+    triggerLoader: boolean = false
 ) {
     const { setIsLoading } = useLoading();
 
     const { mutateAsync } = useMutation({
         mutationFn,
         onMutate: () => {
-            setIsLoading(activatesLoader);
+            if (triggerLoader) {
+                setIsLoading(true);
+            }
         },
         onSuccess: (data) => {
             setIsLoading(false);

@@ -10,7 +10,7 @@ function useOptimistic<T>(
     mutationFn: MutationFunction<T>,
     onSuccess: SuccessHandler = () => { },
     onError: ErrorHandler = () => { },
-    activatesLoader: boolean = false
+    triggerLoader: boolean = false
 ) {
     const queryClient = useQueryClient();
     const { setIsLoading } = useLoading();
@@ -18,7 +18,9 @@ function useOptimistic<T>(
     return useMutation({
         mutationFn,
         onMutate: async (data: T) => {
-            setIsLoading(activatesLoader);
+            if (triggerLoader) {
+                setIsLoading(true);
+            }
 
             await queryClient.cancelQueries({ queryKey: [key] });
 
