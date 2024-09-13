@@ -22,9 +22,8 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
         return sortedProducts;
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, 'products');
+    const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, 'products', true);
 
-    console.log(data)
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style='auto' />
