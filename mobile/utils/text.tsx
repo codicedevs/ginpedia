@@ -3,7 +3,6 @@ import { Div, Text } from 'react-native-magnus';
 import { TitleText, YellowBorderText } from '../components/styled/styled';
 
 export const TitleGenerator = ({ title, size = '2xl' }: { title: string, size?: string }) => {
-    console.log(title, 'q pasa');
 
     if (!title) {
         return (
