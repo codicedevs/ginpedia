@@ -1,18 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Product } from "./entities/product.entity";
 import {
   DataSource,
   FindManyOptions,
   FindOneOptions,
-  FindOptions,
   Like,
-  Repository,
+  Repository
 } from "typeorm";
 import { compareArrays } from "utils/utils";
-import { compare } from "bcrypt";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
+import { Product } from "./entities/product.entity";
 
 function getKeys(obj: any): any {
   const keys: any = {};
@@ -30,7 +28,7 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly datasource: DataSource
-  ) {}
+  ) { }
   async create(createProductDto: CreateProductDto) {
     const product = await this.productRepository.save(createProductDto);
     if (createProductDto.combinations) {
@@ -42,7 +40,7 @@ export class ProductsService {
   }
 
   async findAll(filter: FindManyOptions = {}) {
-    filter.where = getKeys(filter.where);
+    // filter.where = getKeys(filter.where);
     const products = await this.productRepository.find(filter);
     return products;
   }
