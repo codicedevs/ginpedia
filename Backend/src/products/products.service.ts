@@ -40,7 +40,7 @@ export class ProductsService {
   }
 
   async findAll(filter: FindManyOptions = {}) {
-    // filter.where = getKeys(filter.where);
+    // filter.where = getKeys(filter.where); Esto lo dejo para chequearlo despues si se borra o se cambia
     const products = await this.productRepository.find(filter);
     return products;
   }
