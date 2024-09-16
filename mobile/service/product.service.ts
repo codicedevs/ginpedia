@@ -1,4 +1,5 @@
 
+import { FilterParamsProps } from "../types/query.types";
 import { HttpService } from "./http.service";
 
 class ProductService extends HttpService {
@@ -6,11 +7,10 @@ class ProductService extends HttpService {
         super("products");
     }
 
-    getAll = async (filter?: any) => {
-        const res = await this.get(`/`, { ...filter });
+    getAll = async (filter?: FilterParamsProps) => {
+        const res = await this.get(``, { params: filter });
         return res.data;
     };
-
 }
 
 export default new ProductService();

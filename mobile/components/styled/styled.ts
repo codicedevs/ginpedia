@@ -1,3 +1,4 @@
+import { MotiView } from "moti";
 import { Div, Text } from "react-native-magnus";
 import Animated from "react-native-reanimated";
 import { scale, verticalScale } from "react-native-size-matters";
@@ -84,6 +85,21 @@ export const ItalicText = styled(Text)`
   font-family:${({ theme }) => theme.fontFamily.mItalic}
 `
 //\ T
+
+export const FeaturedCardSkeletton = styled(MotiView)`
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+`
+
+export const ListCardSkeletton = styled(MotiView)`
+  width: 100%;
+  background-color: grey;
+  height: ${verticalScale(100)}px;
+  padding: ${({ theme }) => theme.spacing.medium}px;
+  border-radius: ${({ theme }) => theme.spacing.medium}px;
+  flex-direction: row
+`
 
 // LOGIN
 

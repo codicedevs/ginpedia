@@ -1,19 +1,21 @@
-import { Div, Icon, Image, Skeleton, Text } from "react-native-magnus";
+import { Div, Icon, Image, Text } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
+import { ListCardSkeletton } from "../styled/styled";
 
 export const ListCard = ({ image, title, rating, isLoading, alreadyFetched, punctuation }: CardProps) => {
     if (isLoading && !alreadyFetched) {
         return (
             <Div w={'100%'} mb={'sm'}>
-                <Skeleton
-                    w="100%"
-                    h={verticalScale(100)}
-                    p="xl"
-                    rounded="xl"
-                    flexDir="row"
-                    style={{ backgroundColor: "grey" }}
+                <ListCardSkeletton
+                    from={{ opacity: 0.5 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                        type: 'timing',
+                        duration: 1000,
+                        loop: true,
+                    }}
                 />
             </Div>
         );

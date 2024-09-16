@@ -4,7 +4,12 @@ import { scale, verticalScale } from "react-native-size-matters"
 import { FilterOptions } from "../../types/list.types"
 import { customTheme } from "../../utils/theme"
 
-export const ListFilterSelector = ({ handler, value }: { handler: (opc: FilterOptions) => void, value: FilterOptions }) => {
+interface ListFilterSelectorProps {
+    handler: (opc: FilterOptions) => void;
+    value: FilterOptions;
+}
+
+export const ListFilterSelector = ({ handler, value }: ListFilterSelectorProps) => {
     return (
         <Div h={verticalScale(35)} w={'100%'} flexDir='row'>
             <Button
@@ -18,14 +23,14 @@ export const ListFilterSelector = ({ handler, value }: { handler: (opc: FilterOp
                 <Text color={FilterOptions.GIN === value ? 'black' : 'white'}>Gin</Text>
             </Button>
             <Button
-                onPress={() => handler(FilterOptions.BOTANICA)}
-                bg={FilterOptions.BOTANICA === value ? 'secondary' : 'grey'}
+                onPress={() => handler(FilterOptions.ESPECIA)}
+                bg={FilterOptions.ESPECIA === value ? 'secondary' : 'grey'}
                 flex={1}
                 justifyContent="center"
                 alignItems="center"
                 rounded="xl"
             >
-                <Text color={FilterOptions.BOTANICA === value ? 'black' : 'white'}>Botanica</Text>
+                <Text color={FilterOptions.ESPECIA === value ? 'black' : 'white'}>Especia</Text>
             </Button>
             <Button
                 onPress={() => handler(FilterOptions.TONICA)}

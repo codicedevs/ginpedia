@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from "@nestjs/common";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class ParseWhereInterceptor implements NestInterceptor {
@@ -13,12 +13,25 @@ export class ParseWhereInterceptor implements NestInterceptor {
     next: CallHandler<any>
   ): Observable<any> | Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
-    if (request.query.where) {
-      request.query.where = JSON.parse(request.query.where.toString());
+
+    // Verifica si where es un string antes de intentar parsear
+    if (request.query.where && typeof request.query.where === 'string') {
+      try {
+        request.query.where = JSON.parse(request.query.where);
+      } catch (error) {
+        throw new Error('Invalid JSON format for "where" query');
+      }
     }
-    if (request.query.order) {
-      request.query.order = JSON.parse(request.query.order.toString());
+
+    // Verifica si order es un string antes de intentar parsear
+    if (request.query.order && typeof request.query.order === 'string') {
+      try {
+        request.query.order = JSON.parse(request.query.order);
+      } catch (error) {
+        throw new Error('Invalid JSON format for "order" query');
+      }
     }
+
     return next.handle();
   }
 }

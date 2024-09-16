@@ -1,6 +1,6 @@
 export enum FilterOptions {
-    GIN = 'Gin',
-    BOTANICA = 'Botanica',
-    TONICA = 'Tonica',
+    GIN = "gin",
+    TONICA = "tonica",
+    ESPECIA = "especia",
     OPCIONES = 'opciones'
 }
