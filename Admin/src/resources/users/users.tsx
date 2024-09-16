@@ -10,13 +10,17 @@ import {
   DeleteButton,
   SelectInput,
   Edit,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
+  SelectArrayInput,
 } from "react-admin";
 import Box from "@mui/material/Box";
 import { boxStyle } from "../../styles/common";
 
 const rolesChoices = [
-  { id: ["user"], name: "Usuario" },
-  { id: ["user", "admin"], name: "Administrador" },
+  { id: "user", name: "Usuario" },
+  { id: "admin", name: "Administrador" },
 ];
 
 export const UserList = () => (
@@ -40,6 +44,7 @@ export const UserCreate = () => (
       <TextInput source="name" />
       <TextInput source="email" />
       <TextInput source="password" type="password" />
+      <SelectArrayInput source="roles" choices={rolesChoices} />
     </SimpleForm>
   </Create>
 );
@@ -49,7 +54,7 @@ export const UserEdit = () => (
       <TextInput source="name" />
       <TextInput source="email" />
       <TextInput source="password" type="password" />
-      <SelectInput source="roles" choices={rolesChoices} />
+      <SelectArrayInput source="roles" choices={rolesChoices} />
     </SimpleForm>
   </Edit>
 );

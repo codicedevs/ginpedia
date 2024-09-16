@@ -119,6 +119,7 @@ export const dataProvider = {
   },
 
   update: (resource: string, params: PutResource) => {
+    console.log("hola", params);
     if (resource === "products") {
       return createUpdate(resource, params, "PUT");
     } else {
