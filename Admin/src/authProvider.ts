@@ -1,7 +1,11 @@
 import { axiosInstance } from "./config/axiosConfig";
 
+interface Credentials {
+  username: string;
+  password: string;
+}
 export interface AuthProvider {
-  login: (params: { username: string; password: string }) => Promise<void>;
+  login: (credentials: Credentials) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   checkError: (error: any) => Promise<void>;

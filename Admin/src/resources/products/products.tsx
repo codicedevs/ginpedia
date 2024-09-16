@@ -18,20 +18,17 @@ import {
   TextInput,
   useRecordContext,
 } from "react-admin";
+import { boxStyle, imgStyle } from "../../styles/common";
 
-const imgStyle: React.CSSProperties = {
-  width: "200px",
-  height: "200px",
-  objectFit: "cover",
-  margin: "auto",
-  border: "3px solid black",
-};
+interface ImageCustomProps {
+  source: string;
+}
 
-const ImageCustom = ({ source }) => {
+const ImageCustom = ({ source }: ImageCustomProps) => {
   const record = useRecordContext();
+  if (!record) return null;
   return <img src={record[source]} style={imgStyle} />;
 };
-export const boxStyle = { display: "flex", justifyContent: "flex-end", gap: 1 };
 
 const productTypeChoices = [
   { id: "gin", name: "Gin" },

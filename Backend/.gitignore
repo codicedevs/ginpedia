@@ -51,4 +51,4 @@ Thumbs.db
 
 # Ignorar el archivo constants.ts en la ruta src/authentication/
 
-
+/uploads/

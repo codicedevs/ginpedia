@@ -12,7 +12,7 @@ import {
   Edit,
 } from "react-admin";
 import Box from "@mui/material/Box";
-import { boxStyle } from "../products/products";
+import { boxStyle } from "../../styles/common";
 
 const rolesChoices = [
   { id: ["user"], name: "Usuario" },

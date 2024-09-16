@@ -1,24 +1,61 @@
 import simpleRestProvider from "ra-data-simple-rest";
-import { CreateParams, fetchUtils, UpdateParams } from "react-admin";
+import {
+  CreateParams,
+  fetchUtils,
+  FilterContextType,
+  UpdateParams,
+} from "react-admin";
 import { BASE_URL } from "./config";
 import { createUpdate } from "./utils/functions";
 
-type PostParams = {
-  id: string;
-  picture: {
-    rawFile: File;
-    src?: string;
-  };
-};
+interface ParamsBase {
+  meta: string;
+  signal: AbortSignal;
+}
 
-const createPostFormData = (
-  params: CreateParams<PostParams> | UpdateParams<PostParams>,
-) => {
-  const formData = new FormData();
-  params.data.picture?.rawFile &&
-    formData.append("file", params.data.picture.rawFile);
-  return formData;
-};
+interface GetOneParams extends ParamsBase {
+  id: string;
+  withCombination: boolean;
+}
+
+interface GetManyParams extends ParamsBase {
+  pagination: {
+    page: number;
+    perPage: number;
+  };
+  sort: {
+    field: string;
+    order: string;
+  };
+  filter: any;
+}
+
+interface PostResource {
+  data: any;
+  meta: any;
+}
+
+interface PutResource extends PostResource {
+  id: number;
+  previousData: any;
+}
+
+// type PostParams = {
+//   id: string;
+//   picture: {
+//     rawFile: File;
+//     src?: string;
+//   };
+// };
+
+// const createPostFormData = (
+//   params: CreateParams<PostParams> | UpdateParams<PostParams>,
+// ) => {
+//   const formData = new FormData();
+//   params.data.picture?.rawFile &&
+//     formData.append("file", params.data.picture.rawFile);
+//   return formData;
+// };
 
 export const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   if (!options.headers) {
@@ -43,7 +80,7 @@ const baseProvider = simpleRestProvider("http://localhost:3000", httpClient);
 export const dataProvider = {
   ...baseProvider,
 
-  getOne: (resource: string, params: any) => {
+  getOne: async (resource: string, params: GetOneParams) => {
     params.withCombination = false;
     if (resource === "products") {
       params.withCombination = true;
@@ -54,7 +91,7 @@ export const dataProvider = {
     }));
   },
 
-  getList: (resource: string, params: any) => {
+  getList: async (resource: string, params: GetManyParams) => {
     const { page, perPage } = params.pagination || { page: 1, perPage: 10 };
     const { field, order } = params.sort || { field: "id", order: "ASC" };
     const skip = (page - 1) * perPage;
@@ -90,7 +127,8 @@ export const dataProvider = {
     });
   },
 
-  create: (resource: string, params: any) => {
+  create: (resource: string, params: PostResource) => {
+    console.log("params", params);
     if (resource === "products") {
       return createUpdate(resource, params, "POST");
     } else {
@@ -98,7 +136,8 @@ export const dataProvider = {
     }
   },
 
-  update: (resource: string, params: any) => {
+  update: (resource: string, params: PutResource) => {
+    console.log("params", params);
     if (resource === "products") {
       return createUpdate(resource, params, "PUT");
     } else {
