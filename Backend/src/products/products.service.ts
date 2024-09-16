@@ -99,14 +99,20 @@ export class ProductsService {
     const combination = await this.getProductCombinations(sourceId);
     //Comparar las combinations de product y del DTO
     const prev = combination.map((c: Product) => c.id);
-    const curr = updateProductDto.combinations;
+    const curr = updateProductDto.combinations || [];
     const { toRemove, toAdd } = compareArrays(prev, curr);
+
     for (const target of toRemove) {
       this.deleteCombination(sourceId, target);
     }
     for (const target of toAdd) {
       this.addCombination(sourceId, target);
     }
+    delete updateProductDto.combinations;
+    this.productRepository.update(
+      sourceId,
+      updateProductDto as Partial<Product>
+    );
 
     return product;
   }
@@ -158,5 +164,9 @@ export class ProductsService {
     await this.productRepository.save(primaryProd);
 
     return primaryProd;
+  }
+
+  async uploadFile(id: number, fileName: string) {
+    await this.productRepository.update(id, { image: fileName });
   }
 }

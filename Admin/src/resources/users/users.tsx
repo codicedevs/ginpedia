@@ -8,10 +8,16 @@ import {
   TextInput,
   EditButton,
   DeleteButton,
+  SelectInput,
+  Edit,
 } from "react-admin";
-
 import Box from "@mui/material/Box";
-import { boxStyle } from "../products/products";
+import { boxStyle } from "../../styles/common";
+
+const rolesChoices = [
+  { id: ["user"], name: "Usuario" },
+  { id: ["user", "admin"], name: "Administrador" },
+];
 
 export const UserList = () => (
   <List>
@@ -36,4 +42,14 @@ export const UserCreate = () => (
       <TextInput source="password" type="password" />
     </SimpleForm>
   </Create>
+);
+export const UserEdit = () => (
+  <Edit redirect="list">
+    <SimpleForm>
+      <TextInput source="name" />
+      <TextInput source="email" />
+      <TextInput source="password" type="password" />
+      <SelectInput source="roles" choices={rolesChoices} />
+    </SimpleForm>
+  </Edit>
 );

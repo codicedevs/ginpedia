@@ -70,8 +70,7 @@ export class UsersController {
     @Param("id", ParseIntPipe) id: number,
     @Body() updateUser: UpdateUserDto
   ) {
-    const updatedUser = await this.userService.update(id, updateUser);
-    return { message: "User updated", user: updatedUser };
+    return this.userService.update(id, updateUser);
   }
   /**
    *
@@ -79,7 +78,7 @@ export class UsersController {
    * @returns
    */
   @Delete(":id")
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async delete(@Param("id", ParseIntPipe) id: number) {
     const deletedUser = await this.userService.delete(id);
     return { message: "User delete", user: deletedUser };

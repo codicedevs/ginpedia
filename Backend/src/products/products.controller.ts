@@ -8,6 +8,9 @@ import {
   Delete,
   Query,
   Put,
+  UseInterceptors,
+  Bind,
+  UploadedFile,
 } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { CreateProductDto } from "./dto/create-product.dto";
@@ -16,11 +19,38 @@ import { Public } from "authentication/public";
 import { FindManyOptions, FindOneOptions } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { QueryValidationPipe } from "pipes/query-validation.pipe";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 
 @Public()
 @Controller("products")
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Post(":id/upload")
+  @UseInterceptors(
+    FileInterceptor("file", {
+      storage: diskStorage({
+        destination: "./uploads",
+        filename: (req, file, callback) => {
+          const uniqueSuffix =
+            Date.now() + "-" + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
+          callback(null, filename);
+        },
+      }),
+    })
+  )
+  @Bind(UploadedFile())
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Param("id") id: number
+  ) {
+    await this.productsService.uploadFile(id, file.path);
+    return "se agrego la foto correctamente";
+  }
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {

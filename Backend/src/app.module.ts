@@ -14,9 +14,17 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import typeorm from "config/typeorm";
 import { BookmarksModule } from "./bookmarks/bookmarks.module";
 import { Bookmark } from "bookmarks/entities/bookmark.entity";
+import { join } from "path";
+import { ServeStaticModule } from "@nestjs/serve-static";
+
+console.log("Serving static files from:", join(__dirname, "..", "uploads"));
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "uploads"),
+      serveRoot: "/uploads/",
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeorm],

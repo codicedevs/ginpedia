@@ -1,14 +1,8 @@
-import {
-  Admin,
-  Resource,
-  ListGuesser,
-  ShowGuesser,
-  EditGuesser,
-} from "react-admin";
+import { Admin, Resource, ShowGuesser } from "react-admin";
 import { Layout } from "./Layout";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
-import { UserCreate, UserList } from "./resources/users/users";
+import { UserCreate, UserEdit, UserList } from "./resources/users/users";
 import {
   ProductCreate,
   ProductEdit,
@@ -24,8 +18,8 @@ export const App = () => (
     <Resource
       name="users"
       list={UserList}
-      show={ShowGuesser}
-      edit={EditGuesser}
+      show={UserEdit}
+      edit={UserEdit}
       create={UserCreate}
     />
     <Resource

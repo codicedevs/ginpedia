@@ -14,10 +14,14 @@ export class User {
   @Column({ unique: true }) // esto evita crear dos usuarios con el mismo e mail
   email?: string;
 
-  @OneToMany(() => Rating, (rating) => rating.user)
+  @OneToMany(() => Rating, (rating) => rating.user, {
+    cascade: ["insert", "update"],
+  })
   ratings: Rating[];
 
-  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user, {
+    cascade: ["insert", "update"],
+  })
   bookmarks: Bookmark[];
 
   @Column({

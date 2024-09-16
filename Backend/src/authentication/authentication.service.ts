@@ -30,11 +30,9 @@ export class AuthService {
    */
 
   async signIn(email: string, password: string) {
-    console.log(email, password);
     const user = await this.userRepository.findOneOrFail({
       where: { email: email },
     });
-    console.log("mengano", user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error();

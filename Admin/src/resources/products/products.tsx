@@ -1,31 +1,34 @@
 import { Box } from "@mui/material";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import {
-  ArrayField,
   AutocompleteArrayInput,
-  AutocompleteInput,
-  ChipField,
   Create,
   Datagrid,
   DeleteButton,
   Edit,
   EditButton,
+  ImageField,
+  ImageInput,
+  Labeled,
   List,
-  ReferenceArrayField,
   ReferenceArrayInput,
-  ReferenceField,
-  ReferenceManyField,
-  SelectArrayInput,
-  SelectField,
   SelectInput,
   SimpleForm,
-  SingleFieldList,
   TextField,
   TextInput,
-  useResourceContext,
+  useRecordContext,
 } from "react-admin";
+import { boxStyle, imgStyle } from "../../styles/common";
 
-export const boxStyle = { display: "flex", justifyContent: "flex-end", gap: 1 };
+interface ImageCustomProps {
+  source: string;
+}
+
+const ImageCustom = ({ source }: ImageCustomProps) => {
+  const record = useRecordContext();
+  if (!record) return null;
+  return <img src={record[source]} style={imgStyle} />;
+};
 
 const productTypeChoices = [
   { id: "gin", name: "Gin" },
@@ -40,7 +43,7 @@ export const ProductList = () => (
       <TextField source="name" />
       <TextField source="description" />
       <TextField source="type" />
-      <TextField source="image" />
+      <ImageField source="image" />
       <TextField source="origin" />
       <TextField source="graduation" />
       <TextField source="rating" />
@@ -58,7 +61,9 @@ export const ProductCreate = (props: PropsWithChildren) => (
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" />
       <SelectInput source="type" choices={productTypeChoices} />
-      <TextInput source="image" />
+      <ImageInput source="image" label="Imagenes">
+        <ImageField source="src" title="title" />
+      </ImageInput>
       <TextInput source="origin" />
       <TextInput source="graduation" />
       <ReferenceArrayInput source="combinations" reference="products">
@@ -74,11 +79,21 @@ export const ProductEdit = (props: any) => {
   return (
     <Edit {...props} title="Edit Product" redirect="list">
       <SimpleForm>
-        <TextField source="id" label="ID" />
+        <Labeled title="ID">
+          <TextField source="id" label="ID" title="ID" />
+        </Labeled>
+        <ImageCustom source="image" />
         <TextInput source="name" label="Nombre" />
         <TextInput source="description" />
         <SelectInput source="type" choices={productTypeChoices} />
-        <TextInput source="image" />
+        <ImageInput
+          source="image"
+          accept={{ "image/*": [".png", ".jpg"] }}
+          label="Cambiar imagen"
+        >
+          <ImageField source="src" title="title" />
+        </ImageInput>
+
         <TextInput source="origin" />
         <TextInput source="graduation" />
         <ReferenceArrayInput source="combinations" reference="products">

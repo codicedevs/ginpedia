@@ -1,8 +1,46 @@
 import simpleRestProvider from "ra-data-simple-rest";
-import { fetchUtils } from "react-admin";
+import {
+  CreateParams,
+  fetchUtils,
+  FilterContextType,
+  UpdateParams,
+} from "react-admin";
 import { BASE_URL } from "./config";
+import { createUpdate } from "./utils/functions";
 
-const httpClient = (url: string, options: fetchUtils.Options = {}) => {
+interface ParamsBase {
+  meta: string;
+  signal: AbortSignal;
+}
+
+interface GetOneParams extends ParamsBase {
+  id: string;
+  withCombination: boolean;
+}
+
+interface GetManyParams extends ParamsBase {
+  pagination: {
+    page: number;
+    perPage: number;
+  };
+  sort: {
+    field: string;
+    order: string;
+  };
+  filter: any;
+}
+
+interface PostResource {
+  data: any;
+  meta: any;
+}
+
+interface PutResource extends PostResource {
+  id: number;
+  previousData: any;
+}
+
+export const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" });
   } else if (!(options.headers instanceof Headers)) {
@@ -25,7 +63,7 @@ const baseProvider = simpleRestProvider("http://localhost:3000", httpClient);
 export const dataProvider = {
   ...baseProvider,
 
-  getOne: (resource: string, params: any) => {
+  getOne: async (resource: string, params: GetOneParams) => {
     params.withCombination = false;
     if (resource === "products") {
       params.withCombination = true;
@@ -36,7 +74,7 @@ export const dataProvider = {
     }));
   },
 
-  getList: (resource: string, params: any) => {
+  getList: async (resource: string, params: GetManyParams) => {
     const { page, perPage } = params.pagination || { page: 1, perPage: 10 };
     const { field, order } = params.sort || { field: "id", order: "ASC" };
     const skip = (page - 1) * perPage;
@@ -70,5 +108,21 @@ export const dataProvider = {
         total: parseInt(headers.get("X-Total-Count")!, 10),
       };
     });
+  },
+
+  create: (resource: string, params: PostResource) => {
+    if (resource === "products") {
+      return createUpdate(resource, params, "POST");
+    } else {
+      return baseProvider.create(resource, params);
+    }
+  },
+
+  update: (resource: string, params: PutResource) => {
+    if (resource === "products") {
+      return createUpdate(resource, params, "PUT");
+    } else {
+      return baseProvider.update(resource, params);
+    }
   },
 };
