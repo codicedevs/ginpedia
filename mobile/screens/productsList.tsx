@@ -39,8 +39,8 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
                 <Div flex={1}>
                     <ScrollDiv >
                         {
-                            data.map((inf, index) => (
-                                <ListCard key={index} punctuation='400' alreadyFetched={isFetched} isLoading={isFetching} image='random' title={inf.name} rating={inf.rating} />
+                            data.map((product, index) => (
+                                <ListCard key={index} punctuation='400' alreadyFetched={isFetched} isLoading={isFetching} image='random' title={product.name} rating={product.rating} />
                             ))
                         }
                     </ScrollDiv>
