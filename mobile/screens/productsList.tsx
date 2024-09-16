@@ -6,14 +6,25 @@ import { MyHeader } from '../components/layout/header';
 import { ListFilterSelector } from '../components/List/listFilterSelector';
 import useFetch from '../hooks/useGet';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
-import userService from '../service/user.service';
+import productService from '../service/product.service';
 import { FilterOptions } from '../types/list.types';
+import { Product } from '../types/product.type';
 import { QUERY_KEYS } from '../types/query.types';
-import { User } from '../types/user.type';
 
 function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIST_SCREEN>) {
     const [option, setOption] = useState<FilterOptions>(FilterOptions.GIN)
-    const { data } = useFetch<User>(userService.getAll, QUERY_KEYS.USERS, { meta: { triggerGlobalLoader: false } });
+
+    const bringData = async () => {
+        const res = await productService.getAll({
+            where: {
+                type: option
+            }
+        })
+        return res
+    }
+
+    const { data, isFetching, isFetched } = useFetch<Product>(bringData, [QUERY_KEYS.PRODUCTS, option]);
+
     const handleOption = (opc: FilterOptions) => {
         setOption(opc)
     }
@@ -27,13 +38,11 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
                 </Div>
                 <Div flex={1}>
                     <ScrollDiv >
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
-                        <ListCard punctuation='400' alreadyFetched={true} isLoading={false} image='random' title='Bebida' rating='7.3' />
+                        {
+                            data.map((inf, index) => (
+                                <ListCard key={index} punctuation='400' alreadyFetched={isFetched} isLoading={isFetching} image='random' title={inf.name} rating={inf.rating} />
+                            ))
+                        }
                     </ScrollDiv>
                 </Div>
             </Div>
