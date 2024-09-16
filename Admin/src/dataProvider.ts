@@ -40,23 +40,6 @@ interface PutResource extends PostResource {
   previousData: any;
 }
 
-// type PostParams = {
-//   id: string;
-//   picture: {
-//     rawFile: File;
-//     src?: string;
-//   };
-// };
-
-// const createPostFormData = (
-//   params: CreateParams<PostParams> | UpdateParams<PostParams>,
-// ) => {
-//   const formData = new FormData();
-//   params.data.picture?.rawFile &&
-//     formData.append("file", params.data.picture.rawFile);
-//   return formData;
-// };
-
 export const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" });
@@ -128,7 +111,6 @@ export const dataProvider = {
   },
 
   create: (resource: string, params: PostResource) => {
-    console.log("params", params);
     if (resource === "products") {
       return createUpdate(resource, params, "POST");
     } else {
@@ -137,7 +119,6 @@ export const dataProvider = {
   },
 
   update: (resource: string, params: PutResource) => {
-    console.log("params", params);
     if (resource === "products") {
       return createUpdate(resource, params, "PUT");
     } else {

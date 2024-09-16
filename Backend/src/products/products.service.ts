@@ -111,8 +111,10 @@ export class ProductsService {
       this.addCombination(sourceId, target);
     }
     delete updateProductDto.combinations;
-    const updatedProduct = updateProductDto as unknown as Product;
-    this.productRepository.update(sourceId, updatedProduct);
+    this.productRepository.update(
+      sourceId,
+      updateProductDto as Partial<Product>
+    );
 
     return product;
   }
