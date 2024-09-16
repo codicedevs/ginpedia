@@ -4,7 +4,12 @@ import { scale, verticalScale } from "react-native-size-matters"
 import { FilterOptions } from "../../types/list.types"
 import { customTheme } from "../../utils/theme"
 
-export const ListFilterSelector = ({ handler, value }: { handler: (opc: FilterOptions) => void, value: FilterOptions }) => {
+interface ListFilterSelectorProps {
+    handler: (opc: FilterOptions) => void;
+    value: FilterOptions;
+}
+
+export const ListFilterSelector = ({ handler, value }: ListFilterSelectorProps) => {
     return (
         <Div h={verticalScale(35)} w={'100%'} flexDir='row'>
             <Button
