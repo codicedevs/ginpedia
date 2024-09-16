@@ -18,14 +18,14 @@ export const ListFilterSelector = ({ handler, value }: { handler: (opc: FilterOp
                 <Text color={FilterOptions.GIN === value ? 'black' : 'white'}>Gin</Text>
             </Button>
             <Button
-                onPress={() => handler(FilterOptions.BOTANICA)}
-                bg={FilterOptions.BOTANICA === value ? 'secondary' : 'grey'}
+                onPress={() => handler(FilterOptions.ESPECIA)}
+                bg={FilterOptions.ESPECIA === value ? 'secondary' : 'grey'}
                 flex={1}
                 justifyContent="center"
                 alignItems="center"
                 rounded="xl"
             >
-                <Text color={FilterOptions.BOTANICA === value ? 'black' : 'white'}>Botanica</Text>
+                <Text color={FilterOptions.ESPECIA === value ? 'black' : 'white'}>Especia</Text>
             </Button>
             <Button
                 onPress={() => handler(FilterOptions.TONICA)}
