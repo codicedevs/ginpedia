@@ -70,8 +70,7 @@ export class UsersController {
     @Param("id", ParseIntPipe) id: number,
     @Body() updateUser: UpdateUserDto
   ) {
-    const updatedUser = await this.userService.update(id, updateUser);
-    return { message: "User updated", user: updatedUser };
+    return this.userService.update(id, updateUser);
   }
   /**
    *

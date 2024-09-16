@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import {
   AutocompleteArrayInput,
   Create,
@@ -19,20 +19,17 @@ import {
   useRecordContext,
 } from "react-admin";
 
+const imgStyle: React.CSSProperties = {
+  width: "200px",
+  height: "200px",
+  objectFit: "cover",
+  margin: "auto",
+  border: "3px solid black",
+};
+
 const ImageCustom = ({ source }) => {
   const record = useRecordContext();
-  return (
-    <img
-      src={record[source]}
-      style={{
-        width: "200px",
-        height: "200px",
-        objectFit: "cover",
-        margin: "auto",
-        border: "3px solid black",
-      }}
-    />
-  );
+  return <img src={record[source]} style={imgStyle} />;
 };
 export const boxStyle = { display: "flex", justifyContent: "flex-end", gap: 1 };
 
@@ -67,7 +64,9 @@ export const ProductCreate = (props: PropsWithChildren) => (
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" />
       <SelectInput source="type" choices={productTypeChoices} />
-      <ImageInput source="image" label="Imagenes"></ImageInput>
+      <ImageInput source="image" label="Imagenes">
+        <ImageField source="src" title="title" />
+      </ImageInput>
       <TextInput source="origin" />
       <TextInput source="graduation" />
       <ReferenceArrayInput source="combinations" reference="products">
