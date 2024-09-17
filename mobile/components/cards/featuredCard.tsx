@@ -22,13 +22,13 @@ export const FeaturedCard = ({ image, title, rating, isLoading, alreadyFetched }
     }
 
     return (
-        <Div p={customTheme.spacing.medium} h={verticalScale(170)} w={scale(180)} rounded='xl' flexDir="row" bg="gray" mr={'md'} >
+        <Div p={customTheme.spacing.medium} h={verticalScale(170)} w={scale(180)} rounded='xl' flexDir="row" bg="cardBg" mr={'md'} >
             <Div flex={1}>
                 <Div flexDir="row">
                     <Icon color="secondary" mr={'md'} name="star" />
-                    <Text>{rating}</Text>
+                    <Text color="black">{rating}</Text>
                 </Div>
-                <TitleGenerator title={title} size="3xl" />
+                <TitleGenerator color="black" title={title} size="3xl" />
             </Div>
             <Div flex={1} alignItems="center">
                 <Image resizeMode="contain" style={{ height: verticalScale(150), width: scale(150) }} source={require('../../assets/Bottle.png')} />
