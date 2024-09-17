@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import {
   AutocompleteArrayInput,
   Create,
@@ -12,6 +12,7 @@ import {
   Labeled,
   List,
   ReferenceArrayInput,
+  SearchInput,
   SelectInput,
   SimpleForm,
   TextField,
@@ -36,8 +37,13 @@ const productTypeChoices = [
   { id: "especia", name: "Especia" },
 ];
 
+const productsFilter = [
+  <SearchInput source="q" alwaysOn />,
+  <SelectInput source="type" label="Tipo" choices={productTypeChoices} />,
+];
+
 export const ProductList = () => (
-  <List>
+  <List filters={productsFilter}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />

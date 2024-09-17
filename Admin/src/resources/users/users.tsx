@@ -8,19 +8,22 @@ import {
   TextInput,
   EditButton,
   DeleteButton,
-  SelectInput,
   Edit,
+  SelectArrayInput,
+  SearchInput,
 } from "react-admin";
 import Box from "@mui/material/Box";
 import { boxStyle } from "../../styles/common";
 
 const rolesChoices = [
-  { id: ["user"], name: "Usuario" },
-  { id: ["user", "admin"], name: "Administrador" },
+  { id: "user", name: "Usuario" },
+  { id: "admin", name: "Administrador" },
 ];
 
+const userFilters = [<SearchInput source="q" alwaysOn />];
+
 export const UserList = () => (
-  <List>
+  <List filters={userFilters}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />
@@ -40,6 +43,7 @@ export const UserCreate = () => (
       <TextInput source="name" />
       <TextInput source="email" />
       <TextInput source="password" type="password" />
+      <SelectArrayInput source="roles" choices={rolesChoices} />
     </SimpleForm>
   </Create>
 );
@@ -49,7 +53,7 @@ export const UserEdit = () => (
       <TextInput source="name" />
       <TextInput source="email" />
       <TextInput source="password" type="password" />
-      <SelectInput source="roles" choices={rolesChoices} />
+      <SelectArrayInput source="roles" choices={rolesChoices} />
     </SimpleForm>
   </Edit>
 );

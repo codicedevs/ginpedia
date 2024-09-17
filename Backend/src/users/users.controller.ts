@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from "@nestjs/common";
 import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
 import { User } from "./entities/user.entity";
@@ -18,6 +19,7 @@ import { Roles } from "../authorization/role.decorator";
 import { UsersService } from "./users.service";
 import { Public } from "authentication/public";
 import { FindManyOptions } from "typeorm";
+import { Request } from "express";
 
 //todos estos endpoint estan protegidos a nivel global por el auth guard que pide token
 @Controller("users")
@@ -78,7 +80,7 @@ export class UsersController {
    * @returns
    */
   @Delete(":id")
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   async delete(@Param("id", ParseIntPipe) id: number) {
     const deletedUser = await this.userService.delete(id);
     return { message: "User delete", user: deletedUser };
