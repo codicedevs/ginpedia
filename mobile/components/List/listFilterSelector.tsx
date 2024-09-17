@@ -1,15 +1,17 @@
-import { TouchableOpacity } from "react-native"
 import { Button, Div, Image, Text } from "react-native-magnus"
-import { scale, verticalScale } from "react-native-size-matters"
-import { FilterOptions } from "../../types/list.types"
+import { verticalScale } from "react-native-size-matters"
+import { FilterOptions, filterValueProp } from "../../types/list.types"
 import { customTheme } from "../../utils/theme"
+import { TouchableImageFilter } from "../styled/styled"
 
 interface ListFilterSelectorProps {
-    handler: (opc: FilterOptions) => void;
+    handler: (option: FilterOptions) => void;
     value: FilterOptions;
+    openSelect: () => void;
+    currentFilter: filterValueProp
 }
 
-export const ListFilterSelector = ({ handler, value }: ListFilterSelectorProps) => {
+export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }: ListFilterSelectorProps) => {
     return (
         <Div h={verticalScale(35)} w={'100%'} flexDir='row'>
             <Button
@@ -42,9 +44,9 @@ export const ListFilterSelector = ({ handler, value }: ListFilterSelectorProps) 
             >
                 <Text color={FilterOptions.TONICA === value ? 'black' : 'white'}>Tonica</Text>
             </Button>
-            <TouchableOpacity onPress={() => handler(FilterOptions.OPCIONES)} style={{ backgroundColor: FilterOptions.OPCIONES === value ? customTheme.colors.secondary : 'grey', alignItems: 'center', justifyContent: 'center', width: scale(40), borderRadius: 5 }}>
+            <TouchableImageFilter onPress={openSelect} style={{ backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : 'grey' }}>
                 <Image resizeMode='contain' h={'50%'} w={'50%'} source={require('../../assets/filterSelector.png')} />
-            </TouchableOpacity>
+            </TouchableImageFilter>
         </Div>
     )
 }

@@ -7,5 +7,7 @@ export interface FilterParamsProps {
     where?: {
         [key: string]: string;
     };
-    order?: string;
+    order?: {
+        [key: string]: string;
+    };
 }

@@ -7,8 +7,8 @@ export class UserService extends HttpService {
         super("users");
     }
 
-    getAll = async () => {
-        const res = await this.get(`/`);
+    getAll = async (options?: Record<string, any>) => {
+        const res = await this.get(`/`, options);
         return res.data;
     };
 

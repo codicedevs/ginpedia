@@ -35,6 +35,11 @@ export class ParseWhereInterceptor implements NestInterceptor {
       }
     }
 
+    // Si el order ya es un objeto, asegúrate de no sobrescribirlo
+    if (typeof request.query.order !== 'object' && request.query.order) {
+      throw new Error('Order should be an object.');
+    }
+
     return next.handle();
   }
 }
