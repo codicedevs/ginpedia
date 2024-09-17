@@ -8,10 +8,10 @@ interface ListFilterSelectorProps {
     handler: (opc: FilterOptions) => void;
     value: FilterOptions;
     openSelect: () => void;
-    selectedFilter: filterValueProp
+    currentFilter: filterValueProp
 }
 
-export const ListFilterSelector = ({ handler, value, openSelect, selectedFilter }: ListFilterSelectorProps) => {
+export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }: ListFilterSelectorProps) => {
     return (
         <Div h={verticalScale(35)} w={'100%'} flexDir='row'>
             <Button
@@ -44,7 +44,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, selectedFilter 
             >
                 <Text color={FilterOptions.TONICA === value ? 'black' : 'white'}>Tonica</Text>
             </Button>
-            <TouchableOpacity onPress={openSelect} style={{ backgroundColor: selectedFilter.id !== '1' ? customTheme.colors.secondary : 'grey', alignItems: 'center', justifyContent: 'center', width: scale(40), borderRadius: customTheme.borderRadius.medium }}>
+            <TouchableOpacity onPress={openSelect} style={{ backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : 'grey', alignItems: 'center', justifyContent: 'center', width: scale(40), borderRadius: customTheme.borderRadius.medium }}>
                 <Image resizeMode='contain' h={'50%'} w={'50%'} source={require('../../assets/filterSelector.png')} />
             </TouchableOpacity>
         </Div>

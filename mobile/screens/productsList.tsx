@@ -34,7 +34,7 @@ const filterValues = [
 
 function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIST_SCREEN>) {
     const [option, setOption] = useState<FilterOptions>(FilterOptions.GIN);
-    const [selectValue, setSelectedValue] = useState<any>(filterValues[0].value);
+    const [currentFilter, setCurrentFilter] = useState<any>(filterValues[0].value);
     const pickerRef = useRef<Picker<string> | null>(null);
 
     const bringProducts = async () => {
@@ -42,16 +42,16 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
             where: {
                 type: option
             },
-            order: selectValue ?
+            order: currentFilter ?
                 {
-                    [selectValue.property]: selectValue.action
+                    [currentFilter.property]: currentFilter.action
                 }
                 : undefined
         });
         return res;
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product>(bringProducts, [QUERY_KEYS.PRODUCTS, option, selectValue.id]);
+    const { data, isFetching, isFetched } = useFetch<Product>(bringProducts, [QUERY_KEYS.PRODUCTS, option, currentFilter.id]);
 
     const handleOption = (opc: FilterOptions) => {
         setOption(opc);
@@ -64,10 +64,10 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
     };
 
     const handleSelectedValue = (item: filterValueProp) => {
-        if (selectValue.id === item.id) {
-            setSelectedValue(filterValues[0].value)
+        if (currentFilter.id === item.id) {
+            setCurrentFilter(filterValues[0].value)
         } else {
-            setSelectedValue(item)
+            setCurrentFilter(item)
         }
     }
 
@@ -77,16 +77,16 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
                 <Div px={'xl'} flex={1}>
                     <MyHeader />
                     <Div mb={'xl'}>
-                        <ListFilterSelector handler={handleOption} value={option} selectedFilter={selectValue} openSelect={openSelect} />
+                        <ListFilterSelector handler={handleOption} value={option} currentFilter={currentFilter} openSelect={openSelect} />
                     </Div>
                     <Picker
                         ref={pickerRef}
-                        selectedValue={selectValue}
+                        selectedValue={currentFilter}
                         onValueChange={(itemValue) => handleSelectedValue(itemValue)}
                         style={{ display: 'none' }}
                     >
                         {filterValues.map((item, index) => (
-                            <Picker.Item key={index} label={item.label} style={{ backgroundColor: selectValue.id === item.value.id ? customTheme.colors.secondary : 'white' }} value={item.value} />
+                            <Picker.Item key={index} label={item.label} style={{ backgroundColor: currentFilter.id === item.value.id ? customTheme.colors.secondary : 'white' }} value={item.value} />
                         ))}
                     </Picker>
                     <Div flex={1}>
