@@ -4,23 +4,14 @@ import {
   DataSource,
   FindManyOptions,
   FindOneOptions,
+  ILike,
   Like,
-  Repository
+  Repository,
 } from "typeorm";
 import { compareArrays } from "utils/utils";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Product } from "./entities/product.entity";
-
-function getKeys(obj: any): any {
-  const keys: any = {};
-  for (const key in obj) {
-    if (typeof obj[key] === "string") keys[key] = obj[key];
-    keys[key] = Like(`%${obj[key].like}%`);
-  }
-
-  return keys;
-}
 
 @Injectable()
 export class ProductsService {
@@ -28,7 +19,7 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly datasource: DataSource
-  ) { }
+  ) {}
   async create(createProductDto: CreateProductDto) {
     const product = await this.productRepository.save(createProductDto);
     if (createProductDto.combinations) {
@@ -40,7 +31,6 @@ export class ProductsService {
   }
 
   async findAll(filter: FindManyOptions = {}) {
-    // filter.where = getKeys(filter.where); Esto lo dejo para chequearlo despues si se borra o se cambia
     const products = await this.productRepository.find(filter);
     return products;
   }
