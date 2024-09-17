@@ -12,6 +12,7 @@ export type CustomThemeType = ThemeType & {
         background: string;
         text: string;
         cardBorder: string;
+        cardBg: string
     };
     fontFamily: {
         normal: string;
@@ -59,6 +60,7 @@ export const customTheme: CustomThemeType = {
         background: "#2f2e2a",
         text: "#333333",
         cardBorder: "lightgray",
+        cardBg: "#D9D9D9"
     },
     fontFamily: {
         normal: "Montserrat-Regular",
@@ -93,7 +95,8 @@ export const customTheme: CustomThemeType = {
     name: "myTheme",
     components: {
         Text: {
-            fontFamily: "Montserrat-Regular"
+            fontFamily: "Montserrat-Regular",
+            color: 'white'
         },
         Input: {
             p: 0,
