@@ -79,7 +79,16 @@ export const dataProvider = {
     const { field, order } = params.sort || { field: "id", order: "ASC" };
     const skip = (page - 1) * perPage;
     const take = perPage;
-    const filter = params.filter;
+    let filter = params.filter;
+
+    const search = filter.q;
+    if (search) {
+      delete filter.q,
+        (filter = {
+          ...filter,
+          name: { like: search },
+        });
+    }
 
     const query = {
       where: filter,

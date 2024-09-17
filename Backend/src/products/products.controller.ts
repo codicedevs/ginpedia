@@ -62,6 +62,7 @@ export class ProductsController {
     @Query(QueryValidationPipe)
     options: FindManyOptions
   ) {
+    console.log(options);
     return this.productsService.findAll(options);
   }
 

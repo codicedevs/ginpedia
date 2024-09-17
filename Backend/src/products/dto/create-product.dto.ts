@@ -6,7 +6,11 @@ import {
   IsString,
   MinLength,
 } from "class-validator";
-import { Product, ProductType } from "products/entities/product.entity";
+import {
+  Product,
+  ProductType,
+  ProductTypeEnum,
+} from "products/entities/product.entity";
 
 export class CreateProductDto {
   @MinLength(3)
@@ -14,7 +18,7 @@ export class CreateProductDto {
   @IsString()
   description: string;
   @IsOptional()
-  @IsEnum(ProductType)
+  @IsString()
   type?: ProductType;
   @IsArray()
   combinations?: Product[];

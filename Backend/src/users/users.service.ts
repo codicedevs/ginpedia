@@ -4,8 +4,6 @@ import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { FindManyFilter } from "filter/filter.dto";
-import { Bookmark } from "bookmarks/entities/bookmark.entity";
 
 @Injectable()
 export class UsersService {
@@ -25,9 +23,8 @@ export class UsersService {
   /**
    * @returns
    */
-  async findAll(options?: FindManyOptions<User>): Promise<User[]> {
+  async findAll(options: FindManyOptions<User>): Promise<User[]> {
     const users = await this.userRepository.find(options);
-
     return users;
   }
   /**

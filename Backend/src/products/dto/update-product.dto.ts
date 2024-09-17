@@ -17,7 +17,7 @@ export class UpdateProductDto {
   @IsString()
   description: string;
   @IsOptional()
-  @IsEnum(ProductType)
+  @IsString()
   type: ProductType;
   @IsOptional()
   @IsString()

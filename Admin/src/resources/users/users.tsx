@@ -8,12 +8,9 @@ import {
   TextInput,
   EditButton,
   DeleteButton,
-  SelectInput,
   Edit,
-  ArrayField,
-  SingleFieldList,
-  ChipField,
   SelectArrayInput,
+  SearchInput,
 } from "react-admin";
 import Box from "@mui/material/Box";
 import { boxStyle } from "../../styles/common";
@@ -23,8 +20,10 @@ const rolesChoices = [
   { id: "admin", name: "Administrador" },
 ];
 
+const userFilters = [<SearchInput source="q" alwaysOn />];
+
 export const UserList = () => (
-  <List>
+  <List filters={userFilters}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />
