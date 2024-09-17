@@ -23,11 +23,11 @@ const filterValues = [
         value: { action: "DESC", property: "name", id: '2' }
     },
     {
-        label: "Puntuacion mayor a menor",
+        label: "Puntuación mayor a menor",
         value: { action: "DESC", property: "rating", id: '3' }
     },
     {
-        label: "Puntuacion menor a mayor",
+        label: "Puntuación menor a mayor",
         value: { action: "ASC", property: "rating", id: '4' }
     },
 ];
