@@ -74,7 +74,7 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
     return (
         <>
             <SafeAreaView style={{ flex: 1 }}>
-                <Div px={'xl'} flex={1}>
+                <Div bg='background' px={'xl'} flex={1}>
                     <MyHeader />
                     <Div mb={'xl'}>
                         <ListFilterSelector handler={handleOption} value={option} currentFilter={currentFilter} openSelect={openSelect} />

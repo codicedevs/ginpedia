@@ -4,10 +4,11 @@ import { TitleText, YellowBorderText } from '../components/styled/styled';
 
 type TitleProps = {
     title: string,
-    size?: string
+    size?: string,
+    color?: string
 }
 
-export const TitleGenerator = ({ title, size = '2xl' }: TitleProps) => {
+export const TitleGenerator = ({ title, size = '2xl', color = 'white' }: TitleProps) => {
 
     if (!title) {
         return (
@@ -27,6 +28,7 @@ export const TitleGenerator = ({ title, size = '2xl' }: TitleProps) => {
             <Div flexDir='row'>
                 <YellowBorderText>
                     <TitleText
+                        color={color}
                         fontSize={size}
                         maxW={'100%'}
                     >
@@ -34,6 +36,7 @@ export const TitleGenerator = ({ title, size = '2xl' }: TitleProps) => {
                     </TitleText>
                 </YellowBorderText>
                 <TitleText
+                    color={color}
                     fontSize={size}
                     maxW={'100%'}
                 >
@@ -41,6 +44,7 @@ export const TitleGenerator = ({ title, size = '2xl' }: TitleProps) => {
                 </TitleText>
             </Div>
             <TitleText
+                color={color}
                 fontSize={size}
                 maxW={'100%'}
             >
