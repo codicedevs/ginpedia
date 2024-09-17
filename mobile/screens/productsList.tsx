@@ -53,8 +53,8 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
 
     const { data, isFetching, isFetched } = useFetch<Product>(bringProducts, [QUERY_KEYS.PRODUCTS, option, currentFilter.id]);
 
-    const handleOption = (opc: FilterOptions) => {
-        setOption(opc);
+    const handleOption = (option: FilterOptions) => {
+        setOption(option);
     };
 
     const openSelect = () => {

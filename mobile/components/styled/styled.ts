@@ -72,6 +72,12 @@ export const YellowBorderText = styled(Text)`
   border-bottom-color: ${({ theme }) => theme.colors.secondary}
 `;
 
+export const TouchableImageFilter = styled.TouchableOpacity`
+  ${commonViewStyles};
+  width: ${scale(40)}px;
+  border-radius: ${({ theme }) => theme.borderRadius.medium}px;
+`
+
 //Textos
 export const TitleText = styled(Text)`
   font-family:${({ theme }) => theme.fontFamily.secondary}
