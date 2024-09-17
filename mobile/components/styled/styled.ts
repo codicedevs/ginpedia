@@ -112,6 +112,7 @@ export const ListCardSkeletton = styled(MotiView)`
 export const MainLoginContainer = styled(Div)`
   padding: ${({ theme }) => theme.spacing.large}px;
   height: ${verticalScale(700)}px;
+  background-color: ${({ theme }) => theme.colors.background}
 `;
 
 export const LoginTitleContainer = styled(Div)`
