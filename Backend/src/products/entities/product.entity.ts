@@ -9,12 +9,6 @@ import {
   JoinTable,
 } from "typeorm";
 
-export enum ProductTypeEnum {
-  GIN = "gin",
-  TONICA = "tonica",
-  ESPECIA = "especia",
-}
-
 export type ProductType = "gin" | "tonica" | "especia";
 
 @Entity()
