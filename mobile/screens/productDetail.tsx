@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import { Button, Div, Icon, Image, ScrollDiv, Text } from 'react-native-magnus';
 import Carousel from 'react-native-reanimated-carousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,34 +35,30 @@ function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_
                             setCurrentIndex(Math.round(absoluteProgress));
                         }}
                         renderItem={({ index }) => (
-                            <View
-                                style={{
-                                    flex: 1,
-                                    borderWidth: 1,
-                                    justifyContent: 'center',
-                                }}
+                            <Div
+                                flex={1}
+                                borderWidth={scale(1)}
+                                justifyContent='center'
                             >
-                                <Text style={{ textAlign: 'center', fontSize: 30 }}>
+                                <Text textAlign='center' fontSize={'xl'}>
                                     {index}
                                 </Text>
-                            </View>
+                            </Div>
                         )}
                     />
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                    <Div flexDir='row' justifyContent='center' mt={'lg'}>
                         {data.map((_, index) => (
-                            <View
+                            <Div
+                                w={scale(10)}
+                                h={verticalScale(10)}
+                                rounded={'sm'}
                                 key={index}
-                                style={{
-                                    width: 10,
-                                    height: 10,
-                                    borderRadius: 5,
-                                    backgroundColor: index === currentIndex ? customTheme.colors.secondary : 'gray',
-                                    margin: 5,
-                                }}
+                                bg={index === currentIndex ? customTheme.colors.secondary : 'gray'}
+                                m={'sm'}
                             />
                         ))}
-                    </View>
+                    </Div>
                     <Div mb={'md'} flexDir='row' justifyContent='space-between'>
                         <Div>
                             <Div flexDir='row'>
