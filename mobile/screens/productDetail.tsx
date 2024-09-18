@@ -6,7 +6,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { MyHeader } from '../components/layout/header';
-import { BoldText } from '../components/styled/styled';
+import { BoldText, InfoContainer } from '../components/styled/styled';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import { TitleGenerator } from '../utils/text';
 import { customTheme } from '../utils/theme';
@@ -79,7 +79,7 @@ function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_
                     <Text mb={10} textAlign='justify'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu commodo enim. Maecenas condimentum dolor a est varius, eu efficitur enim blandit. Nunc interdum sem vitae pulvinar feugiat. Nullam rutrum, lacus at vulputate lacinia, purus diam vestibulum mauris, eu fermentum mi magna vitae est. Nam molestie condimentum efficitur. Nulla aliquet mauris a condimentum mattis. Ut quis elit vitae dolor interdum fermentum vel quis diam.
                     </Text>
-                    <Div h={verticalScale(64)} justifyContent='space-between' mb={'sm'}>
+                    <InfoContainer>
                         <BoldText>Informacion del producto</BoldText>
                         <Div flexDir='row'>
                             <Icon mr={'sm'} fontFamily='Entypo' color="secondary" fontSize='2xl' name="location-pin" />
@@ -89,9 +89,9 @@ function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_
                             <Icon mr={'sm'} fontFamily='Feather' color="secondary" fontSize='2xl' name="percent" />
                             <Text>37,5</Text>
                         </Div>
-                    </Div>
+                    </InfoContainer>
 
-                    <Div h={verticalScale(64)} justifyContent='space-between' mb={'sm'}>
+                    <InfoContainer>
                         <BoldText>Bebidas relacionadas con este producto</BoldText>
                         <Div flexDir='row'>
                             <Icon mr={'sm'} fontFamily='MaterialCommunityIcons' color="secondary" fontSize='2xl' name="glass-cocktail" />
@@ -101,9 +101,9 @@ function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_
                             <Icon mr={'sm'} fontFamily='MaterialCommunityIcons' color="secondary" fontSize='2xl' name="glass-cocktail" />
                             <Text>37,5</Text>
                         </Div>
-                    </Div>
+                    </InfoContainer>
 
-                    <Div h={verticalScale(64)} justifyContent='space-between' mb={'sm'}>
+                    <InfoContainer>
                         <BoldText>Aderezos perfectos para esta bebida</BoldText>
                         <Div flexDir='row'>
                             <Image resizeMode='center' w={10} h={'auto'} source={require('../assets/icons/orange.png')} />
@@ -113,8 +113,7 @@ function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_
                             <Image resizeMode='center' w={10} h={'auto'} source={require('../assets/icons/orange.png')} />
                             <Text>Limon</Text>
                         </Div>
-                    </Div>
-
+                    </InfoContainer>
                     <Div flexDir='row' justifyContent='space-between' my={'2xl'}>
                         <Button bg='background' w={150} fontSize={'xl'} prefix={<Icon fontSize={'xl'} name='star' mr={10} />}>
                             Calificar
