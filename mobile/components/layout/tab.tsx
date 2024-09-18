@@ -36,7 +36,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                 };
 
                 return (
-                    <Div flex={1} alignItems="center" justifyContent="center" h={verticalScale(80)}>
+                    <Div flex={1} alignItems="center" justifyContent="center" rounded={'md'} h={verticalScale(70)}>
                         <TouchableOpacity
                             accessibilityRole="button"
                             accessibilityState={isFocused ? { selected: true } : {}}
