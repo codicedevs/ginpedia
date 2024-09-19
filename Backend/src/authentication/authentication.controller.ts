@@ -100,10 +100,8 @@ export class AuthController {
 
   @Get("/facebook/callback")
   @UseGuards(FbAuthGuard)
-  async facebookCallback(
-    @Req() req: Request,
-    @Res() response: any
-  ): Promise<any> {
-    response.redirect(`http://localhost:5173/${response.accessToken}`);
+  async facebookCallback(@Req() req: any, @Res() res: any): Promise<any> {
+    const response = await this.authService.signIn(req.user.email);
+    res.redirect(`http://localhost:5173/${response.accessToken}`);
   }
 }
