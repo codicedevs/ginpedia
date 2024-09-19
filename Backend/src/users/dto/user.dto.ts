@@ -8,6 +8,7 @@ export class CreateUserDto {
   @IsOptional()
   email?: string;
   @MinLength(4)
+  @IsOptional()
   password: string;
   @IsOptional()
   roles?: Role[];

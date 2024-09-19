@@ -5,11 +5,16 @@ import {
   UnauthorizedException,
   Headers,
   NotFoundException,
+  Get,
+  UseGuards,
+  Req,
+  Res,
 } from "@nestjs/common";
 import { Public } from "./public";
 import { AuthService } from "./authentication.service";
 import { SignInDTO } from "./dto/singin.dto";
 import { RecoverPasswordDto, ResetPassDto } from "users/dto/user.dto";
+import { FbAuthGuard, GoogleAuthGuard } from "./guards/o-auth.guard";
 
 @Controller("auth")
 @Public() // todos son publicos con este decorador!
@@ -74,5 +79,31 @@ export class AuthController {
   async resetPassword(@Body() resetPass: ResetPassDto) {
     await this.authService.resetPassword(resetPass);
     return { message: "Password reset successful" };
+  }
+
+  @Public()
+  @UseGuards(GoogleAuthGuard)
+  @Get("google/login")
+  googleLogin() {}
+
+  @Public()
+  @UseGuards(GoogleAuthGuard)
+  @Get("google/callback")
+  async googleCallback(@Req() req: any, @Res() res: any) {
+    const response = await this.authService.signIn(req.user.email);
+    res.redirect(`http://localhost:5173/${response.accessToken}`);
+  }
+
+  @Get("/facebook/login")
+  @UseGuards(FbAuthGuard)
+  facebookLogin() {}
+
+  @Get("/facebook/callback")
+  @UseGuards(FbAuthGuard)
+  async facebookCallback(
+    @Req() req: Request,
+    @Res() response: any
+  ): Promise<any> {
+    response.redirect(`http://localhost:5173/${response.accessToken}`);
   }
 }
