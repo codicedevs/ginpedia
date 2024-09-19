@@ -35,12 +35,13 @@ export class AuthService {
       where: { email: email },
     });
 
-    // ESTO LO COMENTE PARA QUE FUNCIONE LA AUTENTICACION POR SSO
+    if (password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        throw new Error();
+      }
+    }
 
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) {
-    //   throw new Error();
-    // }
     const payload = { sub: user.id, username: user.name, roles: user.roles };
     const refreshToken = await this.jwtService.signAsync(payload, {
       secret: jwtSetting.JWT_REFRESH_SECRET,
