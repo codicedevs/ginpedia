@@ -77,6 +77,20 @@ export const TouchableImageFilter = styled.TouchableOpacity`
   width: ${scale(40)}px;
   border-radius: ${({ theme }) => theme.borderRadius.medium}px;
 `
+export const RatingModalInfo = styled(Div)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between
+`
+
+
+// Details
+export const InfoContainer = styled(Div)`
+  height: ${verticalScale(64)}px;
+  justify-content: space-between;
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+`;
+//\ Det
 
 //Textos
 export const TitleText = styled(Text)`

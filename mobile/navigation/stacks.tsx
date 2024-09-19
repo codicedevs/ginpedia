@@ -8,12 +8,13 @@ import LoginScreen from "../screens/auth/login";
 import RecoverCredentialsScreen from "../screens/auth/recoverCredentials";
 import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
+import ProductDetail from "../screens/productDetail";
 import ProductListScreen from "../screens/productsList";
 import SettingsScreen from "../screens/settings";
 import Trialscreen2 from "../screens/trial2";
 import { AppScreens, AppScreensParamList } from "./screens";
 
-const SettingsStack = createNativeStackNavigator();
+const SettingsStack = createNativeStackNavigator<AppScreensParamList>();
 const AuthStack = createNativeStackNavigator<AppScreensParamList>();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -32,6 +33,7 @@ export function HomeStackScreen() {
                 </FadeWrapper>
             )} />
             <HomeStack.Screen name={AppScreens.PRODUCT_LIST_SCREEN} component={ProductListScreen} />
+            <HomeStack.Screen name={AppScreens.PRODUCT_DETAIL_SCREEN} component={ProductDetail} />
         </HomeStack.Navigator>
     );
 }
