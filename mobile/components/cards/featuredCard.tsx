@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native"
 import { Div, Icon, Image, Text } from "react-native-magnus"
 import { scale, verticalScale } from "react-native-size-matters"
 import { AppScreens, AppScreensParamList } from "../../navigation/screens"
+import { BASE_URL } from "../../utils/config"
 import { TitleGenerator } from "../../utils/text"
 import { customTheme } from "../../utils/theme"
 import { FeaturedCardSkeletton } from "../styled/styled"
@@ -44,7 +45,7 @@ export const FeaturedCard = ({ product, isLoading, alreadyFetched }: CardProps) 
                     <TitleGenerator color="black" title={product.name} size="3xl" />
                 </Div>
                 <Div flex={1} alignItems="center">
-                    <Image resizeMode="contain" style={{ height: verticalScale(150), width: scale(150) }} source={require('../../assets/Bottle.png')} />
+                    <Image resizeMode="contain" style={{ height: verticalScale(150), width: scale(150) }} source={{ uri: `${BASE_URL}/${product.image}` }} />
                 </Div>
             </Div>
         </TouchableOpacity>

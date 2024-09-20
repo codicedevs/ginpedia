@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { Div, Icon, Image, Text } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { AppScreens, AppScreensParamList } from "../../navigation/screens";
+import { BASE_URL } from "../../utils/config";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 import { ListCardSkeletton } from "../styled/styled";
@@ -51,7 +52,7 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
                     }
                 </Div>
                 <Div justifyContent="center" alignItems="center" flex={1}>
-                    <Image resizeMode="contain" style={{ height: verticalScale(80), width: scale(150) }} source={require('../../assets/Bottle.png')} />
+                    <Image resizeMode="contain" style={{ height: verticalScale(80), width: scale(150) }} source={{ uri: `${BASE_URL}/${product.image}` }} />
                 </Div>
             </Div>
         </TouchableOpacity>
