@@ -90,7 +90,6 @@ export const InfoContainer = styled(Div)`
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;
-//\ Det
 
 //Textos
 export const TitleText = styled(Text)`
@@ -214,7 +213,7 @@ export const ErrorMessageText = styled(Text)`
   font-size: ${({ theme }) => theme.fontSize.small}px;
 `;
 
-// LOGIN
+//\ LOGIN
 
 export const MainContainer = styled(Div)`
   ${commonViewStyles};
