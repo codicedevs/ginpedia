@@ -28,8 +28,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/beardman.png",
-      "resizeMode": "contain",
+      "image": "./assets/SplashGin.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
