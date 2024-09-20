@@ -16,6 +16,7 @@ import { BookmarksModule } from "./bookmarks/bookmarks.module";
 import { Bookmark } from "bookmarks/entities/bookmark.entity";
 import { join } from "path";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import oauthConfig from "authentication/config/oauth.config";
 
 console.log("Serving static files from:", join(__dirname, "..", "uploads"));
 
@@ -50,6 +51,7 @@ console.log("Serving static files from:", join(__dirname, "..", "uploads"));
       entities: [User, Product, Rating, Bookmark], // las entidades (entity de typeorm)
       synchronize: true,
     }),
+    ConfigModule.forFeature(oauthConfig),
     UsersModule,
     AuthenticationModule,
     ProductsModule,

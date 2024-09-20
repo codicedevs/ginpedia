@@ -11,6 +11,7 @@ import { jwtSetting } from "settings";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "users/entities/user.entity";
 import { Repository } from "typeorm";
+import { CreateUserDto } from "users/dto/user.dto";
 
 @Injectable()
 export class AuthService {
@@ -29,14 +30,18 @@ export class AuthService {
    * @returns
    */
 
-  async signIn(email: string, password: string) {
+  async signIn(email: string, password?: string) {
     const user = await this.userRepository.findOneOrFail({
       where: { email: email },
     });
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      throw new Error();
+
+    if (password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        throw new Error();
+      }
     }
+
     const payload = { sub: user.id, username: user.name, roles: user.roles };
     const refreshToken = await this.jwtService.signAsync(payload, {
       secret: jwtSetting.JWT_REFRESH_SECRET,
@@ -130,5 +135,23 @@ export class AuthService {
       resetKey: undefined,
     });
     return;
+  }
+
+  async validateGoogleUser(googleUser: CreateUserDto) {
+    if (!googleUser.email) throw new UnauthorizedException("No hay mail");
+    const user = await this.userRepository.findOneBy({
+      email: googleUser.email,
+    });
+    if (user) return user;
+    return this.userRepository.save(googleUser);
+  }
+
+  async validateFbUser(fbUser: CreateUserDto) {
+    if (!fbUser.email) throw new UnauthorizedException("No hay mail");
+    const user = await this.userRepository.findOneBy({
+      email: fbUser.email,
+    });
+    if (user) return user;
+    return this.userRepository.save(fbUser);
   }
 }
