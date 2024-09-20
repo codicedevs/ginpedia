@@ -22,7 +22,7 @@ export type AppScreensParamList = {
     [AppScreens.RECOVER_CREDENTIALS_SCREEN]: undefined;
     [AppScreens.REGISTER_SCREEN]: undefined;
     [AppScreens.PRODUCT_LIST_SCREEN]: undefined;
-    [AppScreens.PRODUCT_DETAIL_SCREEN]: undefined
+    [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
 }
 
 export type AppScreenProps<T extends AppScreens> = {

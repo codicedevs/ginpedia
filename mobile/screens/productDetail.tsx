@@ -11,11 +11,12 @@ import { AppScreenProps, AppScreens } from '../navigation/screens';
 import { TitleGenerator } from '../utils/text';
 import { customTheme } from '../utils/theme';
 
-function ProductDetail({ navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
+function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
     const width = Dimensions.get('window').width;
     const [currentIndex, setCurrentIndex] = useState(0);
     const data = [...new Array(6).keys()];
     const [open, setOpen] = useState(false)
+    const { productId } = route.params;
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
