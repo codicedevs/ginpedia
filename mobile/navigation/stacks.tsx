@@ -11,7 +11,6 @@ import HomeScreen from "../screens/home";
 import ProductDetail from "../screens/productDetail";
 import ProductListScreen from "../screens/productsList";
 import SettingsScreen from "../screens/settings";
-import Trialscreen2 from "../screens/trial2";
 import { AppScreens, AppScreensParamList } from "./screens";
 
 const SettingsStack = createNativeStackNavigator<AppScreensParamList>();
@@ -46,7 +45,6 @@ export function SettingsStackScreen() {
                 headerShown: false
             }}>
             <SettingsStack.Screen name={AppScreens.SETTINGS_SCREEN} component={SettingsScreen} />
-            <SettingsStack.Screen name={AppScreens.TRIAL2_SCREEN} component={Trialscreen2} />
         </SettingsStack.Navigator>
     );
 }
