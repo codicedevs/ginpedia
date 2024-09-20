@@ -6,11 +6,11 @@ export enum ProductType {
 
 export type Product = {
     name: string;
-    description?: string;
-    type?: ProductType;
-    image?: string;
-    origin?: string;
-    graduation?: string;
+    description: string;
+    type: ProductType;
+    image: string;
+    origin: string;
+    graduation: string;
     combinations?: number[];
     rating: string;
     punctiation?: string;

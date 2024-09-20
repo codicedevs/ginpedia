@@ -11,6 +11,11 @@ class ProductService extends HttpService {
         const res = await this.get(``, { params: filter });
         return res.data;
     };
+
+    getById = async (id: string) => {
+        const res = await this.get(`/${id}`)
+        return res.data
+    }
 }
 
 export default new ProductService();
