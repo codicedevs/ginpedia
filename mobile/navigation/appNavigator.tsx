@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font'
 import React from 'react'
 import VersionModal from '../components/modal/versionModal'
 import { useSession } from '../context/authProvider'
+import { SearchProvider } from '../context/searchProvider'
 import SplashScreen from '../screens/splash'
 import { AuthStackScreen, Principal } from './stacks'
 
@@ -24,9 +25,11 @@ const AppNavigator = () => {
 
     return (
         <NavigationContainer>
-            <VersionModal />
-            <SplashScreen />
-            {currentUser ? <Principal /> : <AuthStackScreen />}
+            <SearchProvider>
+                <VersionModal />
+                <SplashScreen />
+                {currentUser ? <Principal /> : <AuthStackScreen />}
+            </SearchProvider>
         </NavigationContainer>
     )
 }
