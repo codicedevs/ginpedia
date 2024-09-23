@@ -4,38 +4,50 @@ import { BASE_URL } from "../utils/config";
 import { HttpService } from "./http.service";
 
 interface LoginProps {
-    accessToken: string;
-    refreshToken: string;
-    user: any;
+  accessToken: string;
+  refreshToken: string;
+  user: any;
 }
 
 export class AuthService extends HttpService {
-    constructor() {
-        super("auth");
+  constructor() {
+    super("auth");
+  }
+
+  login = async (email: string, password: string) => {
+    let loginProps: LoginProps | null = null;
+    try {
+      const res = await axios.post<LoginProps>(`${BASE_URL}/auth/signin`, {
+        email,
+        password,
+      });
+      this.saveAccessToken(res.data.accessToken);
+      this.saveRefreshToken(res.data.refreshToken);
+      loginProps = res.data;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      return loginProps;
     }
+  };
 
-    login = async (email: string, password: string) => {
-        let loginProps: LoginProps | null = null;
-        try {
-            const res = await axios.post<LoginProps>(`${BASE_URL}/auth/signin`, { email, password });
-            this.saveAccessToken(res.data.accessToken);
-            this.saveRefreshToken(res.data.refreshToken);
-            loginProps = res.data;
-        } catch (err) {
-            console.error(err);
-        } finally {
-            return loginProps;
-        }
-    };
+  signOut = async () => {
+    await AsyncStorage.removeItem("access");
+    await AsyncStorage.removeItem("refresh");
+  };
 
-    signOut = async () => {
-        await AsyncStorage.removeItem('access');
-        await AsyncStorage.removeItem('refresh');
-    };
+  whoami = async () => {
+    return this.get("whoami");
+  };
 
-    whoami = async () => {
-        return this.get("whoami");
-    };
+  loginGoogle = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/auth/google/login`);
+      return res;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 }
 
 export default new AuthService();
