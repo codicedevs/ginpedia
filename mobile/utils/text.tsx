@@ -1,14 +1,16 @@
 import React from 'react';
 import { Div, Text } from 'react-native-magnus';
 import { TitleText, YellowBorderText } from '../components/styled/styled';
+import { customTheme } from './theme';
 
 type TitleProps = {
     title: string,
     size?: string,
-    color?: string
+    color?: string,
+    borderColor?: string
 }
 
-export const TitleGenerator = ({ title, size = '2xl', color = 'white' }: TitleProps) => {
+export const TitleGenerator = ({ title, size = '2xl', color = 'white', borderColor = customTheme.colors.secondary }: TitleProps) => {
 
     if (!title) {
         return (
@@ -26,7 +28,7 @@ export const TitleGenerator = ({ title, size = '2xl', color = 'white' }: TitlePr
     return (
         <Div flexDir='row' flexWrap='wrap'>
             <Div flexDir='row'>
-                <YellowBorderText>
+                <YellowBorderText borderColor={borderColor}>
                     <TitleText
                         color={color}
                         fontSize={size}
