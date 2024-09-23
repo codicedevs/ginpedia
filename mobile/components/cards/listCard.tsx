@@ -35,8 +35,6 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
         );
     }
 
-    console.log(product)
-
     return (
         <TouchableOpacity onPress={navigateToDetail} >
             <Div p={'xl'} h={verticalScale(100)} w={'100%'} rounded='xl' flexDir="row" bg="cardBg" mb={'lg'} >
