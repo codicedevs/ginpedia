@@ -45,8 +45,8 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
                     </Div>
                     <TitleGenerator color="black" title={product.name} size="4xl" />
                     {
-                        !!product.punctiation &&
-                        <Text color="black" mt={'sm'} fontSize={customTheme.fontSize.small}>{product.punctiation} Puntuaciones</Text>
+                        !!product.punctuation &&
+                        <Text color="black" mt={'sm'} fontSize={customTheme.fontSize.small}>{product.punctuation} Puntuaciones</Text>
                     }
                 </Div>
                 <Div justifyContent="center" alignItems="center" flex={1}>

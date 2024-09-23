@@ -13,6 +13,6 @@ export type Product = {
     graduation: string;
     combinations?: number[];
     rating: string;
-    punctiation?: string;
+    punctuation?: string;
     id: string
 };
