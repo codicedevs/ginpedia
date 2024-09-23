@@ -10,6 +10,7 @@ import RegisterScreen from "../screens/auth/register";
 import HomeScreen from "../screens/home";
 import ProductDetail from "../screens/productDetail";
 import ProductListScreen from "../screens/productsList";
+import ProfileScreen from "../screens/profile/profile";
 import SettingsScreen from "../screens/settings";
 import { AppScreens, AppScreensParamList } from "./screens";
 
@@ -33,6 +34,7 @@ export function HomeStackScreen() {
             )} />
             <HomeStack.Screen name={AppScreens.PRODUCT_LIST_SCREEN} component={ProductListScreen} />
             <HomeStack.Screen name={AppScreens.PRODUCT_DETAIL_SCREEN} component={ProductDetail} />
+            <HomeStack.Screen name={AppScreens.PROFILE_SCREEN} component={ProfileScreen} />
         </HomeStack.Navigator>
     );
 }
