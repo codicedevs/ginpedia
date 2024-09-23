@@ -32,23 +32,38 @@ const filterValues = [
     },
 ];
 
-function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIST_SCREEN>) {
+function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_LIST_SCREEN>) {
+    const { searchQuery } = route.params;
     const [option, setOption] = useState<FilterOptions>(FilterOptions.GIN);
     const [currentFilter, setCurrentFilter] = useState<any>(filterValues[0].value);
     const pickerRef = useRef<Picker<string> | null>(null);
-
     const bringProducts = async () => {
-        const res = await productService.getAll({
-            where: {
-                type: option
-            },
-            order: currentFilter ?
-                {
-                    [currentFilter.property]: currentFilter.action
-                }
-                : undefined
-        });
-        return res;
+        if (searchQuery) {
+            const res = await productService.getAll({
+                where: {
+                    name: { like: searchQuery }
+                },
+                order: currentFilter ?
+                    {
+                        [currentFilter.property]: currentFilter.action
+                    }
+                    : undefined
+            });
+            return res;
+        } else {
+
+            const res = await productService.getAll({
+                where: {
+                    type: option
+                },
+                order: currentFilter ?
+                    {
+                        [currentFilter.property]: currentFilter.action
+                    }
+                    : undefined
+            });
+            return res;
+        }
     };
 
     const { data, isFetching, isFetched } = useFetch<Product>(bringProducts, [QUERY_KEYS.PRODUCTS, option, currentFilter.id]);
@@ -56,7 +71,7 @@ function ProductListScreen({ navigation }: AppScreenProps<AppScreens.PRODUCT_LIS
     const handleOption = (option: FilterOptions) => {
         setOption(option);
     };
-
+    console.log(data)
     const openSelect = () => {
         if (pickerRef.current) {
             pickerRef.current.focus();
