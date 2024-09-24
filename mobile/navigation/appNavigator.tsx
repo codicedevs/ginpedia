@@ -26,7 +26,6 @@ const AppNavigator = () => {
         <NavigationContainer>
             <SearchProvider>
                 <VersionModal />
-                {/* <SplashScreen /> */}
                 {currentUser ? <Principal /> : <AuthStackScreen />}
             </SearchProvider>
         </NavigationContainer>
