@@ -36,3 +36,10 @@ export interface User {
     telefono: string,
     isActive: boolean
 }
+
+export enum ProfileOption {
+    PROFILE = "profile",
+    WISHLIST = "wishlist",
+    STORE = "store",
+    PUNCTUATION = 'punctuation'
+}

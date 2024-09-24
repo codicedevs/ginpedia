@@ -1,13 +1,26 @@
 
-import { Div } from "react-native-magnus"
-import { scale, verticalScale } from "react-native-size-matters"
-import { TitleText } from "../styled/styled"
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { TouchableOpacity } from "react-native";
+import { Div } from "react-native-magnus";
+import { scale, verticalScale } from "react-native-size-matters";
+import { AppScreens, AppScreensParamList } from "../../navigation/screens";
+import { TitleText } from "../styled/styled";
+
+type NavigationProps = NativeStackNavigationProp<AppScreensParamList, AppScreens.PROFILE_SCREEN>;
 
 export const MyHeader = () => {
+    const navigation = useNavigation<NavigationProps>();
+    const navigateToProfile = () => {
+        navigation.navigate(AppScreens.PROFILE_SCREEN);
+    }
+
     return (
         <Div flexDir='row' justifyContent='space-between' alignItems='center' py={'lg'} mb={'sm'} >
             <TitleText>Ginpedia</TitleText>
-            <Div h={verticalScale(50)} w={scale(50)} bg='black' borderColor="secondary" borderWidth={1} rounded={'circle'}></Div>
+            <TouchableOpacity onPress={navigateToProfile}>
+                <Div h={verticalScale(50)} w={scale(50)} bg='black' borderColor="secondary" borderWidth={1} rounded={'circle'}></Div>
+            </TouchableOpacity>
         </Div>
     )
 }
