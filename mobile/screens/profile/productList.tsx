@@ -7,14 +7,6 @@ import { Product } from '../../types/product.type';
 function ProductList() {
     const bringProducts = async () => {
         const res = await productService.getAll()
-        // const res = await productService.getAll(
-        //{
-        // where: {
-        //     type: option
-        // } hay q ver como voy a enviar los datos al back
-        //    }
-        // );
-        console.log(res, 'q ')
         return res;
     };
 
