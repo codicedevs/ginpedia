@@ -40,7 +40,10 @@ export class UsersService {
    * @returns
    */
   async findByIdOrFail(id: number): Promise<User> {
-    const user = await this.userRepository.findOneByOrFail({ id });
+    const user = await this.userRepository.findOneOrFail({
+      where: { id },
+      relations: ["bookmarks"],
+    });
     return user;
   }
   /**
