@@ -40,7 +40,7 @@ export class Product {
   rating?: number;
 
   @OneToMany(() => Rating, (rating) => rating.product)
-  ratings: Rating[];
+  ratings?: Rating[];
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.product, {
     cascade: ["insert", "update"],

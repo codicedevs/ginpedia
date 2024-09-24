@@ -43,12 +43,16 @@ export class RatingsService {
       where: { id: productId },
       relations: ["ratings"],
     });
-
-    const newRating =
-      updatedProduct?.ratings
-        .map((rating) => rating.rating)
-        .reduce((acc, rating) => acc + rating, 0) /
-      updatedProduct.ratings.length;
+    let newRating = 0;
+    if (updatedProduct.ratings) {
+      newRating =
+        updatedProduct?.ratings
+          .map((rating) => rating.rating)
+          .reduce((acc, rating) => acc + rating, 0) /
+        updatedProduct.ratings.length;
+    } else {
+      newRating = rating;
+    }
 
     await this.productRepository.update(
       { id: productId },
