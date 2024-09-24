@@ -14,6 +14,11 @@ export enum AppScreens {
     PROFILE_SCREEN = 'Profile'
 }
 
+export enum AppStacks {
+    HOME_STACK = 'HomeStack',
+    SETTINGS_STACK = 'SettingsStack'
+}
+
 export type AppScreensParamList = {
     [AppScreens.LOGIN_SCREEN]: undefined;
     [AppScreens.HOME_SCREEN]: undefined;
