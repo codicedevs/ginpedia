@@ -146,17 +146,17 @@ export const LoginTittle = styled(Text)`
 
 export const LoginInputContainer = styled(Div)`
   ${commonViewStyles};
-  height: 65%;
+  height: 60%;
 `;
 
 export const LoginTopContainer = styled(Div)`
-  height: 40%;
+  flex: 4;
   ${scrollable}
 `;
 
 export const LoginBottomContainer = styled(Div)`
   justify-content: space-between;
-  height: 60%;
+  flex: 6
 `
 
 export const LoginInput = styled.TextInput`
@@ -205,7 +205,7 @@ export const LoginButtonText = styled(Text)`
 `;
 
 export const ErrorInputMessageContainer = styled(Div)`
-  height: ${verticalScale(12)}px;
+  height: ${verticalScale(15)}px;
 `;
 
 export const ErrorMessageText = styled(Text)`
