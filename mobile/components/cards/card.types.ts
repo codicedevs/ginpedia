@@ -1,8 +1,7 @@
-interface CardProps {
-    image: string;
-    title: string;
-    rating: string;
+import { Product } from "../../types/product.type";
+
+export interface CardProps {
+    product: Product
     isLoading: boolean;
     alreadyFetched: boolean;
-    punctuation?: string
 }

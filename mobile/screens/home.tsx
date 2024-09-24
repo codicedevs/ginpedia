@@ -24,6 +24,10 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
 
     const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, ['products'], true);
 
+    const navigateList = () => {
+        navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN)
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style='auto' />
@@ -33,11 +37,11 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
                     <Div mb={'xl'}>
                         <TitleGenerator title="Destacados" />
                     </Div>
-                    <ScrollDiv flexDir='row' horizontal showsHorizontalScrollIndicator={false} mb={'xl'}>
+                    <ScrollDiv flexDir='row' horizontal showsHorizontalScrollIndicator={false} mb={'2xl'}>
                         {
                             data &&
-                            data?.slice(0, 3).map((d) => (
-                                <FeaturedCard alreadyFetched={true} isLoading={false} image='random' title={d.name} rating={d.rating} />
+                            data?.slice(0, 3).map((product) => (
+                                <FeaturedCard alreadyFetched={true} isLoading={false} product={product} />
                             ))
                         }
                     </ScrollDiv>
@@ -46,12 +50,12 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
                     </Div>
                     {
                         data &&
-                        data?.map((d) => (
-                            <ListCard alreadyFetched={true} isLoading={false} image='random' title={d.name} rating={d.rating} />
+                        data?.map((product) => (
+                            <ListCard alreadyFetched={true} isLoading={false} product={product} />
                         ))
                     }
                     <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>
-                        <Text color='secondary'>Ver todos</Text>
+                        <Text onPress={navigateList} color='secondary'>Ver todos</Text>
                         <Icon mx={10} color='secondary' fontSize={'xl'} name='arrowright' />
                     </Div>
                 </ScrollDiv>

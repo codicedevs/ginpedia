@@ -3,7 +3,6 @@ import { useFonts } from 'expo-font'
 import React from 'react'
 import VersionModal from '../components/modal/versionModal'
 import { useSession } from '../context/authProvider'
-import SplashScreen from '../screens/splash'
 import { AuthStackScreen, Principal } from './stacks'
 
 const AppNavigator = () => {
@@ -25,7 +24,7 @@ const AppNavigator = () => {
     return (
         <NavigationContainer>
             <VersionModal />
-            <SplashScreen />
+            {/* <SplashScreen /> */}
             {currentUser ? <Principal /> : <AuthStackScreen />}
         </NavigationContainer>
     )

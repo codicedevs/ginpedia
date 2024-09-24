@@ -25,11 +25,11 @@
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/beardman.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/beardman.png",
-      "resizeMode": "contain",
+      "image": "./assets/SplashGin.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
