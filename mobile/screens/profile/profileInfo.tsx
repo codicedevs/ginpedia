@@ -24,10 +24,6 @@ const ProfileInfo = () => {
                     placeholder="mail@mail.com"
                     placeholderTextColor={"black"}
                     h={verticalScale(35)}
-                    // onChangeText={(text) => {
-                    //     const cleanedValue = text.replace(/\s/g, '');
-                    //     onChange(cleanedValue);
-                    // }}
                     focusBorderColor="blue700"
                     value={'n@n.com'}
                 />
@@ -40,10 +36,6 @@ const ProfileInfo = () => {
                     placeholder="mail@mail.com"
                     placeholderTextColor={"black"}
                     h={verticalScale(35)}
-                    // onChangeText={(text) => {
-                    //     const cleanedValue = text.replace(/\s/g, '');
-                    //     onChange(cleanedValue);
-                    // }}
                     focusBorderColor="blue700"
                     value={'n@n.com'}
                 />
