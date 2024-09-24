@@ -11,7 +11,6 @@ function ProductList() {
     };
 
     const { data: products, isFetching, isFetched } = useFetch<Product[]>(bringProducts, ['productsList']);
-    console.log(products)
     return (
         <>
             {
