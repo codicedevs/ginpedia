@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import {
   DataSource,
@@ -12,6 +12,8 @@ import { compareArrays } from "utils/utils";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Product } from "./entities/product.entity";
+
+type TransformatedRating = { [key: number]: number };
 
 @Injectable()
 export class ProductsService {
@@ -39,16 +41,26 @@ export class ProductsService {
     id: number,
     filter: FindOneOptions = {},
     withCombination = false
-  ): Promise<Product> {
+  ): Promise<Product & { ratingList: TransformatedRating[] }> {
     filter.where = { id };
+    filter.relations = ["ratings"];
     const product = await this.productRepository.findOneOrFail(filter);
+
+    const transformatedRankings: TransformatedRating[] = [];
+    if (product.ratings) {
+      for (let i = 1; i <= 5; i++) {
+        transformatedRankings.push({
+          [i]: product.ratings.filter((rat) => rat.rating === i).length,
+        });
+      }
+    }
     if (withCombination) {
       const combinations = await this.getProductCombinations(id);
-      product.combinations = combinations.map(
-        (combination: Product) => combination.id
-      );
+      product.combinations = combinations;
     }
-    return product;
+    product.ratings = undefined;
+
+    return { ...product, ratingList: transformatedRankings };
   }
 
   async getProductCombinations(id: number, filter: FindOneOptions = {}) {
@@ -117,6 +129,7 @@ export class ProductsService {
       relations: ["ratings"],
     });
 
+    if (!product.ratings) return;
     return {
       rating:
         product?.ratings
@@ -126,6 +139,8 @@ export class ProductsService {
   }
 
   async addCombination(primaryId: number, secondaryId: number) {
+    if (primaryId === secondaryId)
+      throw new HttpException("No se puede combinar con si mismo", 406);
     const primaryProd = await this.productRepository.findOneOrFail({
       where: { id: primaryId },
       relations: ["combinations"],
@@ -133,6 +148,7 @@ export class ProductsService {
     const secondaryProd = await this.productRepository.findOneOrFail({
       where: { id: secondaryId },
     });
+
     primaryProd.combinations.push(secondaryProd);
     await this.productRepository.save(primaryProd);
 
