@@ -109,12 +109,9 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
                             {data && data.map((product, index) => (
                                 <ListCard
                                     key={index}
-                                    punctuation='400'
                                     alreadyFetched={isFetched}
                                     isLoading={isFetching}
-                                    image='random'
-                                    title={product.name}
-                                    rating={product.rating}
+                                    product={product}
                                 />
                             ))}
                         </ScrollDiv>

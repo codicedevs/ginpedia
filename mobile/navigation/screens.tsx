@@ -10,7 +10,8 @@ export enum AppScreens {
     RECOVER_CREDENTIALS_SCREEN = 'RecoverCredentials',
     REGISTER_SCREEN = 'Register',
     PRODUCT_LIST_SCREEN = 'ProductList',
-    PRODUCT_DETAIL_SCREEN = 'ProductDetail'
+    PRODUCT_DETAIL_SCREEN = 'ProductDetail',
+    PROFILE_SCREEN = 'Profile'
 }
 
 export type AppScreensParamList = {
@@ -21,8 +22,9 @@ export type AppScreensParamList = {
     [AppScreens.SETTINGS_SCREEN]: undefined;
     [AppScreens.RECOVER_CREDENTIALS_SCREEN]: undefined;
     [AppScreens.REGISTER_SCREEN]: undefined;
-    [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery: string };
-    [AppScreens.PRODUCT_DETAIL_SCREEN]: undefined
+    [AppScreens.PRODUCT_LIST_SCREEN]: undefined;
+    [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
+    [AppScreens.PROFILE_SCREEN]: undefined
 }
 
 export type AppScreenProps<T extends AppScreens> = {
