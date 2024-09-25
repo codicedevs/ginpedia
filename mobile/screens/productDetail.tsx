@@ -1,26 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { Dimensions, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Image, Overlay, ScrollDiv, Text } from 'react-native-magnus';
 import Carousel from 'react-native-reanimated-carousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { MyHeader } from '../components/layout/header';
 import { BoldText, InfoContainer, RatingModalInfo } from '../components/styled/styled';
+import { AuthContext } from '../context/authProvider';
 import useFetch from '../hooks/useGet';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
+import bookmarkService from '../service/bookmark.service';
 import productService from '../service/product.service';
+import userService from '../service/user.service';
 import { Product } from '../types/product.type';
+import { BookmarkType } from '../types/user.type';
 import { BASE_URL } from '../utils/config';
 import { TitleGenerator } from '../utils/text';
 import { customTheme } from '../utils/theme';
 
 function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
-    const width = Dimensions.get('window').width;
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { currentUser, setCurrentUser } = useContext(AuthContext)
     const info = [...new Array(6).keys()];
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
+    let filteredBookmarks = currentUser?.formattedBookmarks?.length > 0 ? currentUser?.formattedBookmarks.filter(bookmark => bookmark.productId === (productId && productId)) : [];
+    const isLiked = (filteredBookmarks.filter(bookmark => bookmark.type === BookmarkType.WISHLIST)).length !== 0 // some en vez de filter
+    const isBookmarked = (filteredBookmarks.filter(bookmark => bookmark.type === BookmarkType.PURCHASED)).length !== 0
+
+
+
+    useEffect(() => {
+        filteredBookmarks = currentUser?.formattedBookmarks ? currentUser?.formattedBookmarks.filter(bookmark => bookmark.productId.toString() === productId) : [];
+    }, [currentUser])
 
     const fetchProduct = async () => {
         if (!productId) return
@@ -28,7 +41,28 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         return res
     }
 
+    console.log(filteredBookmarks)
+    const handleBookmark = async (option: BookmarkType) => {
+        const index = filteredBookmarks.findIndex(bookmark => bookmark.type === option);
+        console.log(index)
+        console.log(option)
+        if (index > -1) {
+            await bookmarkService.deleteBookmark(filteredBookmarks[index].bookmarkId)
+        }
+        // else {
+        //     await bookmarkService.createBookmark({
+        //         productId: Number(productId),
+        //         userId: currentUser?.id,
+        //         type: option
+        //     })
+        // }
+
+        const info = await userService.getUserById(currentUser?.id.toString())
+        setCurrentUser(info.data)
+    }
+
     const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
+
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -141,10 +175,18 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             </Div>
                             <Text fontSize={'xs'}>500 calificaciones</Text>
                         </Div>
-                        <Icon color="secondary" fontSize='2xl' name="heart" />
+                        <Div flexDir='row' >
+                            <TouchableOpacity onPress={() => handleBookmark(BookmarkType.WISHLIST)}>
+                                <Icon color={isLiked ? "secondary" : 'cardBg'} mr={'xl'} fontSize='2xl' name="heart" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleBookmark(BookmarkType.PURCHASED)}>
+                                <Icon color={isBookmarked ? "secondary" : 'cardBg'} fontSize='2xl' fontFamily='FontAwesome' mr={'md'} name="bookmark" />
+                            </TouchableOpacity>
+                        </Div>
                     </Div>
                     <Div mb={'xl'}>
-                        <TitleGenerator title={product?.name} />
+                        {product &&
+                            <TitleGenerator title={product.name} />}
                     </Div>
                     <Text mb={'lg'} textAlign='justify'>
                         {product?.description}
