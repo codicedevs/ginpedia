@@ -88,7 +88,7 @@ export const RatingModalInfo = styled(Div)`
 export const InfoContainer = styled(Div)`
   height: ${verticalScale(64)}px;
   justify-content: space-between;
-  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  margin-bottom: ${({ theme }) => theme.spacing.medium}px;
 `;
 
 //Textos
