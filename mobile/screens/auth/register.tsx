@@ -1,6 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as ImagePicker from 'expo-image-picker'
 import React, { useContext, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, TouchableOpacity } from "react-native"
@@ -11,17 +9,18 @@ import { ConfirmationModal } from "../../components/modal/confirmationModal"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
 import { useMutate } from '../../hooks/useMutate'
-import authService from '../../service/auth.service'
+import { AppScreenProps, AppScreens } from "../../navigation/screens"
+import userService from "../../service/user.service"
 import { UserInfoRegister } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
 
 const validationSchema = yup.object({
-    username: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
+    name: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
     email: yup.string().required("Requerido").email('Debe ser un email válido'),
     password: yup.string().required("Requerido").min(8, 'La contraseña debe tener al menos 8 caracteres'),
 });
 
-const RegisterScreen = () => {
+const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ navigation }) => {
     const { setCurrentUser } = useContext(AuthContext)
     const [visibility, setVisibility] = useState(true)
     const [show, setShow] = useState(false)
@@ -32,23 +31,8 @@ const RegisterScreen = () => {
 
     const confirm = () => {
         setShow(false)
+        navigation.navigate(AppScreens.LOGIN_SCREEN)
     }
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        console.log(result);//Cambiar a logica para subida de backend mas adelante
-
-        if (!result.canceled) {
-            console.log('error')
-            //   setImage(result.assets[0].uri);
-        }
-    };
 
     const {
         control,
@@ -56,19 +40,19 @@ const RegisterScreen = () => {
         formState: { errors },
     } = useForm<UserInfoRegister>({ resolver: yupResolver(validationSchema) })
 
-    const login = async (data: { email: string, password: string }) => {
-        const res = await authService.login(data.email, data.password);
-        if (res) {
-            await AsyncStorage.setItem('refresh', res.refreshToken ?? '');
-            await AsyncStorage.setItem('access', res.accessToken ?? '');
-        }
-        return res;
+    const register = async (data: { email: string, password: string, name: string }) => {
+        return await userService.register(data.email, data.password, data.name);
     }
 
-    const loginQuery = useMutate(login, (res) => { setCurrentUser(res?.user) }, (err) => { console.error(err) })
+    const registerQuery = useMutate(register, (err) => { console.error(err) })
 
     const onSubmit = async (data: UserInfoRegister) => {
-        console.log(data)
+        try {
+            await registerQuery(data);
+            setShow(true)
+        } catch (error) {
+            console.error('Failed to login:', error);
+        }
     }
 
     return (
@@ -103,11 +87,11 @@ const RegisterScreen = () => {
                                             value={value}
                                         />
                                         <ErrorInputMessageContainer>
-                                            {errors.username && <ErrorMessageText>{errors.username.message as string}</ErrorMessageText>}
+                                            {errors.name && <ErrorMessageText>{errors.name.message as string}</ErrorMessageText>}
                                         </ErrorInputMessageContainer>
                                     </>
                                 )}
-                                name="username"
+                                name="name"
                             />
                             <Controller
                                 control={control}
@@ -165,26 +149,10 @@ const RegisterScreen = () => {
                                 )}
                                 name="password"
                             />
-                            <LabelContainer alignSelf="flex-start" mb='xs'>
-                                <Text color='secondary'>Foto de perfil</Text>
-                            </LabelContainer>
-                            <Input
-                                fontSize={'sm'}
-                                placeholder="JPG, PNG - Max. 2MB"
-                                placeholderTextColor={"black"}
-                                h={verticalScale(35)}
-                                mb='lg'
-                                secureTextEntry={visibility}
-                                suffix={
-                                    <TouchableOpacity onPress={pickImage}>
-                                        <Icon name={"plus"} color="gray900" fontFamily="Feather" />
-                                    </TouchableOpacity>
-                                }
-                            />
                         </Div>
                     </Div>
                     <Div flex={3} justifyContent="flex-end">
-                        <Button bg='secondary' onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
+                        <Button bg='secondary' onPress={handleSubmit(onSubmit)} color="black" w={'100%'}>Crear cuenta</Button>
                     </Div>
                 </MainLoginContainer>
             </ScrollView>
