@@ -9,7 +9,7 @@ interface LoginProps {
     user: any;
 }
 
-export class AuthService extends HttpService {
+class AuthService extends HttpService {
     constructor() {
         super("auth");
     }

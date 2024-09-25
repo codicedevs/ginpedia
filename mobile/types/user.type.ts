@@ -4,7 +4,7 @@ export interface UserInfo {
 }
 
 export interface UserInfoRegister {
-    username: string;
+    name: string;
     email: string;
     password: string
 }
