@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Overlay, Text } from "react-native-magnus";
 import { scale, verticalScale } from 'react-native-size-matters';
 import { Product } from '../../types/product.type';
@@ -16,6 +17,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
         const values = Object.values(rating);
         return sum + values[0];
     }, 0);
+
+    const [value, setValue] = useState(0)
 
     const checkRating = (option: number): number => {
         if (totalRatings === 0) return 0;
@@ -46,45 +49,55 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                     <RatingModalInfo>
                         <Text color='black'>5 estrellas</Text>
                         <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={'70%'} />
+                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(4)}%`} />
                         </Div>
-                        <Text color='black'>70%</Text>
+                        <Text color='black'>{checkRating(4)}%</Text>
                     </RatingModalInfo>
                     <RatingModalInfo>
                         <Text color='black'>4 estrellas</Text>
                         <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={'15%'} />
+                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(3)}%`} />
                         </Div>
-                        <Text color='black'>15%</Text>
+                        <Text color='black'>{checkRating(3)}%</Text>
                     </RatingModalInfo>
                     <RatingModalInfo>
                         <Text color='black'>3 estrellas</Text>
                         <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={'10%'} />
+                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(2)}%`} />
                         </Div>
-                        <Text color='black'>10%</Text>
+                        <Text color='black'>{checkRating(2)}%</Text>
                     </RatingModalInfo>
                     <RatingModalInfo>
                         <Text color='black'>2 estrellas</Text>
                         <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={'3%'} />
+                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(1)}%`} />
                         </Div>
-                        <Text color='black'>3%</Text>
+                        <Text color='black'>{checkRating(1)}%</Text>
                     </RatingModalInfo>
                     <RatingModalInfo>
                         <Text color='black'>1 estrellas</Text>
                         <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={'2%'} />
+                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(0)}%`} />
                         </Div>
-                        <Text color='black'>2%</Text>
+                        <Text color='black'>{checkRating(0)}%</Text>
                     </RatingModalInfo>
                 </Div>
                 <Div flexDir='row' justifyContent='space-between' w={'70%'} alignSelf='center'>
-                    <Icon fontFamily='FontAwesome' color="secondary" fontSize={'6xl'} name="star" />
-                    <Icon fontFamily='FontAwesome' color="black" fontSize={'6xl'} name="star-o" />
-                    <Icon fontFamily='FontAwesome' color="black" fontSize={'6xl'} name="star-o" />
-                    <Icon fontFamily='FontAwesome' color="black" fontSize={'6xl'} name="star-o" />
-                    <Icon fontFamily='FontAwesome' color="black" fontSize={'6xl'} name="star-o" />
+                    <TouchableOpacity onPress={() => setValue(1)}>
+                        <Icon fontFamily='FontAwesome' color={value <= 0 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 0 ? "star-o" : "star"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setValue(2)}>
+                        <Icon fontFamily='FontAwesome' color={value <= 1 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 1 ? "star-o" : "star"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setValue(3)}>
+                        <Icon fontFamily='FontAwesome' color={value <= 2 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 2 ? "star-o" : "star"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setValue(4)}>
+                        <Icon fontFamily='FontAwesome' color={value <= 3 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 3 ? "star-o" : "star"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setValue(5)}>
+                        <Icon fontFamily='FontAwesome' color={value <= 4 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 4 ? "star-o" : "star"} />
+                    </TouchableOpacity>
                 </Div>
                 <Div h={verticalScale(40)} w={'100%'} justifyContent='space-between' flexDir='row' >
                     <Button onPress={() => setIsVisible(false)} bg='#BEBEBE' w={scale(120)}><BoldText color='black'>CANCELAR</BoldText></Button>
