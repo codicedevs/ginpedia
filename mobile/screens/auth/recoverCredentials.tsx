@@ -29,7 +29,7 @@ const RecoverCredentialsScreen = () => {
         <>
             <ScrollView>
                 <MainLoginContainer>
-                    <Div h={'70%'}>
+                    <Div flex={7}>
                         <LoginTitleContainer>
                             <TitleText fontSize={'sm'}>Ginpedia</TitleText>
                             <TitleGenerator title="Recuperar credenciales" />
@@ -65,7 +65,7 @@ const RecoverCredentialsScreen = () => {
                             />
                         </Div>
                     </Div>
-                    <Div pb={'xl'} h={'30%'} justifyContent="flex-end">
+                    <Div flex={3} justifyContent="flex-end">
                         <Button bg='secondary' color="black" onPress={handleSubmit(onSubmit)} w={'100%'}>Enviar</Button>
                     </Div>
                 </MainLoginContainer>

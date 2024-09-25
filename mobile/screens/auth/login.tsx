@@ -65,6 +65,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
     return (
         <ScrollView>
             <MainLoginContainer>
+
                 <LoginTopContainer>
                     <LoginTitleContainer>
                         <TitleText fontSize={'sm'}>Ginpedia</TitleText>
@@ -123,7 +124,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                                     <Div alignSelf="flex-start" mt={-5}>
                                         <ItalicText color='secondary' fontSize={customTheme.fontSize.small} onPress={navigateToCredentialsRecover}>Olvidaste tus credenciales?</ItalicText>
                                     </Div>
-                                    <ErrorInputMessageContainer>
+                                    <ErrorInputMessageContainer mb={'xl'}>
                                         {errors.password && <ErrorMessageText>{errors.password?.message as string}</ErrorMessageText>}
                                     </ErrorInputMessageContainer>
                                 </>
@@ -132,13 +133,14 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({ naviga
                         />
                     </LoginInputContainer>
                 </LoginTopContainer>
-                <LoginBottomContainer pb={'xl'}>
+                <LoginBottomContainer>
                     <Div flexDir="row">
                         <Text fontSize={'sm'}>No tienes cuenta?</Text>
                         <BoldText fontSize={'sm'} onPress={navigateToRegister}> Registrate</BoldText>
                     </Div>
                     <Button onPress={handleSubmit(onSubmit)} bg='secondary' color="black" w={'100%'}>Login</Button>
                 </LoginBottomContainer>
+
             </MainLoginContainer>
         </ScrollView>
     )
