@@ -1,5 +1,6 @@
 
-import { User } from "../types/user.type";
+
+import { IUser } from "../types/user.type";
 import { HttpService } from "./http.service";
 
 export class UserService extends HttpService {
@@ -16,12 +17,11 @@ export class UserService extends HttpService {
         return this.get(`/${id}`);
     };
 
-    createUser = async (body: User) => {
-        console.log(123, this.post);
+    createUser = async (body: IUser) => {
         return this.post(`/register`, body);
     };
 
-    editUser = async ({ id, ...body }: { id: string, body: User }) => {
+    editUser = async ({ id, ...body }: { id: string, body: IUser }) => {
         return this.put(`/edit/${id}`, body);
     };
 
