@@ -47,7 +47,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         console.log(index)
         console.log(option)
         if (index > -1) {
-            await bookmarkService.deleteBookmark(filteredBookmarks[index].bookmarkId)
+            await bookmarkService.deleteBookmark(filteredBookmarks[index].bookmarkId) // No funciona el tema de borrado de bookmarks
         }
         // else {
         //     await bookmarkService.createBookmark({
