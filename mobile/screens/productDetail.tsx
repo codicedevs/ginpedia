@@ -29,6 +29,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     }
 
     const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
+    if (!product) return null
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style='auto' />
