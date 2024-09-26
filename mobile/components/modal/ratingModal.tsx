@@ -17,7 +17,6 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
         const values = Object.values(rating);
         return sum + values[0];
     }, 0);
-
     const [value, setValue] = useState(0)
 
     const checkRating = (option: number): number => {
@@ -33,6 +32,11 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
 
         return percentage;
     };
+
+    const onCancel = () => {
+        setIsVisible(false)
+        setValue(0)
+    }
 
     return (
         <Overlay w={scale(310)} h={verticalScale(363)} bg='#D9D9D9' visible={isVisible} p="xl">
@@ -100,7 +104,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                     </TouchableOpacity>
                 </Div>
                 <Div h={verticalScale(40)} w={'100%'} justifyContent='space-between' flexDir='row' >
-                    <Button onPress={() => setIsVisible(false)} bg='#BEBEBE' w={scale(120)}><BoldText color='black'>CANCELAR</BoldText></Button>
+                    <Button onPress={onCancel} bg='#BEBEBE' w={scale(120)}><BoldText color='black'>CANCELAR</BoldText></Button>
                     <Button w={scale(120)} bg='secondary' color='black'><BoldText color='black'>ENVIAR</BoldText></Button>
                 </Div>
             </Div>
