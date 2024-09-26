@@ -33,7 +33,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style='auto' />
-            <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} />
+            <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
             <Div bg='background' flex={1} px={'xl'}>
                 <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
                     <MyHeader />
