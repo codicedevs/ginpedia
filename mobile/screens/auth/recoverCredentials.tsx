@@ -6,7 +6,9 @@ import { Button, Div, Input, Text } from "react-native-magnus"
 import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
+import { useGlobalUI } from "../../context/GlobalUIProvider"
 import { useMutate } from "../../hooks/useMutate"
+import { AppScreenProps, AppScreens } from "../../navigation/screens"
 import authService from "../../service/auth.service"
 import { UserInfoRecover } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
@@ -15,10 +17,17 @@ const validationSchema = yup.object({
     email: yup.string().required("Requerido").email('Debe ser un email válido'),
 });
 
-const RecoverCredentialsScreen = () => {
+const RecoverCredentialsScreen: React.FC<AppScreenProps<AppScreens.RECOVER_CREDENTIALS_SCREEN>> = ({ navigation }) => {
 
-    const onSubmit = (data: { email: string }) => {
-        recoverQuery(data.email)
+    const { showSnackBar } = useGlobalUI()
+    const onSubmit = async (data: { email: string }) => {
+        try {
+            await recoverQuery(data.email)
+            showSnackBar("success", "Email enviado correctamente")
+            navigation.navigate(AppScreens.LOGIN_SCREEN)
+        } catch (e) {
+            showSnackBar("error", "Ocurrio un error")
+        }
     }
 
     const recoverPassword = async (email: string) => {

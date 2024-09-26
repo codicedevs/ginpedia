@@ -8,6 +8,7 @@ import * as yup from "yup"
 import { ConfirmationModal } from "../../components/modal/confirmationModal"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
 import { AuthContext } from '../../context/authProvider'
+import { useGlobalUI } from "../../context/GlobalUIProvider"
 import { useMutate } from '../../hooks/useMutate'
 import { AppScreenProps, AppScreens } from "../../navigation/screens"
 import userService from "../../service/user.service"
@@ -34,6 +35,8 @@ const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ 
         navigation.navigate(AppScreens.LOGIN_SCREEN)
     }
 
+    const { showSnackBar } = useGlobalUI()
+
     const {
         control,
         handleSubmit,
@@ -50,8 +53,9 @@ const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ 
         try {
             await registerQuery(data);
             setShow(true)
+            showSnackBar("success", "Registrado con exito")
         } catch (error) {
-            console.error('Failed to login:', error);
+            showSnackBar("error", "Ocurrio un error")
         }
     }
 
