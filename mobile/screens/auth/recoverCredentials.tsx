@@ -6,6 +6,7 @@ import { Button, Div, Input, Text } from "react-native-magnus"
 import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
+import authService from "../../service/auth.service"
 import { UserInfoRecover } from '../../types/user.type'
 import { TitleGenerator } from "../../utils/text"
 
@@ -16,7 +17,11 @@ const validationSchema = yup.object({
 const RecoverCredentialsScreen = () => {
 
     const onSubmit = (data: { email: string }) => {
-        console.log(data)
+        recoverPassword(data.email)
+    }
+
+    const recoverPassword = (email: string) => {
+        authService.recoverPassword(email)
     }
 
     const {
