@@ -44,7 +44,7 @@ const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ 
         return await userService.register(data.email, data.password, data.name);
     }
 
-    const registerQuery = useMutate(register, (err) => { console.error(err) })
+    const registerQuery = useMutate(register, (err) => { console.error(err) }, true)
 
     const onSubmit = async (data: UserInfoRegister) => {
         try {
