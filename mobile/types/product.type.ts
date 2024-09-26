@@ -4,6 +4,10 @@ export enum ProductType {
     ESPECIA = "especia",
 }
 
+export type RatingListEntry = {
+    [key: number]: number;
+};
+
 export type Product = {
     name: string;
     description: string;
@@ -12,7 +16,8 @@ export type Product = {
     origin: string;
     graduation: string;
     combinations?: number[];
-    rating: string;
+    ratingList: RatingListEntry[],
+    rating: number;
     punctuation?: string;
     id: string
 };
