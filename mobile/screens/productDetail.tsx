@@ -245,7 +245,9 @@ function ProductDetail({
             <Icon color="secondary" fontSize="2xl" name="heart" />
           </Div>
           <Div mb={"xl"}>
-            <TitleGenerator title={product?.name} />
+            <TitleGenerator
+              title={product?.name ? product?.name : "Producto"}
+            />
           </Div>
           <Text mb={"lg"} textAlign="justify">
             {product?.description}
