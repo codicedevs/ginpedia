@@ -1,12 +1,12 @@
+import { appSettings } from "settings";
 import { User } from "users/entities/user.entity";
-
 
 export const registrationTemplate = (user: User) => `
     <!DOCTYPE html>
     <html>
     
     <head>
-      <title>Bienvenido/a a ${"APP_Name"}</title>
+      <title>Bienvenido/a a ${appSettings.APP_NAME}</title>
       <style>
         body {
           font-family: Arial, sans-serif;

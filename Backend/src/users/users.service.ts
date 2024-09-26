@@ -5,6 +5,15 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { FindManyOptions, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
 
+type UserBookmarkFormatted = {
+  type: string;
+  productId: number;
+  bookmarkId: number;
+};
+type UserWithFormattedBookmarks = User & {
+  formattedBookmarks?: UserBookmarkFormatted[];
+};
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -39,12 +48,35 @@ export class UsersService {
    * @param id
    * @returns
    */
-  async findByIdOrFail(id: number): Promise<User> {
+
+  async findByIdOrFail(id: number): Promise<UserWithFormattedBookmarks> {
     const user = await this.userRepository.findOneOrFail({
       where: { id },
-      relations: ["bookmarks"],
+      relations: ["bookmarks", "bookmarks.product"],
+      select: {
+        bookmarks: {
+          type: true,
+          id: true,
+          product: {
+            id: true,
+          },
+        },
+      },
     });
-    return user;
+
+    if (user.bookmarks) {
+      const formattedUser = {
+        ...user,
+        formattedBookmarks: user.bookmarks.map((bookmark) => ({
+          type: bookmark.type,
+          productId: bookmark.product.id,
+          bookmarkId: bookmark.id,
+        })),
+      };
+      formattedUser.bookmarks = undefined;
+
+      return formattedUser;
+    } else return user;
   }
   /**
    * @param user
@@ -99,7 +131,7 @@ export class UsersService {
       .getOne();
 
     return {
-      deseados: user
+      deseados: user?.bookmarks
         ? user.bookmarks.map((p) => p.product)
         : "El usuario no tiene deseados",
     };
@@ -120,7 +152,7 @@ export class UsersService {
       .getOne();
 
     return {
-      bodega: user
+      bodega: user?.bookmarks
         ? user.bookmarks.map((p) => p.product)
         : "Este usuario no tiene bookmarks",
     };

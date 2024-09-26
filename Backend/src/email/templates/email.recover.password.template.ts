@@ -1,13 +1,13 @@
+import { appSettings } from "settings";
 import { User } from "users/entities/user.entity";
 
-
-export const passworRecoveryTemplate = (user: User, resetKey: number) => (
-    `
+export const passworRecoveryTemplate = (user: User, resetKey: number) =>
+  `
     <!DOCTYPE html>
     <html>
 
     <head>
-      <title>Recuperá tu contraseña ${"APP_NAME"}</title>
+      <title>Recuperá tu contraseña ${appSettings.APP_NAME}</title>
       <style>
         body {
           font-family: Arial, sans-serif;
@@ -49,5 +49,4 @@ export const passworRecoveryTemplate = (user: User, resetKey: number) => (
 
     </html>
 
-    `
-)
+    `;
