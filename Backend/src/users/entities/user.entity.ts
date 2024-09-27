@@ -22,7 +22,7 @@ export class User {
   @OneToMany(() => Bookmark, (bookmark) => bookmark.user, {
     cascade: ["insert", "update"],
   })
-  bookmarks: Bookmark[];
+  bookmarks?: Bookmark[];
 
   @Column({
     type: "enum",

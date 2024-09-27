@@ -25,3 +25,7 @@ export const smtpSettings = Object.freeze({
   AUTH_USER: process.env.SMTP_USERNAME,
   AUTH_PASS: process.env.SMTP_PASSWORD,
 });
+
+export const appSettings = Object.freeze({
+  APP_NAME: process.env.APP_NAME,
+});

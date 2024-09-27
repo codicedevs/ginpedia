@@ -76,7 +76,7 @@ const RegisterScreen = () => {
             <ConfirmationModal isVisible={show} onConfirm={confirm} title="Cuenta creada con éxito!" subTitle="Será redirigo al login" confirmText="ACEPTAR" />
             <ScrollView>
                 <MainLoginContainer>
-                    <Div h={'70%'}>
+                    <Div flex={7}>
                         <LoginTitleContainer>
                             <TitleText fontSize={'sm'}>Ginpedia</TitleText>
                             <TitleGenerator title="Crear cuenta" />
@@ -183,7 +183,7 @@ const RegisterScreen = () => {
                             />
                         </Div>
                     </Div>
-                    <Div h={'30%'} pb={'xl'} justifyContent="flex-end">
+                    <Div flex={3} justifyContent="flex-end">
                         <Button bg='secondary' onPress={() => setShow(true)} color="black" w={'100%'}>Crear cuenta</Button>
                     </Div>
                 </MainLoginContainer>
