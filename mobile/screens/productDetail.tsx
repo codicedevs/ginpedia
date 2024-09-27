@@ -7,8 +7,7 @@ import {
   Icon,
   Image,
   Overlay,
-  ScrollDiv,
-  Text,
+  Text
 } from "react-native-magnus";
 import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,21 +26,94 @@ import { BASE_URL } from "../utils/config";
 import { TitleGenerator } from "../utils/text";
 import { customTheme } from "../utils/theme";
 
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
+
+import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+
+
+const images = [
+  require('../assets/Bottle.png'),
+  require('../assets/beardman.png'),
+  require('../assets/favicon.png'),
+];
 function ProductDetail({
   route,
   navigation,
 }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
-  const width = Dimensions.get("window").width;
   const [currentIndex, setCurrentIndex] = useState(0);
   const info = [...new Array(6).keys()];
   const [open, setOpen] = useState(false);
   const { productId } = route.params;
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
 
   const fetchProduct = async () => {
     if (!productId) return;
     const res = await productService.getById(productId);
     return res;
   };
+
+  // function animatedStyle(index, scrollY) {
+  //   return useAnimatedStyle(() => {
+  //     const inputRange = [
+  //       (index - 1) * 300,  // Empieza a animarse un poco antes de llegar al ítem
+  //       index * 300,        // Posición en el scroll donde está el ítem
+  //     ];
+  //     const outputRange = [300, 0]; // Empieza fuera de la pantalla y entra a su posición final
+  //     const translateX = interpolate(scrollY.value, inputRange, outputRange, Extrapolate.CLAMP);
+
+  //     return {
+  //       transform: [{ translateX }],
+  //       opacity: interpolate(scrollY.value, inputRange, [0, 1], Extrapolate.CLAMP)
+  //     };
+  //   });
+  // }
+
+  function animatedStyle(index, scrollY) {
+    return useAnimatedStyle(() => {
+      const startAnimating = screenHeight * 0.1; // Comienza después del 10% del scroll
+      const fullyVisibleAt = startAnimating + 80; // Totalmente visible 100px después de empezar a animar
+
+      const inputRange = [startAnimating, fullyVisibleAt];
+
+      // Determina la dirección de la animación basada en si el índice es par (hacia el centro desde la izquierda) o impar (hacia el centro desde la derecha)
+      const isFromLeft = index % 2 === 0;
+      const middleOfScreen = screenWidth / 2;
+      const translateX = interpolate(
+        scrollY.value,
+        inputRange,
+        isFromLeft ? [-middleOfScreen, 0] : [middleOfScreen, 0],
+        Extrapolate.CLAMP
+      );
+
+      const opacity = interpolate(scrollY.value, inputRange, [0, 1], Extrapolate.CLAMP);
+
+      // Ajusta el espaciado vertical para que sea consistente para todas las imágenes
+      const verticalSpacing = 150; // Espacio vertical entre imágenes
+      const baseTopPosition = screenHeight * 0.5; // Base posición vertical al 50% de la pantalla
+      const topPosition = baseTopPosition + verticalSpacing * index; // Cada imagen se coloca 150px más abajo que la anterior
+
+      return {
+        position: 'absolute',
+        top: topPosition,
+        left: isFromLeft ? 0 : undefined,
+        right: isFromLeft ? undefined : 0,
+        transform: [{ translateX }],
+        opacity,
+        zIndex: 1, // Bajo zIndex para estar debajo de otros elementos
+      };
+    });
+  }
+
+
+
 
   const {
     data: product,
@@ -55,7 +127,6 @@ function ProductDetail({
       ? (combiBebida = "tonica")
       : (combiBebida = product.type);
   }
-  console.log(product, combiBebida, "esta");
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -193,10 +264,30 @@ function ProductDetail({
           </Div>
         </Div>
       </Overlay>
+
+
       <Div bg="background" flex={1} px={"xl"}>
-        <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          style={{ flex: 1 }}
+        >
           <MyHeader />
-          <Div mb={"xl"} alignItems="flex-start">
+          {images.map((source, index) => (
+            <Animated.View
+              key={index}
+              style={[
+                {
+                  alignItems: 'center',
+                  marginBottom: 20,
+                },
+                animatedStyle(index, scrollY)
+              ]}
+            >
+              <Image source={source} style={{ width: 100, height: 100 }} />
+            </Animated.View>
+          ))}
+          <Div mb={"xl"} alignItems="flex-start" zIndex={10}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Icon name="arrowleft" fontSize={"3xl"} color="secondary" />
             </TouchableOpacity>
@@ -220,7 +311,7 @@ function ProductDetail({
               </Div>
             )}
           />
-          <Div flexDir="row" justifyContent="center" mt={"lg"}>
+          <Div flexDir="row" justifyContent="center" mt={"lg"} zIndex={10}>
             {info.map((_, index) => (
               <Div
                 w={scale(10)}
@@ -234,7 +325,7 @@ function ProductDetail({
               />
             ))}
           </Div>
-          <Div mb={"md"} flexDir="row" justifyContent="space-between">
+          <Div zIndex={10} mb={"md"} flexDir="row" justifyContent="space-between">
             <Div>
               <Div flexDir="row">
                 <Icon color="secondary" mr={"md"} name="star" />
@@ -244,15 +335,15 @@ function ProductDetail({
             </Div>
             <Icon color="secondary" fontSize="2xl" name="heart" />
           </Div>
-          <Div mb={"xl"}>
+          <Div zIndex={10} mb={"xl"}>
             <TitleGenerator title={product?.name} />
           </Div>
           <Text mb={"lg"} textAlign="justify">
             {product?.description}
           </Text>
-          <InfoContainer>
+          <InfoContainer zIndex={10}>
             <BoldText>Informacion del producto</BoldText>
-            <Div flexDir="row">
+            <Div zIndex={10} flexDir="row">
               <Icon
                 mr={"sm"}
                 fontFamily="Entypo"
@@ -274,7 +365,7 @@ function ProductDetail({
             </Div>
           </InfoContainer>
 
-          <InfoContainer>
+          <InfoContainer zIndex={10}>
             <BoldText>Bebidas relacionadas con este producto</BoldText>
             {product?.combinations &&
               product?.combinations
@@ -295,7 +386,7 @@ function ProductDetail({
                 })}
           </InfoContainer>
 
-          <InfoContainer>
+          <InfoContainer zIndex={10}>
             <BoldText>Aderezos perfectos para esta bebida</BoldText>
             {product?.combinations &&
               product?.combinations
@@ -315,7 +406,7 @@ function ProductDetail({
                   );
                 })}
           </InfoContainer>
-          <Div flexDir="row" justifyContent="space-between" my={"2xl"}>
+          <Div zIndex={10} flexDir="row" justifyContent="space-between" my={"2xl"}>
             <Button
               bg="background"
               w={scale(150)}
@@ -345,7 +436,7 @@ function ProductDetail({
               Comprar
             </Button>
           </Div>
-        </ScrollDiv>
+        </Animated.ScrollView>
       </Div>
     </SafeAreaView>
   );
