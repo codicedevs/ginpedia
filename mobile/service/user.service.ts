@@ -1,4 +1,6 @@
+import axios from "axios";
 import { User } from "../types/user.type";
+import { BASE_URL } from "../utils/config";
 import { HttpService } from "./http.service";
 
 export class UserService extends HttpService {
@@ -11,13 +13,12 @@ export class UserService extends HttpService {
     return res.data;
   };
 
-  getUserById = async (id: string) => {
-    return this.get(`/${id}`);
+  register = async (email: string, password: string, name: string) => {
+    return await axios.post(`${BASE_URL}/users`, { email, password, name });
   };
 
-  createUser = async (body: User) => {
-    console.log(123, this.post);
-    return this.post(`/register`, body);
+  getUserById = async (id: string) => {
+    return this.get(`/${id}`);
   };
 
   editUser = async ({ id, ...body }: { id: string; body: User }) => {

@@ -18,7 +18,7 @@ export const SpinnerContainer = styled(Div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: white;
+  background-color: rgba(128, 128, 128, 0.7);
   justify-content: center;
   align-items: center;
   z-index: 1000;

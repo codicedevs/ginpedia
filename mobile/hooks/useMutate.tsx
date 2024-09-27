@@ -8,8 +8,8 @@ type ErrorHandler = (error: any) => void;
 export function useMutate(
     mutationFn: MutationFunction,
     onSuccess: SuccessHandler = () => { },
+    triggerLoader: boolean = false,
     onError: ErrorHandler = () => { },
-    triggerLoader: boolean = false
 ) {
     const { setIsLoading } = useLoading();
 

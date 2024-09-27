@@ -1,7 +1,7 @@
 import { useIsFetching } from '@tanstack/react-query';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { LoadingText, SpinnerContainer } from './styled/styled';
+import { SpinnerContainer } from './styled/styled';
 
 type SpinnerProps = {
     show: boolean
@@ -17,7 +17,6 @@ const Spinner = ({ show }: SpinnerProps) => {
     return (
         <SpinnerContainer>
             <ActivityIndicator size="large" color="black" />
-            <LoadingText >Cargando...</LoadingText>
         </SpinnerContainer>
     );
 }
