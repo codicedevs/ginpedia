@@ -14,6 +14,11 @@ export enum AppScreens {
     PROFILE_SCREEN = 'Profile'
 }
 
+export enum AppStacks {
+    HOME_STACK = 'HomeStack',
+    SETTINGS_STACK = 'SettingsStack'
+}
+
 export type AppScreensParamList = {
     [AppScreens.LOGIN_SCREEN]: undefined;
     [AppScreens.HOME_SCREEN]: undefined;
@@ -22,7 +27,7 @@ export type AppScreensParamList = {
     [AppScreens.SETTINGS_SCREEN]: undefined;
     [AppScreens.RECOVER_CREDENTIALS_SCREEN]: undefined;
     [AppScreens.REGISTER_SCREEN]: undefined;
-    [AppScreens.PRODUCT_LIST_SCREEN]: undefined;
+    [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery: string };
     [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
     [AppScreens.PROFILE_SCREEN]: undefined
 }

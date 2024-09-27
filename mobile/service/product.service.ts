@@ -7,6 +7,14 @@ class ProductService extends HttpService {
   }
 
   getAll = async (filter?: FilterParamsProps) => {
+    if (filter) {
+      if (filter.where && typeof filter.where === 'object') {
+        filter.where = JSON.stringify(filter.where);
+      }
+      if (filter.order && typeof filter.order === 'object') {
+        filter.order = JSON.stringify(filter.order);
+      }
+    }
     const res = await this.get(``, { params: filter });
     return res.data;
   };
