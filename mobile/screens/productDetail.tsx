@@ -35,7 +35,7 @@ import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimat
 
 const images = [
   require('../assets/Bottle.png'),
-  require('../assets/beardman.png'),
+  require('../assets/yooo.png'),
   require('../assets/favicon.png'),
 ];
 function ProductDetail({
@@ -79,7 +79,7 @@ function ProductDetail({
   function animatedStyle(index, scrollY) {
     return useAnimatedStyle(() => {
       const startAnimating = screenHeight * 0.1; // Comienza después del 10% del scroll
-      const fullyVisibleAt = startAnimating + 80; // Totalmente visible 100px después de empezar a animar
+      const fullyVisibleAt = startAnimating + 50; // Totalmente visible 100px después de empezar a animar
 
       const inputRange = [startAnimating, fullyVisibleAt];
 
@@ -302,7 +302,7 @@ function ProductDetail({
               setCurrentIndex(Math.round(absoluteProgress));
             }}
             renderItem={({ index }) => (
-              <Div flex={1} borderWidth={scale(1)} justifyContent="center">
+              <Div flex={1} justifyContent="center">
                 <Image
                   resizeMode="contain"
                   style={{ height: "100%", width: "100%" }}
