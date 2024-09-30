@@ -7,7 +7,8 @@ import { useGlobalUI } from '../../context/GlobalUIProvider';
 import ratingService from '../../service/rating.service';
 import { Product } from '../../types/product.type';
 import { TitleGenerator } from '../../utils/text';
-import { BoldText, RatingModalInfo } from '../styled/styled';
+import { RatingBar } from '../ratingBar';
+import { BoldText } from '../styled/styled';
 
 interface RatingModalProps {
     isVisible: boolean;
@@ -64,46 +65,11 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                     <Text mt={'md'} color='black'>500 puntuacions</Text>
                 </Div>
                 <Div h={verticalScale(123)} justifyContent='space-between'>
-                    <RatingModalInfo>
-                        <Text w={scale(70)} color='black'>5 estrellas</Text>
-                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(5)}%`} />
-                        </Div>
-                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(5)}%</Text>
-                    </RatingModalInfo>
-
-                    <RatingModalInfo>
-                        <Text w={scale(70)} color='black'>4 estrellas</Text>
-                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(4)}%`} />
-                        </Div>
-                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(4)}%</Text>
-                    </RatingModalInfo>
-
-                    <RatingModalInfo>
-                        <Text w={scale(70)} color='black'>3 estrellas</Text>
-                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(3)}%`} />
-                        </Div>
-                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(3)}%</Text>
-                    </RatingModalInfo>
-
-                    <RatingModalInfo>
-                        <Text w={scale(70)} color='black'>2 estrellas</Text>
-                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(2)}%`} />
-                        </Div>
-                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(2)}%</Text>
-                    </RatingModalInfo>
-
-                    <RatingModalInfo>
-                        <Text w={scale(70)} color='black'>1 estrellas</Text>
-                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
-                            <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(1)}%`} />
-                        </Div>
-                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(1)}%</Text>
-                    </RatingModalInfo>
-
+                    <RatingBar stars={5} percentage={checkRating(5)} />
+                    <RatingBar stars={4} percentage={checkRating(4)} />
+                    <RatingBar stars={3} percentage={checkRating(3)} />
+                    <RatingBar stars={2} percentage={checkRating(2)} />
+                    <RatingBar stars={1} percentage={checkRating(1)} />
                 </Div>
                 <Div flexDir='row' justifyContent='space-between' w={'70%'} alignSelf='center'>
                     <TouchableOpacity onPress={() => setValue(1)}>
