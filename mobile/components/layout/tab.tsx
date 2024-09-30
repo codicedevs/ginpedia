@@ -2,29 +2,36 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity } from "react-native";
 import { Div, Image } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
+import { useSearch } from "../../context/searchProvider";
+import { AppStacks } from "../../navigation/screens";
 
 const home = require('../../assets/home.png')
 const search = require('../../assets/search.png')
 
 export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+    const { setIsOpen } = useSearch();
     return (
         <Div flexDir="row" bg="secondary">
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
-
-                const label = route.name === 'HomeStack' ? home : route.name === 'SettingsStack' ? search : route.name;
+                const label = route.name === AppStacks.HOME_STACK ? home : route.name === AppStacks.SETTINGS_STACK ? search : route.name;
 
                 const isFocused = state.index === index;
 
                 const onPress = () => {
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
+                    if (route.name === AppStacks.SETTINGS_STACK) {
+                        setIsOpen(true)
+                    }
+                    else {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
 
-                    if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name, route.params);
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name, route.params);
+                        }
                     }
                 };
 

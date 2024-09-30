@@ -9,6 +9,7 @@ import {
   Put,
   Query,
   Req,
+  UseGuards,
 } from "@nestjs/common";
 import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
 import { User } from "./entities/user.entity";
@@ -20,6 +21,7 @@ import { UsersService } from "./users.service";
 import { Public } from "authentication/public";
 import { FindManyOptions } from "typeorm";
 import { Request } from "express";
+import { OwnerGuard } from "authentication/guards/owner.guard";
 
 //todos estos endpoint estan protegidos a nivel global por el auth guard que pide token
 @Controller("users")
@@ -80,10 +82,9 @@ export class UsersController {
    * @returns
    */
   @Delete(":id")
-  @Roles(Role.Admin)
+  @UseGuards(OwnerGuard)
   async delete(@Param("id", ParseIntPipe) id: number) {
-    const deletedUser = await this.userService.delete(id);
-    return { message: "User delete", user: deletedUser };
+    return this.userService.delete(id);
   }
 
   @Get("ratings/:id")
@@ -99,5 +100,9 @@ export class UsersController {
   @Get("purchased/:id")
   async getPurchased(@Param("id") id: number) {
     return this.userService.getPurchased(id);
+  }
+  @Get("bookmarks/:id")
+  async getUserCombinations(@Param("id") id: number) {
+    return this.userService.getUserBookmarks(id);
   }
 }

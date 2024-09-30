@@ -18,7 +18,7 @@ export const SpinnerContainer = styled(Div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: white;
+  background-color: rgba(128, 128, 128, 0.7);
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -52,64 +52,62 @@ export const LoadingText = styled(Text)`
 `;
 
 export const ModalContainer = styled(Div)`
-    height: 100%;
-    width: 100%;
-    ${commonViewStyles};
-    background-color: rgba(0, 0, 0, 0.5);
-`
+  height: 100%;
+  width: 100%;
+  ${commonViewStyles};
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 
 export const ModalTextContainer = styled(Div)`
-    height: 50%;
-    width: 85%;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: white;
-    padding: ${({ theme }) => theme.spacing.medium}px
-`
+  height: 50%;
+  width: 85%;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: white;
+  padding: ${({ theme }) => theme.spacing.medium}px;
+`;
 
 export const YellowBorderText = styled(Text)`
   border-bottom-width: 3px;
-  border-bottom-color: ${({ theme }) => theme.colors.secondary}
+  border-bottom-color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const TouchableImageFilter = styled.TouchableOpacity`
   ${commonViewStyles};
   width: ${scale(40)}px;
   border-radius: ${({ theme }) => theme.borderRadius.medium}px;
-`
+`;
 export const RatingModalInfo = styled(Div)`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between
-`
-
+  justify-content: space-between;
+`;
 
 // Details
 export const InfoContainer = styled(Div)`
-  height: ${verticalScale(64)}px;
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;
 
 //Textos
 export const TitleText = styled(Text)`
-  font-family:${({ theme }) => theme.fontFamily.secondary}
-`
+  font-family: ${({ theme }) => theme.fontFamily.secondary};
+`;
 
 export const BoldText = styled(Text)`
-  font-family:${({ theme }) => theme.fontFamily.bold}
-`
+  font-family: ${({ theme }) => theme.fontFamily.bold};
+`;
 
 export const ItalicText = styled(Text)`
-  font-family:${({ theme }) => theme.fontFamily.mItalic}
-`
+  font-family: ${({ theme }) => theme.fontFamily.mItalic};
+`;
 //\ T
 
 export const FeaturedCardSkeletton = styled(MotiView)`
   width: 100%;
   height: 100%;
   background-color: gray;
-`
+`;
 
 export const ListCardSkeletton = styled(MotiView)`
   width: 100%;
@@ -117,15 +115,15 @@ export const ListCardSkeletton = styled(MotiView)`
   height: ${verticalScale(100)}px;
   padding: ${({ theme }) => theme.spacing.medium}px;
   border-radius: ${({ theme }) => theme.spacing.medium}px;
-  flex-direction: row
-`
+  flex-direction: row;
+`;
 
 // LOGIN
 
 export const MainLoginContainer = styled(Div)`
   padding: ${({ theme }) => theme.spacing.large}px;
   height: ${verticalScale(700)}px;
-  background-color: ${({ theme }) => theme.colors.background}
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const LoginTitleContainer = styled(Div)`
@@ -137,7 +135,7 @@ export const LoginTitleContainer = styled(Div)`
 export const LabelContainer = styled(Div)`
   align-self: flex-start;
   margin-bottom: ${({ theme }) => theme.spacing.xs}px;
-`
+`;
 
 export const LoginTittle = styled(Text)`
   ${commonTitleStyles};
@@ -156,8 +154,8 @@ export const LoginTopContainer = styled(Div)`
 
 export const LoginBottomContainer = styled(Div)`
   justify-content: space-between;
-  flex: 6
-`
+  flex: 6;
+`;
 
 export const LoginInput = styled.TextInput`
   background-color: #333;
@@ -201,7 +199,7 @@ export const LoginButtonText = styled(Text)`
   color: #ffffff;
   font-size: ${({ theme }) => theme.fontSize.medium}px;
   font-weight: bold;
-  font-family: Poppins-Bold
+  font-family: Poppins-Bold;
 `;
 
 export const ErrorInputMessageContainer = styled(Div)`
