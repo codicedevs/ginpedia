@@ -8,6 +8,12 @@ export type RatingListEntry = {
   [key: number]: number;
 };
 
+type Combination = {
+  id: number;
+  name: string;
+  type: ProductType
+}
+
 export type Product = {
   name: string;
   description: string;
@@ -15,7 +21,7 @@ export type Product = {
   image: string;
   origin: string;
   graduation: string;
-  combinations?: number[];
+  combinations?: Combination[];
   ratingList: RatingListEntry[],
   rating: number;
   punctuation?: string;

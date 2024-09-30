@@ -42,7 +42,6 @@ function ProductDetail({
         return res;
     };
 
-
     const {
         data: product,
         isFetching,
@@ -55,8 +54,8 @@ function ProductDetail({
             ? (combiBebida = "tonica")
             : (combiBebida = product.type);
     }
-    console.log(product, combiBebida, "esta");
 
+    if (!product) return null
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style="auto" />
