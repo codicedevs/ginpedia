@@ -43,7 +43,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                 };
 
                 return (
-                    <Div flex={1} alignItems="center" justifyContent="center" rounded={'md'} h={verticalScale(70)}>
+                    <Div flex={1} alignItems="center" justifyContent="center" rounded={'md'} h={verticalScale(50)}>
                         <TouchableOpacity
                             accessibilityRole="button"
                             accessibilityState={isFocused ? { selected: true } : {}}
@@ -52,7 +52,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                             onPress={onPress}
                             onLongPress={onLongPress}
                         >
-                            <Image w={scale(25)} h={verticalScale(25)} source={label} />
+                            <Image w={scale(20)} h={verticalScale(20)} source={label} />
                         </TouchableOpacity>
                     </Div>
                 );
