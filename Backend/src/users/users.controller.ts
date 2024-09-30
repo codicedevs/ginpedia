@@ -101,4 +101,8 @@ export class UsersController {
   async getPurchased(@Param("id") id: number) {
     return this.userService.getPurchased(id);
   }
+  @Get("bookmarks/:id")
+  async getUserCombinations(@Param("id") id: number) {
+    return this.userService.getUserBookmarks(id);
+  }
 }
