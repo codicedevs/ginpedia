@@ -13,13 +13,11 @@ import {
   ItalicText,
   LabelContainer,
   LoginBottomContainer,
-  LoginButton,
-  LoginButtonText,
   LoginInputContainer,
   LoginTitleContainer,
   LoginTopContainer,
   MainLoginContainer,
-  TitleText,
+  TitleText
 } from "../../components/styled/styled";
 import { AuthContext } from "../../context/authProvider";
 import { useMutate } from "../../hooks/useMutate";

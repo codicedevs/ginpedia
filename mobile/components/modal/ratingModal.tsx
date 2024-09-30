@@ -36,11 +36,13 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
 
     const sendRating = () => {
         if (value === 0) return
-        if (!!rating) {
-
-        } else {
+        try {
             ratingService.createRating(productId, currentUser.id, Number(value))
+            setIsVisible(false)
+        } catch (e) {
+            console.log(e)
         }
+
     }
 
     const onCancel = () => {
