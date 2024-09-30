@@ -65,40 +65,45 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                 </Div>
                 <Div h={verticalScale(123)} justifyContent='space-between'>
                     <RatingModalInfo>
-                        <Text color='black'>5 estrellas</Text>
-                        <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
+                        <Text w={scale(70)} color='black'>5 estrellas</Text>
+                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
                             <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(5)}%`} />
                         </Div>
-                        <Text color='black'>{checkRating(5)}%</Text>
+                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(5)}%</Text>
                     </RatingModalInfo>
+
                     <RatingModalInfo>
-                        <Text color='black'>4 estrellas</Text>
-                        <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
+                        <Text w={scale(70)} color='black'>4 estrellas</Text>
+                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
                             <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(4)}%`} />
                         </Div>
-                        <Text color='black'>{checkRating(4)}%</Text>
+                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(4)}%</Text>
                     </RatingModalInfo>
+
                     <RatingModalInfo>
-                        <Text color='black'>3 estrellas</Text>
-                        <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
+                        <Text w={scale(70)} color='black'>3 estrellas</Text>
+                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
                             <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(3)}%`} />
                         </Div>
-                        <Text color='black'>{checkRating(3)}%</Text>
+                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(3)}%</Text>
                     </RatingModalInfo>
+
                     <RatingModalInfo>
-                        <Text color='black'>2 estrellas</Text>
-                        <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
+                        <Text w={scale(70)} color='black'>2 estrellas</Text>
+                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
                             <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(2)}%`} />
                         </Div>
-                        <Text color='black'>{checkRating(2)}%</Text>
+                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(2)}%</Text>
                     </RatingModalInfo>
+
                     <RatingModalInfo>
-                        <Text color='black'>1 estrellas</Text>
-                        <Div rounded={'md'} w={scale(160)} h={verticalScale(10)} bg='white' >
+                        <Text w={scale(70)} color='black'>1 estrellas</Text>
+                        <Div rounded={'md'} w={scale(140)} h={verticalScale(10)} bg='white'>
                             <Div rounded={'md'} bg='secondary' h={'100%'} w={`${checkRating(1)}%`} />
                         </Div>
-                        <Text color='black'>{checkRating(1)}%</Text>
+                        <Text w={scale(60)} textAlign='center' color='black'>{checkRating(1)}%</Text>
                     </RatingModalInfo>
+
                 </Div>
                 <Div flexDir='row' justifyContent='space-between' w={'70%'} alignSelf='center'>
                     <TouchableOpacity onPress={() => setValue(1)}>
