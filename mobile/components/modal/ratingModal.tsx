@@ -44,9 +44,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
             setIsVisible(false)
             showSnackBar("success", "Puntuación enviada")
         } catch (e) {
-            console.log(e)
+            showSnackBar("error", "Ocurrio un problema")
         }
-
     }
 
     const onCancel = () => {
