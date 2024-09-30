@@ -38,7 +38,7 @@ export class AuthService {
     if (password) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        throw new Error();
+        throw new HttpException("El password no es correcto", 401);
       }
     }
 

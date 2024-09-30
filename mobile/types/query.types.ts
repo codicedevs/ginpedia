@@ -6,8 +6,8 @@ export enum QUERY_KEYS {
 export interface FilterParamsProps {
     where?: {
         [key: string]: string;
-    };
+    } | string
     order?: {
         [key: string]: string;
-    };
+    } | string
 }

@@ -12,7 +12,7 @@ import ProductDetail from "../screens/productDetail";
 import ProductListScreen from "../screens/productsList";
 import ProfileScreen from "../screens/profile/profile";
 import SettingsScreen from "../screens/settings";
-import { AppScreens, AppScreensParamList } from "./screens";
+import { AppScreens, AppScreensParamList, AppStacks } from "./screens";
 
 const SettingsStack = createNativeStackNavigator<AppScreensParamList>();
 const AuthStack = createNativeStackNavigator<AppScreensParamList>();
@@ -54,8 +54,8 @@ export function SettingsStackScreen() {
 export function TabStackScreen() {
     return (
         <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <MyTab {...props} />} >
-            <Tab.Screen name="HomeStack" component={HomeStackScreen} />
-            <Tab.Screen name="SettingsStack" component={SettingsStackScreen} />
+            <Tab.Screen name={AppStacks.HOME_STACK} component={HomeStackScreen} />
+            <Tab.Screen name={AppStacks.SETTINGS_STACK} component={SettingsStackScreen} />
         </Tab.Navigator>
     )
 }
