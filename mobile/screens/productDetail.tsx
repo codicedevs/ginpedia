@@ -42,11 +42,7 @@ function ProductDetail({
         return res;
     };
 
-    const {
-        data: product,
-        isFetching,
-        isFetched,
-    } = useFetch<Product>(fetchProduct, ["products", productId]);
+    const { data: product } = useFetch<Product>(fetchProduct, ["products", productId]);
 
     let combiBebida = "";
     if (product?.combinations) {
