@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Overlay, Text } from "react-native-magnus";
 import { scale, verticalScale } from 'react-native-size-matters';
 import { AuthContext } from '../../context/authProvider';
+import { useGlobalUI } from '../../context/GlobalUIProvider';
 import ratingService from '../../service/rating.service';
 import { Product } from '../../types/product.type';
 import { TitleGenerator } from '../../utils/text';
@@ -22,6 +23,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
         const values = Object.values(rating);
         return sum + values[0];
     }, 0);
+    const { showSnackBar } = useGlobalUI()
 
     const checkRating = (option: number): number => {
         if (totalRatings === 0) return 0;
@@ -39,6 +41,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
         try {
             ratingService.createRating(productId, currentUser.id, Number(value))
             setIsVisible(false)
+            showSnackBar("success", "Puntuación enviada")
         } catch (e) {
             console.log(e)
         }
