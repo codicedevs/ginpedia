@@ -26,7 +26,8 @@ export interface CreateBookmark {
 
 export interface Bookmark {
     id: number,
-    type: BookmarkType
+    type: BookmarkType,
+    productId: number
 }
 
 export interface IUser {
