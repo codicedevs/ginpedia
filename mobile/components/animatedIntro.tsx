@@ -1,6 +1,6 @@
 import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 const AnimatedIntro = () => {
     const [startAnimation, setStartAnimation] = useState(false);
@@ -25,11 +25,11 @@ const AnimatedIntro = () => {
     }, []);
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'grey' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'grey', flexDirection: 'row' }}>
             <MotiView
                 from={{
                     rotate: '0deg',
-                    translateX: 0, // Inicia con translateX en 0
+                    translateX: 0,
                     width: 50,
                     height: 50,
                     borderRadius: 10
@@ -40,9 +40,9 @@ const AnimatedIntro = () => {
                     height: 25,
                     borderRadius: 12.5 // Mantiene la forma de círculo
                 } : startSecondAnimation ? {
-                    width: 25, // La mitad del tamaño inicial del cuadrado
+                    width: 25,
                     height: 25,
-                    borderRadius: 12.5 // Hace que se convierta en un círculo
+                    borderRadius: 12.5
                 } : startAnimation ? {
                     rotate: '405deg',
                     width: 100,
@@ -52,8 +52,17 @@ const AnimatedIntro = () => {
                     type: 'timing',
                     duration: startThirdAnimation ? 500 : startSecondAnimation ? 1000 : 2000
                 }}
-                style={{ backgroundColor: 'blue' }}
+                style={{ backgroundColor: 'blue', alignSelf: 'center' }}  // Asegura que el círculo esté alineado verticalmente
             />
+
+            <MotiView
+                from={{ opacity: 0 }} // Comienza con opacidad 0
+                animate={{ opacity: startThirdAnimation ? 1 : 0 }} // Aumenta la opacidad si la tercera animación ha comenzado
+                transition={{ type: 'timing', duration: 500 }} // Sincroniza con la duración de la tercera animación
+                style={{ position: 'absolute', alignSelf: 'center' }} // Alinea el texto en el centro horizontal y vertical
+            >
+                <Text style={{ color: 'white', fontSize: 30 }}>Staladev</Text>
+            </MotiView>
         </View>
     )
 }
