@@ -12,7 +12,6 @@ import useFetch from '../hooks/useGet';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import bookmarkService from '../service/bookmark.service';
 import productService from '../service/product.service';
-import userService from '../service/user.service';
 import { Product } from '../types/product.type';
 import { Bookmark, BookmarkType } from '../types/user.type';
 import { BASE_URL } from '../utils/config';
@@ -27,11 +26,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
 
-    // Crear un objeto de ese tipo
-    // const userBookmark: UserBookmark = {
-    //     [BookmarkType.WISHLIST]: true,
-    //     [BookmarkType.PURCHASED]: false,
-    // };
     const [filteredBookmarks, setFilteredBookmarks] = useState<Bookmark[]>([])
     const [userBookmarks, setUserBookmarks] = useState<UserBookmark>({
         [BookmarkType.WISHLIST]: false,
@@ -44,22 +38,14 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
 
     const getBookmarks = async () => {
         if (!currentUser) return
-        const res = (await userService.bringUserBookmarks(currentUser?.id)).data
-        let filtered = res.filter((bookmark: Bookmark) => bookmark.id === Number(productId))
-        console.log(res)
-        // console.log(filtered, 'filtered')
-        // console.log(filtered.some((bookmark: Bookmark) => {
-        //     console.log(`Comparing: ${bookmark.type} with ${BookmarkType.PURCHASED}`);
-        //     return bookmark.type === BookmarkType.PURCHASED
-        // }));
+        const res = (await bookmarkService.bringUserBookmarks(currentUser?.id)).data
+        let filtered = res.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
         setFilteredBookmarks(filtered)
         setUserBookmarks({
             [BookmarkType.WISHLIST]: filtered.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST),
             [BookmarkType.PURCHASED]: filtered.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED),
         })
     }
-
-
 
     const fetchProduct = async () => {
         if (!productId) return;
@@ -69,11 +55,9 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
 
     const handleBookmark = async (option: BookmarkType) => {
         const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
-        console.log(index)
-        console.log(option)
         if (index > -1) {
             await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
-            console.log('1')
+            // preguntar a tato como manejar el getbookmars y el handle bookmark, tengo q usarlo bien con query o medio a cinta
         }
         else {
             await bookmarkService.createBookmark({
@@ -81,7 +65,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                 userId: currentUser?.id,
                 type: option
             })
-            console.log(2)
         }
         getBookmarks()
     }
