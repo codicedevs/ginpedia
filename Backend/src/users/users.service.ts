@@ -157,13 +157,4 @@ export class UsersService {
         : "Este usuario no tiene bookmarks",
     };
   }
-
-  async getUserBookmarks(id: number) {
-    const user = await this.userRepository.findOneOrFail({
-      where: { id: id },
-      relations: ["bookmarks"],
-    });
-    console.log(user);
-    return user.bookmarks;
-  }
 }
