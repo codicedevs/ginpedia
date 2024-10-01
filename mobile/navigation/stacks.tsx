@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FadeWrapper } from "../components/fadeView";
+import CustomDrawerContent from "../components/layout/drawer";
 import { MyTab } from "../components/layout/tab";
 import LoginScreen from "../screens/auth/login";
 import RecoverCredentialsScreen from "../screens/auth/recoverCredentials";
@@ -63,6 +64,7 @@ export function TabStackScreen() {
 export function Principal() {
     return (
         <Drawer.Navigator
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: false
             }}>
