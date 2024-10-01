@@ -1,7 +1,6 @@
 
 
 import axios from "axios";
-import { IUser } from "../types/user.type";
 import { BASE_URL } from "../utils/config";
 import { HttpService } from "./http.service";
 
@@ -19,17 +18,13 @@ export class UserService extends HttpService {
     return await axios.post(`${BASE_URL}/users`, { email, password, name });
   };
 
-  createUser = async (body: IUser) => {
-    return this.post(`/register`, body);
-  };
-
-  editUser = async ({ id, ...body }: { id: string, body: IUser }) => {
-    return this.put(`/edit/${id}`, body);
-  };
-
   deleteUser = async (id: number) => {
     return this.delete(`/${id}`);
   };
+
+  bringUserBookmarks = async (id: number) => {
+    return this.get(`/bookmarks/${id}`)
+  }
 
   changePassword = async ({
     currentPass,
