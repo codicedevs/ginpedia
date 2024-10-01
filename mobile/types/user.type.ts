@@ -25,8 +25,7 @@ export interface CreateBookmark {
 }
 
 export interface Bookmark {
-    productId: number,
-    bookmarkId: number,
+    id: number,
     type: BookmarkType
 }
 
