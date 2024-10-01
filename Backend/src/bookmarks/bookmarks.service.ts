@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "products/entities/product.entity";
 import { Repository } from "typeorm";
@@ -53,5 +53,24 @@ export class BookmarksService {
       user: user,
       type,
     });
+  }
+  async getUserBookmarks(id: number) {
+    try {
+      const userSelected = await this.bookmarkRepository.find({
+        where: { user: { id: id } },
+        relations: ["product"],
+      });
+
+      return userSelected.map((bookm) => ({
+        id: bookm.id,
+        type: bookm.type,
+        productId: bookm.product.id,
+      }));
+    } catch (err) {
+      return new HttpException(
+        "no existe usuario o no tiene bookmarks guardados",
+        407
+      );
+    }
   }
 }

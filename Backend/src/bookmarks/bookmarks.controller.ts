@@ -42,4 +42,9 @@ export class BookmarksController {
   remove(@Param("id") id: string) {
     return this.bookmarksService.remove(+id);
   }
+
+  @Get("byUser/:id")
+  async getUserCombinations(@Param("id") id: number) {
+    return this.bookmarksService.getUserBookmarks(id);
+  }
 }
