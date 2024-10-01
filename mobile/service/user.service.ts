@@ -22,10 +22,6 @@ export class UserService extends HttpService {
     return this.delete(`/${id}`);
   };
 
-  bringUserBookmarks = async (id: number) => {
-    return this.get(`/bookmarks/${id}`)
-  }
-
   changePassword = async ({
     currentPass,
     newPass,

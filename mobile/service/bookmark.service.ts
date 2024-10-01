@@ -15,6 +15,10 @@ export class UserService extends HttpService {
     deleteBookmark = async (id: number) => {
         return this.delete(`/${id}`);
     };
+
+    bringUserBookmarks = async (id: number) => {
+        return this.get(`/byUser/${id}`)
+    }
 }
 
 export default new UserService();
