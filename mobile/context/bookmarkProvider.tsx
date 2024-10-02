@@ -1,15 +1,14 @@
-import React, { FC, ReactNode, useContext, useState } from "react";
+import React, { FC, ReactNode, useContext } from "react";
+import useFetch from "../hooks/useGet";
 import bookmarkService from "../service/bookmark.service";
 import { Bookmark } from "../types/user.type";
 import { AuthContext } from "./authProvider";
 
 export const BookmarkContext = React.createContext<{
     bookmarks: Bookmark[];
-    setBookmarks: (bookmarks: Bookmark[]) => void;
-    getBookmarks: (id: number) => Promise<Bookmark[]>;
+    getBookmarks: any
 }>({
     bookmarks: [],
-    setBookmarks: () => { },
     getBookmarks: async () => []
 });
 
@@ -19,26 +18,21 @@ interface AppProviderProps {
 
 const BookmarkProvider: FC<AppProviderProps> = ({ children }) => {
     const { currentUser } = useContext(AuthContext)
-    const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
 
-    const getBookmarks = async (id: number) => {
+    const getBookmarks = async () => {
+        if (!currentUser) return [];
+        return (await bookmarkService.bringUserBookmarks(currentUser.id)).data
+    }
 
-        try {
-            const res = await bookmarkService.bringUserBookmarks(id);
-            setBookmarks(res.data);
-            return res.data;
-        } catch (error) {
-            console.error("Error fetching bookmarks:", error);
-            return [];
-        }
-    };
+    const { data: bookmarks, refetch } = useFetch(getBookmarks, ['bookmarks'], false, {
+        enabled: !!currentUser
+    })
 
     return (
         <BookmarkContext.Provider
             value={{
-                bookmarks,
-                setBookmarks,
-                getBookmarks
+                bookmarks: bookmarks,
+                getBookmarks: refetch
             }}
         >
             {children}
