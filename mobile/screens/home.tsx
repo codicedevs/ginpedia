@@ -33,7 +33,6 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
     const bringBookmarks = () => {
         if (!currentUser) return
         getBookmarks(currentUser.id)
-
     }
 
     useEffect(() => {

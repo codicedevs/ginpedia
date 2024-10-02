@@ -3,7 +3,6 @@ import bookmarkService from "../service/bookmark.service";
 import { Bookmark } from "../types/user.type";
 import { AuthContext } from "./authProvider";
 
-
 export const BookmarkContext = React.createContext<{
     bookmarks: Bookmark[];
     setBookmarks: (bookmarks: Bookmark[]) => void;
@@ -17,7 +16,6 @@ export const BookmarkContext = React.createContext<{
 interface AppProviderProps {
     children: ReactNode;
 }
-
 
 const BookmarkProvider: FC<AppProviderProps> = ({ children }) => {
     const { currentUser } = useContext(AuthContext)
