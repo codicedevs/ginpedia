@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Image, Overlay, ScrollDiv, Text } from 'react-native-magnus';
 import Carousel from 'react-native-reanimated-carousel';
@@ -27,26 +27,30 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const info = [...new Array(6).keys()];
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
-    const { bookmarks, setBookmarks, getBookmarks } = useContext(BookmarkContext)
-    const [filteredBookmarks, setFilteredBookmarks] = useState<Bookmark[]>([])
+    const { bookmarks, getBookmarks } = useContext(BookmarkContext)
     const [userBookmarks, setUserBookmarks] = useState<UserBookmark>({
         [BookmarkType.WISHLIST]: false,
         [BookmarkType.PURCHASED]: false,
     })
+    const deleteBookmark = async (id) => {
+        await bookmarkService.deleteBookmark(id)
+    }
 
-    useEffect(() => {
-        organizeUserBookmarks()
-    }, [currentUser, bookmarks])
-
-    const organizeUserBookmarks = async () => {
-        if (!currentUser) return
-        let filtered = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
-        setFilteredBookmarks(filtered)
-        setUserBookmarks({
-            [BookmarkType.WISHLIST]: filtered.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST),
-            [BookmarkType.PURCHASED]: filtered.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED),
+    const createBookmark = async (data) => {
+        await bookmarkService.createBookmark({
+            productId: Number(data.productId),
+            userId: currentUser?.id,
+            type: (data.option)
         })
     }
+
+    const handleDelete = useMutate(deleteBookmark)
+
+    const handleCreate = useMutate(createBookmark)
+
+    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
+    const isBookmarked = filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED)
+    const isLiked = filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
 
     const fetchProduct = async () => {
         if (!productId) return;
@@ -54,45 +58,46 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         return res;
     };
 
-    const handleBookmark = async (option: BookmarkType) => {
-        if (!currentUser) return
-        const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
-        if (index > -1) {
-            setUserBookmarks({
-                ...userBookmarks,
-                [option]: false
-            })
-            try {
-                await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
-            } catch (e) {
-                setUserBookmarks({
-                    ...userBookmarks,
-                    [option]: true
-                })
-            }
-            //preguntar sobre como manejar comportamiento cuando se apretan los dos al mismo tiempo
-        }
-        else {
-            setUserBookmarks({
-                ...userBookmarks,
-                [option]: true
-            })
-            try {
-                await bookmarkService.createBookmark({
-                    productId: Number(productId),
-                    userId: currentUser?.id,
-                    type: option
-                })
-            } catch (e) {
-                setUserBookmarks({
-                    ...userBookmarks,
-                    [option]: false
-                })
-            }
-        }
-        const data = await getBookmarks(currentUser.id)
-        setBookmarks(data)
-    }
+
+
+    // const handleBookmark = async (option: BookmarkType) => {
+    //     
+    //     const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
+    //     if (index > -1) {
+    //         setUserBookmarks({
+    //             ...userBookmarks,
+    //             [option]: false
+    //         })
+    //         try {
+    //             await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
+    //         } catch (e) {
+    //             setUserBookmarks({
+    //                 ...userBookmarks,
+    //                 [option]: true
+    //             })
+    //         }
+    //         //preguntar sobre como manejar comportamiento cuando se apretan los dos al mismo tiempo
+    //     }
+    //     else {
+    //         setUserBookmarks({
+    //             ...userBookmarks,
+    //             [option]: true
+    //         })
+    //         try {
+    //             await bookmarkService.createBookmark({
+    //                 productId: Number(productId),
+    //                 userId: currentUser?.id,
+    //                 type: option
+    //             })
+    //         } catch (e) {
+    //             setUserBookmarks({
+    //                 ...userBookmarks,
+    //                 [option]: false
+    //             })
+    //         }
+    //     }
+    //     getBookmarks()
+    // }
 
     const handleQuery = useMutate(handleBookmark, () => console.log('succes'), false, (err) => console.log('error'))
 
@@ -292,10 +297,10 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         </Div>
                         <Div row>
                             <TouchableOpacity onPress={() => handleQuery(BookmarkType.WISHLIST)}>
-                                <Icon mr={scale(15)} color={userBookmarks[BookmarkType.WISHLIST] ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
+                                <Icon mr={scale(15)} color={isLiked ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => handleQuery(BookmarkType.PURCHASED)}>
-                                <Icon color={userBookmarks[BookmarkType.PURCHASED] ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
+                                <Icon color={isBookmarked ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
                             </TouchableOpacity>
                         </Div>
                     </Div>
