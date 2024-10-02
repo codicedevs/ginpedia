@@ -8,7 +8,9 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { MyHeader } from '../components/layout/header';
 import { BoldText, InfoContainer, RatingModalInfo } from '../components/styled/styled';
 import { AuthContext } from '../context/authProvider';
+import { BookmarkContext } from '../context/bookmarkProvider';
 import useFetch from '../hooks/useGet';
+import { useMutate } from '../hooks/useMutate';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import bookmarkService from '../service/bookmark.service';
 import productService from '../service/product.service';
@@ -25,7 +27,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const info = [...new Array(6).keys()];
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
-
+    const { bookmarks, setBookmarks, getBookmarks } = useContext(BookmarkContext)
     const [filteredBookmarks, setFilteredBookmarks] = useState<Bookmark[]>([])
     const [userBookmarks, setUserBookmarks] = useState<UserBookmark>({
         [BookmarkType.WISHLIST]: false,
@@ -33,13 +35,12 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     })
 
     useEffect(() => {
-        getBookmarks()
-    }, [currentUser])
+        organizeUserBookmarks()
+    }, [currentUser, bookmarks])
 
-    const getBookmarks = async () => {
+    const organizeUserBookmarks = async () => {
         if (!currentUser) return
-        const res = (await bookmarkService.bringUserBookmarks(currentUser?.id)).data
-        let filtered = res.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
+        let filtered = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
         setFilteredBookmarks(filtered)
         setUserBookmarks({
             [BookmarkType.WISHLIST]: filtered.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST),
@@ -54,20 +55,46 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     };
 
     const handleBookmark = async (option: BookmarkType) => {
+        if (!currentUser) return
         const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
         if (index > -1) {
-            await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
-            // preguntar a tato como manejar el getbookmars y el handle bookmark, tengo q usarlo bien con query o medio a cinta
+            setUserBookmarks({
+                ...userBookmarks,
+                [option]: false
+            })
+            try {
+                await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
+            } catch (e) {
+                setUserBookmarks({
+                    ...userBookmarks,
+                    [option]: true
+                })
+            }
+            //preguntar sobre como manejar comportamiento cuando se apretan los dos al mismo tiempo
         }
         else {
-            await bookmarkService.createBookmark({
-                productId: Number(productId),
-                userId: currentUser?.id,
-                type: option
+            setUserBookmarks({
+                ...userBookmarks,
+                [option]: true
             })
+            try {
+                await bookmarkService.createBookmark({
+                    productId: Number(productId),
+                    userId: currentUser?.id,
+                    type: option
+                })
+            } catch (e) {
+                setUserBookmarks({
+                    ...userBookmarks,
+                    [option]: false
+                })
+            }
         }
-        getBookmarks()
+        const data = await getBookmarks(currentUser.id)
+        setBookmarks(data)
     }
+
+    const handleQuery = useMutate(handleBookmark, () => console.log('succes'), false, (err) => console.log('error'))
 
     const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
 
@@ -264,10 +291,10 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             <Text fontSize={"xs"}>500 calificaciones</Text>
                         </Div>
                         <Div row>
-                            <TouchableOpacity onPress={() => handleBookmark(BookmarkType.WISHLIST)}>
+                            <TouchableOpacity onPress={() => handleQuery(BookmarkType.WISHLIST)}>
                                 <Icon mr={scale(15)} color={userBookmarks[BookmarkType.WISHLIST] ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleBookmark(BookmarkType.PURCHASED)}>
+                            <TouchableOpacity onPress={() => handleQuery(BookmarkType.PURCHASED)}>
                                 <Icon color={userBookmarks[BookmarkType.PURCHASED] ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
                             </TouchableOpacity>
                         </Div>
