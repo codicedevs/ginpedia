@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Div, Icon, ScrollDiv, Text } from 'react-native-magnus'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { verticalScale } from 'react-native-size-matters'
 import { FeaturedCard } from '../components/cards/featuredCard'
 import { ListCard } from '../components/cards/listCard'
 import { MyHeader } from '../components/layout/header'
+import { AuthContext } from '../context/authProvider'
+import { BookmarkContext } from '../context/bookmarkProvider'
 import useFetch from '../hooks/useGet'
 import { AppScreenProps, AppScreens } from '../navigation/screens'
 import productService from '../service/product.service'
@@ -13,12 +15,12 @@ import { Product } from '../types/product.type'
 import { TitleGenerator } from '../utils/text'
 
 const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigation }) => {
+    const { getBookmarks } = useContext(BookmarkContext)
+    const { currentUser } = useContext(AuthContext)
+
     const fetchFeature = async () => {
-
         const res = await productService.getAll()
-
         const sortedProducts = res.sort((a, b) => b.rating - a.rating);
-
         return sortedProducts;
     };
 
@@ -27,6 +29,16 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
     const navigateList = () => {
         navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN)
     }
+
+    const bringBookmarks = () => {
+        if (!currentUser) return
+        getBookmarks(currentUser.id)
+
+    }
+
+    useEffect(() => {
+        bringBookmarks()
+    }, [currentUser])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
