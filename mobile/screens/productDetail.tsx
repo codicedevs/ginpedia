@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Button, Div, Icon, Image, Overlay, ScrollDiv, Text } from 'react-native-magnus';
+import { Button, Div, Icon, Image, ScrollDiv, Text } from 'react-native-magnus';
 import Carousel from 'react-native-reanimated-carousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { MyHeader } from '../components/layout/header';
-import { BoldText, InfoContainer, RatingModalInfo } from '../components/styled/styled';
+import RatingModal from '../components/modal/ratingModal';
+import { BoldText, InfoContainer } from '../components/styled/styled';
 import { AuthContext } from '../context/authProvider';
 import { BookmarkContext } from '../context/bookmarkProvider';
 import useFetch from '../hooks/useGet';
-import { useMutate } from '../hooks/useMutate';
 import useOptimistic from '../hooks/useOptimistic';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import bookmarkService from '../service/bookmark.service';
@@ -117,8 +117,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         getBookmarks()
     }
 
-    const handleQuery = useMutate(addBookmark, () => console.log('succes'), false, (err) => console.log('error'))
-
     const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
 
     let combiBebida = "";
@@ -128,142 +126,11 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
             : (combiBebida = product.type);
     }
 
+    if (!product) return null
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar style="auto" />
-            <Overlay
-                w={scale(310)}
-                h={verticalScale(363)}
-                bg="#D9D9D9"
-                visible={open}
-                p="xl"
-            >
-                <Div justifyContent="space-between" h={"100%"}>
-                    <Div>
-                        <Div flexDir="row">
-                            <Icon color="black" mr={"md"} name="star" />
-                            <Text color="black">7.3</Text>
-                        </Div>
-                        <TitleGenerator color="black" title="Puntuá esta bebida" />
-                        <Text mt={"md"} color="black">
-                            500 puntuacions
-                        </Text>
-                    </Div>
-                    <Div h={verticalScale(123)} justifyContent="space-between">
-                        <RatingModalInfo>
-                            {/* Despues reemplazar esto con un componente */}
-                            <Text color="black">5 estrellas</Text>
-                            <Div
-                                rounded={"md"}
-                                w={scale(160)}
-                                h={verticalScale(10)}
-                                bg="white"
-                            >
-                                <Div rounded={"md"} bg="secondary" h={"100%"} w={"70%"} />
-                            </Div>
-                            <Text color="black">70%</Text>
-                        </RatingModalInfo>
-                        <RatingModalInfo>
-                            <Text color="black">4 estrellas</Text>
-                            <Div
-                                rounded={"md"}
-                                w={scale(160)}
-                                h={verticalScale(10)}
-                                bg="white"
-                            >
-                                <Div rounded={"md"} bg="secondary" h={"100%"} w={"15%"} />
-                            </Div>
-                            <Text color="black">15%</Text>
-                        </RatingModalInfo>
-                        <RatingModalInfo>
-                            <Text color="black">3 estrellas</Text>
-                            <Div
-                                rounded={"md"}
-                                w={scale(160)}
-                                h={verticalScale(10)}
-                                bg="white"
-                            >
-                                <Div rounded={"md"} bg="secondary" h={"100%"} w={"10%"} />
-                            </Div>
-                            <Text color="black">10%</Text>
-                        </RatingModalInfo>
-                        <RatingModalInfo>
-                            <Text color="black">2 estrellas</Text>
-                            <Div
-                                rounded={"md"}
-                                w={scale(160)}
-                                h={verticalScale(10)}
-                                bg="white"
-                            >
-                                <Div rounded={"md"} bg="secondary" h={"100%"} w={"3%"} />
-                            </Div>
-                            <Text color="black">3%</Text>
-                        </RatingModalInfo>
-                        <RatingModalInfo>
-                            <Text color="black">1 estrellas</Text>
-                            <Div
-                                rounded={"md"}
-                                w={scale(160)}
-                                h={verticalScale(10)}
-                                bg="white"
-                            >
-                                <Div rounded={"md"} bg="secondary" h={"100%"} w={"2%"} />
-                            </Div>
-                            <Text color="black">2%</Text>
-                        </RatingModalInfo>
-                    </Div>
-                    <Div
-                        flexDir="row"
-                        justifyContent="space-between"
-                        w={"70%"}
-                        alignSelf="center"
-                    >
-                        <Icon
-                            fontFamily="FontAwesome"
-                            color="secondary"
-                            fontSize={"6xl"}
-                            name="star"
-                        />
-                        <Icon
-                            fontFamily="FontAwesome"
-                            color="black"
-                            fontSize={"6xl"}
-                            name="star-o"
-                        />
-                        <Icon
-                            fontFamily="FontAwesome"
-                            color="black"
-                            fontSize={"6xl"}
-                            name="star-o"
-                        />
-                        <Icon
-                            fontFamily="FontAwesome"
-                            color="black"
-                            fontSize={"6xl"}
-                            name="star-o"
-                        />
-                        <Icon
-                            fontFamily="FontAwesome"
-                            color="black"
-                            fontSize={"6xl"}
-                            name="star-o"
-                        />
-                    </Div>
-                    <Div
-                        h={verticalScale(40)}
-                        w={"100%"}
-                        justifyContent="space-between"
-                        flexDir="row"
-                    >
-                        <Button onPress={() => setOpen(false)} bg="#BEBEBE" w={scale(120)}>
-                            <BoldText color="black">CANCELAR</BoldText>
-                        </Button>
-                        <Button w={scale(120)} bg="secondary" color="black">
-                            <BoldText color="black">ENVIAR</BoldText>
-                        </Button>
-                    </Div>
-                </Div>
-            </Overlay>
+            <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
             <Div bg="background" flex={1} px={"xl"}>
                 <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
                     <MyHeader />
