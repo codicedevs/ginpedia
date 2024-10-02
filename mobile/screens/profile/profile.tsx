@@ -9,8 +9,9 @@ import ProductList from './productList';
 import ProfileInfo from './profileInfo';
 import ScreenSelector from './screenSelector';
 
-function ProfileScreen({ navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
-    const [option, setOption] = useState(ProfileOption.PROFILE)
+function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
+    const { screen } = route.params;
+    const [option, setOption] = useState(screen ? screen : ProfileOption.PROFILE)
 
     return (
         <>
