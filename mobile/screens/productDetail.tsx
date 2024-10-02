@@ -11,10 +11,12 @@ import { AuthContext } from '../context/authProvider';
 import { BookmarkContext } from '../context/bookmarkProvider';
 import useFetch from '../hooks/useGet';
 import { useMutate } from '../hooks/useMutate';
+import useOptimistic from '../hooks/useOptimistic';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import bookmarkService from '../service/bookmark.service';
 import productService from '../service/product.service';
 import { Product } from '../types/product.type';
+import { QUERY_KEYS } from '../types/query.types';
 import { Bookmark, BookmarkType } from '../types/user.type';
 import { BASE_URL } from '../utils/config';
 import { TitleGenerator } from '../utils/text';
@@ -28,29 +30,66 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
     const { bookmarks, getBookmarks } = useContext(BookmarkContext)
-    const [userBookmarks, setUserBookmarks] = useState<UserBookmark>({
-        [BookmarkType.WISHLIST]: false,
-        [BookmarkType.PURCHASED]: false,
-    })
+    const [isBookmarked, setIsBookmarked] = useState(false)
+    const [isLiked, setIsLiked] = useState(false)
+
     const deleteBookmark = async (id) => {
         await bookmarkService.deleteBookmark(id)
     }
 
-    const createBookmark = async (data) => {
+    const createBookmark = async (option) => {
         await bookmarkService.createBookmark({
-            productId: Number(data.productId),
+            productId: Number(productId),
             userId: currentUser?.id,
-            type: (data.option)
+            type: option
         })
     }
 
-    const handleDelete = useMutate(deleteBookmark)
+    const handleDeleteBookmark = useOptimistic({
+        mutationFn: deleteBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsBookmarked(false)
+        },
+        onError: () => {
+            setIsBookmarked(true)
+        }
+    })
 
-    const handleCreate = useMutate(createBookmark)
+    const handleDeleteLike = useOptimistic({
+        mutationFn: deleteBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsLiked(false)
+        },
+        onError: () => {
+            setIsLiked(true)
+        }
+    })
+
+    const addBookmark = useOptimistic({
+        mutationFn: createBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsBookmarked(true)
+        },
+        onError: () => {
+            setIsBookmarked(false)
+        }
+    })
+
+    const addLike = useOptimistic({
+        mutationFn: createBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsLiked(true)
+        },
+        onError: () => {
+            setIsLiked(false)
+        }
+    })
 
     const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
-    const isBookmarked = filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED)
-    const isLiked = filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
 
     const fetchProduct = async () => {
         if (!productId) return;
@@ -60,46 +99,25 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
 
 
 
-    // const handleBookmark = async (option: BookmarkType) => {
-    //     
-    //     const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
-    //     if (index > -1) {
-    //         setUserBookmarks({
-    //             ...userBookmarks,
-    //             [option]: false
-    //         })
-    //         try {
-    //             await bookmarkService.deleteBookmark(filteredBookmarks[index].id)
-    //         } catch (e) {
-    //             setUserBookmarks({
-    //                 ...userBookmarks,
-    //                 [option]: true
-    //             })
-    //         }
-    //         //preguntar sobre como manejar comportamiento cuando se apretan los dos al mismo tiempo
-    //     }
-    //     else {
-    //         setUserBookmarks({
-    //             ...userBookmarks,
-    //             [option]: true
-    //         })
-    //         try {
-    //             await bookmarkService.createBookmark({
-    //                 productId: Number(productId),
-    //                 userId: currentUser?.id,
-    //                 type: option
-    //             })
-    //         } catch (e) {
-    //             setUserBookmarks({
-    //                 ...userBookmarks,
-    //                 [option]: false
-    //             })
-    //         }
-    //     }
-    //     getBookmarks()
-    // }
+    const handleInteraction = async (option: BookmarkType) => {
+        const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
+        if (index > -1) {
+            if (option === BookmarkType.WISHLIST) {
+                handleDeleteLike.mutate(filteredBookmarks[index].id)
+                return
+            }
+            handleDeleteBookmark.mutate(filteredBookmarks[index].id)
+        } else {
+            if (option === BookmarkType.WISHLIST) {
+                addLike.mutate(option)
+                return
+            }
+            addBookmark.mutate(option)
+        }
+        getBookmarks()
+    }
 
-    const handleQuery = useMutate(handleBookmark, () => console.log('succes'), false, (err) => console.log('error'))
+    const handleQuery = useMutate(addBookmark, () => console.log('succes'), false, (err) => console.log('error'))
 
     const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
 
@@ -296,10 +314,10 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             <Text fontSize={"xs"}>500 calificaciones</Text>
                         </Div>
                         <Div row>
-                            <TouchableOpacity onPress={() => handleQuery(BookmarkType.WISHLIST)}>
+                            <TouchableOpacity onPress={() => handleInteraction(BookmarkType.WISHLIST)}>
                                 <Icon mr={scale(15)} color={isLiked ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuery(BookmarkType.PURCHASED)}>
+                            <TouchableOpacity onPress={() => handleInteraction(BookmarkType.PURCHASED)}>
                                 <Icon color={isBookmarked ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
                             </TouchableOpacity>
                         </Div>
