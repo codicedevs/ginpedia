@@ -71,21 +71,11 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                     <RatingBar stars={1} percentage={checkRating(1)} />
                 </Div>
                 <Div flexDir='row' justifyContent='space-between' w={'70%'} alignSelf='center'>
-                    <TouchableOpacity onPress={() => setValue(1)}>
-                        <Icon fontFamily='FontAwesome' color={value <= 0 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 0 ? "star-o" : "star"} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setValue(2)}>
-                        <Icon fontFamily='FontAwesome' color={value <= 1 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 1 ? "star-o" : "star"} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setValue(3)}>
-                        <Icon fontFamily='FontAwesome' color={value <= 2 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 2 ? "star-o" : "star"} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setValue(4)}>
-                        <Icon fontFamily='FontAwesome' color={value <= 3 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 3 ? "star-o" : "star"} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setValue(5)}>
-                        <Icon fontFamily='FontAwesome' color={value <= 4 ? "black" : "secondary"} fontSize={'6xl'} name={value <= 4 ? "star-o" : "star"} />
-                    </TouchableOpacity>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <TouchableOpacity onPress={() => setValue(index + 1)}>
+                            <Icon fontFamily='FontAwesome' color={value <= 0 ? "black" : "secondary"} fontSize={'6xl'} name={value <= index ? "star-o" : "star"} />
+                        </TouchableOpacity>
+                    ))}
                 </Div>
                 <Div h={verticalScale(40)} w={'100%'} justifyContent='space-between' flexDir='row' >
                     <Button onPress={onCancel} bg='#BEBEBE' w={scale(120)}><BoldText color='black'>CANCELAR</BoldText></Button>
