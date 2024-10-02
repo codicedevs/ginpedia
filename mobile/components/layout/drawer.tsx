@@ -1,6 +1,5 @@
 import {
-    DrawerItem,
-    DrawerItemList
+    DrawerItem
 } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -18,20 +17,23 @@ function CustomDrawerContent(props) {
     const navigation = useNavigation<NavigationProps>()
 
     return (
-        <SafeAreaView style={{ flex: 1, paddingHorizontal: customTheme.spacing.medium }}>
-            {/* <DrawerContentScrollView style={{ flex: 1, height: '100%' }} {...props}> */}
+        <SafeAreaView style={{ flex: 1, paddingHorizontal: customTheme.spacing.medium, backgroundColor: customTheme.colors.background }}>
             <Div flex={9} mt={'2xl'} >
-                <DrawerItemList  {...props} />
-                <DrawerItem label={'Favoritos'} onPress={() => navigation.navigate(AppScreens.PROFILE_SCREEN, { screen: ProfileOption.STORE })} />
+                <DrawerItem label={'Favoritos'} onPress={() => navigation.navigate(AppScreens.PROFILE_SCREEN, { screen: ProfileOption.STORE })}
+                    labelStyle={{
+                        color: 'white',
+                    }}
+                    activeTintColor="black"
+                    inactiveTintColor="white"
+                    activeBackgroundColor="yellow"
+                />
             </Div>
             <Div flex={1}>
                 <Div ml={scale(5)} row>
-                    <Icon color='black' mr={scale(5)} fontFamily='MaterialIcons' name='logout' />
-                    <Text color='black'>Cerrar sesion</Text>
+                    <Icon mr={scale(5)} fontFamily='MaterialIcons' name='logout' />
+                    <Text >Cerrar sesion</Text>
                 </Div>
             </Div>
-
-            {/* </DrawerContentScrollView> */}
         </SafeAreaView>
     );
 }
