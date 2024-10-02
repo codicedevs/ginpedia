@@ -3,6 +3,7 @@ import React from 'react';
 import { ThemeProvider as MagnusThemeProvider } from 'react-native-magnus';
 import { ThemeProvider } from 'styled-components/native';
 import AppProvider from './context/authProvider';
+import BookmarkProvider from './context/bookmarkProvider';
 import { GlobalUIProvider } from './context/GlobalUIProvider';
 import { LoadingProvider } from './context/loadingProvider';
 import './gesture-handler';
@@ -16,15 +17,17 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
-        <GlobalUIProvider>
-          <MagnusThemeProvider theme={customTheme}>
-            <LoadingProvider>
-              <AppProvider>
-                <AppNavigator />
-              </AppProvider>
-            </LoadingProvider>
-          </MagnusThemeProvider>
-        </GlobalUIProvider>
+        <BookmarkProvider>
+          <GlobalUIProvider>
+            <MagnusThemeProvider theme={customTheme}>
+              <LoadingProvider>
+                <AppProvider>
+                  <AppNavigator />
+                </AppProvider>
+              </LoadingProvider>
+            </MagnusThemeProvider>
+          </GlobalUIProvider>
+        </BookmarkProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
