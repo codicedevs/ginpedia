@@ -17,17 +17,17 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
-        <BookmarkProvider>
-          <GlobalUIProvider>
-            <MagnusThemeProvider theme={customTheme}>
-              <LoadingProvider>
-                <AppProvider>
+        <GlobalUIProvider>
+          <MagnusThemeProvider theme={customTheme}>
+            <LoadingProvider>
+              <AppProvider>
+                <BookmarkProvider>
                   <AppNavigator />
-                </AppProvider>
-              </LoadingProvider>
-            </MagnusThemeProvider>
-          </GlobalUIProvider>
-        </BookmarkProvider>
+                </BookmarkProvider>
+              </AppProvider>
+            </LoadingProvider>
+          </MagnusThemeProvider>
+        </GlobalUIProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
