@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Image, ScrollDiv, Text } from 'react-native-magnus';
 import Carousel from 'react-native-reanimated-carousel';
@@ -21,7 +21,6 @@ import { Bookmark, BookmarkType } from '../types/user.type';
 import { BASE_URL } from '../utils/config';
 import { TitleGenerator } from '../utils/text';
 import { customTheme } from '../utils/theme';
-type UserBookmark = Record<BookmarkType, boolean>;
 
 function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,17 +31,31 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const { bookmarks, getBookmarks } = useContext(BookmarkContext)
     const [isBookmarked, setIsBookmarked] = useState(false)
     const [isLiked, setIsLiked] = useState(false)
+    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
+    const [isLoading, setIsLoading] = useState(false)
 
     const deleteBookmark = async (id) => {
-        await bookmarkService.deleteBookmark(id)
+        setIsLoading(true)
+        try {
+            await bookmarkService.deleteBookmark(id)
+        } catch (e) {
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const createBookmark = async (option) => {
-        await bookmarkService.createBookmark({
-            productId: Number(productId),
-            userId: currentUser?.id,
-            type: option
-        })
+        setIsLoading(true)
+        try {
+            await bookmarkService.createBookmark({
+                productId: Number(productId),
+                userId: currentUser?.id,
+                type: option
+            })
+        } catch (e) {
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const handleDeleteBookmark = useOptimistic({
@@ -89,15 +102,18 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         }
     })
 
-    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
-
     const fetchProduct = async () => {
         if (!productId) return;
         const res = await productService.getById(productId);
         return res;
     };
 
+    const checkInteraction = async () => {
+        setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST))
+        setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED))
+    }
 
+    useEffect(() => { checkInteraction() }, [bookmarks])
 
     const handleInteraction = async (option: BookmarkType) => {
         const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
@@ -181,10 +197,10 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             <Text fontSize={"xs"}>500 calificaciones</Text>
                         </Div>
                         <Div row>
-                            <TouchableOpacity onPress={() => handleInteraction(BookmarkType.WISHLIST)}>
+                            <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.WISHLIST)}>
                                 <Icon mr={scale(15)} color={isLiked ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleInteraction(BookmarkType.PURCHASED)}>
+                            <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.PURCHASED)}>
                                 <Icon color={isBookmarked ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
                             </TouchableOpacity>
                         </Div>
