@@ -39,12 +39,14 @@ function ProfileScreen({ navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>
         PURCHASED.some(item => item.productId === Number(product.id))
     );
 
+    const ratedProducts = data.filter(product => product.rating !== null);
+
     const setFilter = () => {
         switch (option) {
             case ProfileOption.WISHLIST:
                 return filteredWishlistProducts
             case ProfileOption.PUNCTUATION:
-                return []
+                return ratedProducts
             case ProfileOption.STORE:
                 return filteredPurchasedProducts
             default:
