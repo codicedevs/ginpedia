@@ -1,40 +1,106 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { Dimensions, TouchableOpacity } from "react-native";
-import {
-    Button,
-    Div,
-    Icon,
-    Image,
-    ScrollDiv,
-    Text
-} from "react-native-magnus";
-import Carousel from "react-native-reanimated-carousel";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { scale, verticalScale } from "react-native-size-matters";
-import { MyHeader } from "../components/layout/header";
-import RatingModal from "../components/modal/ratingModal";
-import {
-    BoldText,
-    InfoContainer
-} from "../components/styled/styled";
-import useFetch from "../hooks/useGet";
-import { AppScreenProps, AppScreens } from "../navigation/screens";
-import productService from "../service/product.service";
-import { Product } from "../types/product.type";
-import { BASE_URL } from "../utils/config";
-import { TitleGenerator } from "../utils/text";
-import { customTheme } from "../utils/theme";
+import { StatusBar } from 'expo-status-bar';
+import React, { useContext, useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Button, Div, Icon, Image, ScrollDiv, Text } from 'react-native-magnus';
+import Carousel from 'react-native-reanimated-carousel';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { MyHeader } from '../components/layout/header';
+import RatingModal from '../components/modal/ratingModal';
+import { BoldText, InfoContainer } from '../components/styled/styled';
+import { AuthContext } from '../context/authProvider';
+import { BookmarkContext } from '../context/bookmarkProvider';
+import useFetch from '../hooks/useGet';
+import useOptimistic from '../hooks/useOptimistic';
+import { AppScreenProps, AppScreens } from '../navigation/screens';
+import bookmarkService from '../service/bookmark.service';
+import productService from '../service/product.service';
+import { Product } from '../types/product.type';
+import { QUERY_KEYS } from '../types/query.types';
+import { Bookmark, BookmarkType } from '../types/user.type';
+import { BASE_URL } from '../utils/config';
+import { TitleGenerator } from '../utils/text';
+import { customTheme } from '../utils/theme';
 
-function ProductDetail({
-    route,
-    navigation,
-}: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
-    const width = Dimensions.get("window").width;
+function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { currentUser } = useContext(AuthContext)
     const info = [...new Array(6).keys()];
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
     const { productId } = route.params;
+    const { bookmarks, getBookmarks } = useContext(BookmarkContext)
+    const [isBookmarked, setIsBookmarked] = useState(false)
+    const [isLiked, setIsLiked] = useState(false)
+    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
+    const [isLoading, setIsLoading] = useState(false)
+
+    const deleteBookmark = async (id: number) => {
+        setIsLoading(true)
+        try {
+            await bookmarkService.deleteBookmark(id)
+        } catch (e) {
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const createBookmark = async (option: BookmarkType) => {
+        setIsLoading(true)
+        try {
+            await bookmarkService.createBookmark({
+                productId: Number(productId),
+                userId: currentUser?.id,
+                type: option
+            })
+        } catch (e) {
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const handleDeleteBookmark = useOptimistic({
+        mutationFn: deleteBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsBookmarked(false)
+        },
+        onError: () => {
+            setIsBookmarked(true)
+        }
+    })
+
+    const handleDeleteLike = useOptimistic({
+        mutationFn: deleteBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsLiked(false)
+        },
+        onError: () => {
+            setIsLiked(true)
+        }
+    })
+
+    const addBookmark = useOptimistic({
+        mutationFn: createBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsBookmarked(true)
+        },
+        onError: () => {
+            setIsBookmarked(false)
+        }
+    })
+
+    const addLike = useOptimistic({
+        mutationFn: createBookmark,
+        key: QUERY_KEYS.BOOKMARKS,
+        onMutate: () => {
+            setIsLiked(true)
+        },
+        onError: () => {
+            setIsLiked(false)
+        }
+    })
 
     const fetchProduct = async () => {
         if (!productId) return;
@@ -42,7 +108,32 @@ function ProductDetail({
         return res;
     };
 
-    const { data: product } = useFetch<Product>(fetchProduct, ["products", productId]);
+    const checkInteraction = async () => {
+        setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST))
+        setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED))
+    }
+
+    useEffect(() => { checkInteraction() }, [bookmarks])
+
+    const handleInteraction = async (option: BookmarkType) => {
+        const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
+        if (index > -1) {
+            if (option === BookmarkType.WISHLIST) {
+                handleDeleteLike.mutate(filteredBookmarks[index].id)
+                return
+            }
+            handleDeleteBookmark.mutate(filteredBookmarks[index].id)
+        } else {
+            if (option === BookmarkType.WISHLIST) {
+                addLike.mutate(option)
+                return
+            }
+            addBookmark.mutate(option)
+        }
+        getBookmarks()
+    }
+
+    const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
 
     let combiBebida = "";
     if (product?.combinations) {
@@ -105,7 +196,14 @@ function ProductDetail({
                             </Div>
                             <Text fontSize={"xs"}>500 calificaciones</Text>
                         </Div>
-                        <Icon color="secondary" fontSize="2xl" name="heart" />
+                        <Div row>
+                            <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.WISHLIST)}>
+                                <Icon mr={scale(15)} color={isLiked ? "secondary" : 'grey'} fontSize="2xl" name="heart" />
+                            </TouchableOpacity>
+                            <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.PURCHASED)}>
+                                <Icon color={isBookmarked ? "secondary" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
+                            </TouchableOpacity>
+                        </Div>
                     </Div>
                     <Div mb={"xl"}>
                         <TitleGenerator

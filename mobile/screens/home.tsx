@@ -13,12 +13,10 @@ import { Product } from '../types/product.type'
 import { TitleGenerator } from '../utils/text'
 
 const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigation }) => {
+
     const fetchFeature = async () => {
-
         const res = await productService.getAll()
-
         const sortedProducts = res.sort((a, b) => b.rating - a.rating);
-
         return sortedProducts;
     };
 
@@ -27,6 +25,7 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
     const navigateList = () => {
         navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN)
     }
+
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
