@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Div, ScrollDiv } from 'react-native-magnus';
+import { Div } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MyHeader } from '../../components/layout/header';
 import { AppScreenProps, AppScreens } from '../../navigation/screens';
@@ -16,11 +16,9 @@ function ProfileScreen({ navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>
         <>
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar />
-                <Div bg='background' flex={2} px={'xl'} >
-                    <ScrollDiv>
-                        <MyHeader />
-                        <ScreenSelector option={option} setOption={setOption} />
-                    </ScrollDiv>
+                <Div bg='background' flex={2.5} px={'xl'} >
+                    <MyHeader />
+                    <ScreenSelector option={option} setOption={setOption} />
                 </Div>
                 <Div py={'md'} px={'xl'} bg='background' flex={8}>
                     {
