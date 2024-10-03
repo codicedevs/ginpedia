@@ -34,7 +34,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
     const [isLoading, setIsLoading] = useState(false)
 
-    const deleteBookmark = async (id) => {
+    const deleteBookmark = async (id: number) => {
         setIsLoading(true)
         try {
             await bookmarkService.deleteBookmark(id)
@@ -44,7 +44,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         }
     }
 
-    const createBookmark = async (option) => {
+    const createBookmark = async (option: BookmarkType) => {
         setIsLoading(true)
         try {
             await bookmarkService.createBookmark({
