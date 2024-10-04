@@ -19,6 +19,7 @@ export class UpdateUserDto {
   name?: string;
   @IsEmail()
   email?: string;
+  @IsOptional()
   @MinLength(4)
   password?: string;
   resetKey?: string;
