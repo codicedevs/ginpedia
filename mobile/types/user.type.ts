@@ -12,7 +12,12 @@ export interface UserInfoRegister {
 export interface UpdateUserInfo {
     name?: string;
     email?: string;
-    id?: number
+}
+
+export interface UpdateUserInfoService {
+    name?: string;
+    email?: string;
+    id: number
 }
 
 export interface UserInfoRecover {
