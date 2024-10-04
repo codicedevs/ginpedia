@@ -48,12 +48,12 @@ const AnimatedIntro = () => {
                     borderRadius: width // Mantenerlo como círculo mientras crece
                 } : startThirdAnimation ? {
                     translateX: 100,
-                    width: 25,
-                    height: 25,
+                    width: 10,
+                    height: 10,
                     borderRadius: 12.5
                 } : startSecondAnimation ? {
-                    width: 25,
-                    height: 25,
+                    width: 15,
+                    height: 15,
                     borderRadius: 12.5
                 } : startAnimation ? {
                     rotate: '405deg',
