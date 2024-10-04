@@ -43,12 +43,7 @@ const ProfileInfo = () => {
     await userService.updateUser({ id: currentUser.id, email: data.email && data.email, name: data.name && data.name })
   }
 
-  const onError = (e) => {
-    showSnackBar('error', 'Hubo un problema')
-    console.log(e)
-  }
-
-  const updateQuery = useMutate(handleUpdate, () => showSnackBar('success', 'Guardado con exito'), false, (e) => onError(e))
+  const updateQuery = useMutate(handleUpdate, () => showSnackBar('success', 'Guardado con exito'), false, () => showSnackBar('error', 'Hubo un problema'))
 
   const onSubmit = async (data: UpdateUserInfo) => {
     await updateQuery(data)
