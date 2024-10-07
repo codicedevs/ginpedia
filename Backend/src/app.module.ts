@@ -16,6 +16,7 @@ import { BookmarksModule } from "./bookmarks/bookmarks.module";
 import { Bookmark } from "bookmarks/entities/bookmark.entity";
 import { join } from "path";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { WhatssapModule } from './whatssap/whatssap.module';
 import oauthConfig from "authentication/config/oauth.config";
 
 console.log("Serving static files from:", join(__dirname, "..", "uploads"));
@@ -57,6 +58,7 @@ console.log("Serving static files from:", join(__dirname, "..", "uploads"));
     ProductsModule,
     RatingsModule,
     BookmarksModule,
+    WhatssapModule,
   ],
   controllers: [AppController],
   providers: [AppService],

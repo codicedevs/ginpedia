@@ -2,8 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { User } from "./entities/user.entity";
 import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, Repository } from "typeorm";
+import { FindManyOptions, Repository, W } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { WhatssapService } from "whatssap/whatssap.service";
+import { welcomeMessage } from "whatssap/messages";
 
 type UserBookmarkFormatted = {
   type: string;
@@ -18,7 +20,8 @@ type UserWithFormattedBookmarks = User & {
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    private readonly whatsappService: WhatssapService
   ) {}
   async create(createUser: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUser.password, 8);
@@ -27,6 +30,12 @@ export class UsersService {
       password: hashedPassword,
     } as User;
     const user = await this.userRepository.save(userAndHashedPassword);
+    if (createUser.phone) {
+      await this.whatsappService.sendMessage(
+        createUser.phone,
+        welcomeMessage(createUser)
+      );
+    }
     return user;
   }
   /**

@@ -29,3 +29,8 @@ export const smtpSettings = Object.freeze({
 export const appSettings = Object.freeze({
   APP_NAME: process.env.APP_NAME,
 });
+
+export const whatssapSettings = Object.freeze({
+  MONGODB_URI:
+    "mongodb+srv:mongodb+srv://matiastrovant:mhjjqrxCRldG7UAb@omvtest.72ckbwy.mongodb.net/testWhatsapp",
+});

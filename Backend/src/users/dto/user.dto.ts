@@ -1,5 +1,11 @@
 import { Role } from "authorization/role.enum";
-import { IsEmail, IsOptional, MaxLength, MinLength } from "class-validator";
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
 
 export class CreateUserDto {
   @MinLength(3)
@@ -7,6 +13,8 @@ export class CreateUserDto {
   @IsEmail()
   @IsOptional()
   email?: string;
+  @IsString()
+  phone?: string;
   @MinLength(4)
   @IsOptional()
   password: string;
