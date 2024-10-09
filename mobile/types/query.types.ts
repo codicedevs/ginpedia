@@ -1,7 +1,6 @@
 export enum QUERY_KEYS {
     USERS = 'users',
-    PRODUCTS = 'products',
-    BOOKMARKS = 'bookmarks'
+    PRODUCTS = 'products'
 }
 
 export interface FilterParamsProps {
