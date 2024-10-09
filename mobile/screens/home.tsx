@@ -20,12 +20,11 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigati
         return sortedProducts;
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, ['products'], true);
+    const { data, isFetching, isFetched } = useFetch<Product[]>(fetchFeature, ['products'], true);
 
     const navigateList = () => {
-        navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN)
+        navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN, {})
     }
-
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
