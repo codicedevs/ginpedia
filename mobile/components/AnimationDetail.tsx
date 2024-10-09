@@ -1,69 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
 import { MotiText, MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import { Div } from 'react-native-magnus';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { MyHeader } from '../components/layout/header';
 
-function AnimationDetail() {
+function AnimationDetail({ onAnimationComplete }) {
     const [animationPhase, setAnimationPhase] = useState(0);
+    const [startFadeOut, setStartFadeOut] = useState(false); // Controla cuándo iniciar el desvanecimiento
     const { width, height } = Dimensions.get('window');
 
     useEffect(() => {
-        // Controla las fases de la animación
         const timer = setTimeout(() => {
-            setAnimationPhase((prev) => (prev < 3 ? prev + 1 : prev));
-        }, 2000); // Cambia de fase cada 2 segundos
+            if (animationPhase < 3) {
+                setAnimationPhase((prev) => prev + 1);
+                // Iniciar el desvanecimiento al mismo tiempo que la última fase
+                if (animationPhase === 2) {
+                    setStartFadeOut(true); // Iniciar el desvanecimiento cuando el texto comienza a subir
+                }
+            }
+        }, 700); // Cada fase dura 700ms
 
         return () => clearTimeout(timer);
     }, [animationPhase]);
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar style="auto" />
-            <Div bg="background" flex={1}>
-                <MyHeader />
-                <Div style={styles.animationContainer}>
-                    {/* Animación del círculo desde la derecha */}
-                    <MotiView
-                        from={{ translateX: width / 2 + 75 }}
-                        animate={{
-                            translateX: animationPhase === 0 ? width / 2 + 75 : animationPhase === 1 ? width / 4 : 0,
-                            width: animationPhase === 3 ? width * 1.1 : 150,
-                            height: animationPhase === 3 ? height * 1 : 150,
-                            translateY: animationPhase === 3 ? height / 3.5 : 0,
-                            borderRadius: (animationPhase === 3 ? height / 4 : 75), // Mantener siempre borde redondo
-                        }}
-                        transition={{ type: 'timing', duration: 1000 }}
-                        style={styles.circle}
-                    />
-
-                    {/* Animación del texto "ginpedia" desde la izquierda */}
-                    <MotiView
-                        from={{ translateX: -width / 2 - 50 }}
-                        animate={{
-                            translateX: animationPhase === 0 ? -width / 2 - 50 : animationPhase === 1 ? -width / 4 : 0,
-                            translateY: animationPhase === 3 ? -200 : 0,
-                        }}
-                        transition={{ type: 'timing', duration: 1000 }}
-                        style={styles.textContainer}
-                    >
-                        <MotiText
-                            style={styles.text}
-                            animate={{
-                                color: animationPhase === 2 ? 'black' : 'white',
-                            }}
-                            transition={{
-                                color: { type: 'timing', duration: 500 }, // Transición suave del color
-                            }}
-                        >
-                            ginpedia
-                        </MotiText>
-                    </MotiView>
-                </Div>
-            </Div>
-        </SafeAreaView>
+        <MotiView
+            style={styles.animationContainer}
+            animate={{ opacity: startFadeOut ? 0 : 1 }} // Desvanecer suavemente la opacidad
+            transition={{ type: 'timing', duration: 500 }} // Duración del desvanecimiento: 500ms
+            onDidAnimate={(key, finished) => {
+                if (key === 'opacity' && finished && startFadeOut) {
+                    onAnimationComplete(); // Llama a la función para indicar que la animación ha terminado
+                }
+            }}
+        >
+            {/* Animación del círculo */}
+            <MotiView
+                from={{ translateX: width / 2 + 75 }}
+                animate={{
+                    translateX: animationPhase === 0 ? width / 2 + 75 : animationPhase === 1 ? width / 4 : 0,
+                    width: animationPhase === 3 ? width * 1.1 : 150,
+                    height: animationPhase === 3 ? height * 1 : 150,
+                    translateY: animationPhase === 3 ? height / 2 : 0,
+                    borderRadius: animationPhase === 3 ? height / 5 : 75,
+                }}
+                transition={{ type: 'timing', duration: 500 }}
+                style={styles.circle}
+            />
+            {/* Animación del texto "ginpedia" */}
+            <MotiView
+                from={{ translateX: -width / 2 - 50 }}
+                animate={{
+                    translateX: animationPhase === 0 ? -width / 2 - 50 : animationPhase === 1 ? -width / 4 : 0,
+                    translateY: animationPhase === 3 ? -200 : 0,
+                }}
+                transition={{ type: 'timing', duration: 500 }}
+                style={styles.textContainer}
+            >
+                <MotiText
+                    style={styles.text}
+                    animate={{
+                        color: animationPhase === 2 ? 'black' : 'white',
+                    }}
+                    transition={{
+                        color: { type: 'timing', duration: 500 },
+                    }}
+                >
+                    ginpedia
+                </MotiText>
+            </MotiView>
+        </MotiView>
     );
 }
 
@@ -76,10 +80,11 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#2f2e2a'
     },
     textContainer: {
         position: 'absolute',
-        zIndex: 2, // Asegura que el texto esté por encima del círculo
+        zIndex: 2,
     },
     text: {
         fontSize: 24,
@@ -91,8 +96,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
         width: 150,
         height: 150,
-        borderRadius: 75, // Mantener siempre borde redondo
-        backgroundColor: 'yellow',
+        borderRadius: 75,
+        backgroundColor: '#F4B929',
     },
 });
 
