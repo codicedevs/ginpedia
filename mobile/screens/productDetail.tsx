@@ -157,20 +157,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                     <Div h={400}>
                         <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={400} w={'100%'} />
                     </Div>
-                    <Div
-                        bg='secondary'
-                        h={verticalScale(300)}
-                        w={screenWidth * 1.4}
-                        style={{
-                            borderTopLeftRadius: 200,
-                            borderTopRightRadius: 200,
-                            position: 'absolute',
-                            top: '60%',
-                            left: '40%',
-                            transform: [{ translateX: -(screenWidth * 0.6) }, { translateY: -150 }],
-                        }}
-                    />
-                    <Div bg='secondary' px={"xl"}>
+                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
+                    <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
                             <Div>
                                 <Div flexDir="row">
