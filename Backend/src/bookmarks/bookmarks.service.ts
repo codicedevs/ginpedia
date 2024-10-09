@@ -1,11 +1,11 @@
 import { HttpException, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Product } from "products/entities/product.entity";
+import { Repository } from "typeorm";
+import { User } from "users/entities/user.entity";
 import { CreateBookmarkDto } from "./dto/create-bookmark.dto";
 import { UpdateBookmarkDto } from "./dto/update-bookmark.dto";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Bookmark } from "./entities/bookmark.entity";
-import { Repository } from "typeorm";
-import { Product } from "products/entities/product.entity";
-import { User } from "users/entities/user.entity";
 
 @Injectable()
 export class BookmarksService {
@@ -16,7 +16,7 @@ export class BookmarksService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
-  ) {}
+  ) { }
   create(createBookmarkDto: CreateBookmarkDto) {
     return "This action adds a new bookmark";
   }
@@ -34,7 +34,7 @@ export class BookmarksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} bookmark`;
+    return this.bookmarkRepository.delete(id)
   }
 
   async createNewItemBookmark(createNewItemBookmarkDto: CreateBookmarkDto) {
