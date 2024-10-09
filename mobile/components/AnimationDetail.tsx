@@ -2,7 +2,11 @@ import { MotiText, MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 
-function AnimationDetail({ onAnimationComplete }) {
+type AnimationProps = {
+    onAnimationComplete: () => void
+}
+
+function AnimationDetail({ onAnimationComplete }: AnimationProps) {
     const [animationPhase, setAnimationPhase] = useState(0);
     const [startFadeOut, setStartFadeOut] = useState(false); // Controla cuándo iniciar el desvanecimiento
     const { width, height } = Dimensions.get('window');
