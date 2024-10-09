@@ -30,10 +30,10 @@ function AnimationDetail() {
                         from={{ translateX: width / 2 + 75 }}
                         animate={{
                             translateX: animationPhase === 0 ? width / 2 + 75 : animationPhase === 1 ? width / 4 : 0,
-                            width: animationPhase === 3 ? width : 150,
-                            height: animationPhase === 3 ? height / 2 + height / 4 : 150,
-                            translateY: animationPhase === 3 ? height / 6 : 0,
-                            borderRadius: animationPhase === 3 ? 0 : 75,
+                            width: animationPhase === 3 ? width * 1.1 : 150,
+                            height: animationPhase === 3 ? height * 1 : 150,
+                            translateY: animationPhase === 3 ? height / 3.5 : 0,
+                            borderRadius: (animationPhase === 3 ? height / 4 : 75), // Mantener siempre borde redondo
                         }}
                         transition={{ type: 'timing', duration: 1000 }}
                         style={styles.circle}
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
         width: 150,
         height: 150,
-        borderRadius: 75,
+        borderRadius: 75, // Mantener siempre borde redondo
         backgroundColor: 'yellow',
     },
 });
