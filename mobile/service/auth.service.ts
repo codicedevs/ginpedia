@@ -41,10 +41,6 @@ export class AuthService extends HttpService {
   whoami = async () => {
     return this.get("whoami");
   };
-
-  recoverPassword = async (email: string) => {
-    return this.post(`/recover-password`, { email: email })
-  }
 }
 
 export default new AuthService();
