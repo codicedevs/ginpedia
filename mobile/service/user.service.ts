@@ -1,6 +1,7 @@
 
 
 import axios from "axios";
+import { UpdateUserInfoService } from "../types/user.type";
 import { BASE_URL } from "../utils/config";
 import { HttpService } from "./http.service";
 
@@ -21,6 +22,10 @@ export class UserService extends HttpService {
   deleteUser = async (id: number) => {
     return this.delete(`/${id}`);
   };
+
+  updateUser = async ({ email, name, id }: UpdateUserInfoService) => {
+    return await this.put(`/${id}`, { name, email })
+  }
 
   changePassword = async ({
     currentPass,

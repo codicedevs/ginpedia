@@ -1,22 +1,15 @@
 import React from 'react';
 import { ListCard } from '../../components/cards/listCard';
-import useFetch from '../../hooks/useGet';
-import productService from '../../service/product.service';
 import { Product } from '../../types/product.type';
 
-function ProductList() {
-    const bringProducts = async () => {
-        const res = await productService.getAll()
-        return res;
-    };
+function ProductList({ data }: { data: Product[] }) {
 
-    const { data: products, isFetching, isFetched } = useFetch<Product[]>(bringProducts, ['productsList']);
     return (
         <>
             {
-                products &&
-                products.map((product) => (
-                    <ListCard product={product} alreadyFetched={isFetched} isLoading={isFetching} />
+                data &&
+                data.map((product) => (
+                    <ListCard product={product} alreadyFetched={false} isLoading={false} />
                 ))
             }
         </>
