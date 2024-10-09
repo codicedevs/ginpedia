@@ -41,7 +41,7 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
   }
 
   return (
-    <TouchableOpacity onPress={navigateToDetail}>
+    <TouchableOpacity onPress={navigateToDetail} activeOpacity={1}>
       <Div
         h={verticalScale(100)}
         w={"100%"}
