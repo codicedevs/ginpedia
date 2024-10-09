@@ -1,9 +1,10 @@
 import { MotiText, MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 type AnimationProps = {
-    onAnimationComplete: () => void
+    onAnimationComplete: () => void;
 }
 
 function AnimationDetail({ onAnimationComplete }: AnimationProps) {
@@ -36,22 +37,22 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
             }}
         >
             <MotiView
-                from={{ translateX: width / 2 + 75 }}
+                from={{ translateX: scale(width / 2 + 75) }}
                 animate={{
-                    translateX: animationPhase === 0 ? width / 2 + 75 : animationPhase === 1 ? width / 4 : 0,
-                    width: animationPhase === 3 ? width * 1.1 : 150,
-                    height: animationPhase === 3 ? height * 1 : 150,
-                    translateY: animationPhase === 3 ? height / 2 : 0,
-                    borderRadius: animationPhase === 3 ? height / 5 : 75,
+                    translateX: animationPhase === 0 ? scale(width / 2 + 75) : animationPhase === 1 ? scale(width / 4) : 0,
+                    width: animationPhase === 3 ? scale(width * 1.1) : scale(150),
+                    height: animationPhase === 3 ? verticalScale(height * 1) : verticalScale(150),
+                    translateY: animationPhase === 3 ? verticalScale(height / 2.2) : 0,
+                    borderRadius: animationPhase === 3 ? verticalScale(height / 5) : verticalScale(75),
                 }}
                 transition={{ type: 'timing', duration: 500 }}
                 style={styles.circle}
             />
             <MotiView
-                from={{ translateX: -width / 2 - 50 }}
+                from={{ translateX: scale(-width / 2 - 50) }}
                 animate={{
-                    translateX: animationPhase === 0 ? -width / 2 - 50 : animationPhase === 1 ? -width / 4 : 0,
-                    translateY: animationPhase === 3 ? -200 : 0,
+                    translateX: animationPhase === 0 ? scale(-width / 2 - 50) : animationPhase === 1 ? scale(-width / 4) : 0,
+                    translateY: animationPhase === 3 ? verticalScale(-200) : 0,
                 }}
                 transition={{ type: 'timing', duration: 500 }}
                 style={styles.textContainer}
@@ -88,16 +89,16 @@ const styles = StyleSheet.create({
         zIndex: 2,
     },
     text: {
-        fontSize: 24,
+        fontSize: scale(24),
         fontWeight: 'bold',
         textAlign: 'center',
     },
     circle: {
         position: 'absolute',
         zIndex: 1,
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: scale(150),
+        height: verticalScale(150),
+        borderRadius: verticalScale(75),
         backgroundColor: '#F4B929',
     },
 });
