@@ -3,7 +3,7 @@ import { IUser } from "../types/user.type";
 
 export const AuthContext = React.createContext<{
     currentUser: IUser | null;
-    setCurrentUser: (user: IUser) => void;
+    setCurrentUser: (user: IUser | null) => void;
 }>({
     currentUser: null,
     setCurrentUser: () => { }

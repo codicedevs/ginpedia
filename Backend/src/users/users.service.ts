@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { User } from "./entities/user.entity";
-import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { FindManyOptions, Repository } from "typeorm";
+import { CreateUserDto, UpdateUserDto } from "./dto/user.dto";
+import { User } from "./entities/user.entity";
 
 type UserBookmarkFormatted = {
   type: string;
@@ -19,7 +19,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
-  ) {}
+  ) { }
   async create(createUser: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUser.password, 8);
     const userAndHashedPassword = {
@@ -97,6 +97,7 @@ export class UsersService {
     const user = await this.userRepository.findOneByOrFail({ id });
     return user;
   }
+
   async delete(id: number): Promise<User> {
     // Verifica si el usuario existe antes de intentar eliminarlo
     const user = await this.userRepository.findOneByOrFail({ id });

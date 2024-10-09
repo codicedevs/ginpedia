@@ -9,6 +9,17 @@ export interface UserInfoRegister {
     password: string
 }
 
+export interface UpdateUserInfo {
+    name?: string;
+    email?: string;
+}
+
+export interface UpdateUserInfoService {
+    name?: string;
+    email?: string;
+    id: number
+}
+
 export interface UserInfoRecover {
     email: string
 }
