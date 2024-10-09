@@ -17,7 +17,7 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
 }) => {
   const fetchFeature = async () => {
     const res = await productService.getAll();
-    const sortedProducts = res.sort((a, b) => b.rating - a.rating);
+    const sortedProducts = res.sort((a: any, b: any) => b.rating - a.rating);
     return sortedProducts;
   };
 
