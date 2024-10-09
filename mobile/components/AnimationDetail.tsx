@@ -41,7 +41,7 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
                 animate={{
                     translateX: animationPhase === 0 ? scale(width / 2 + 75) : animationPhase === 1 ? scale(width / 4) : 0,
                     width: animationPhase === 3 ? scale(width * 1.1) : scale(150),
-                    height: animationPhase === 3 ? verticalScale(height * 1) : verticalScale(150),
+                    height: animationPhase === 3 ? verticalScale(height * 1) : verticalScale(140),
                     translateY: animationPhase === 3 ? verticalScale(height / 2.2) : 0,
                     borderRadius: animationPhase === 3 ? verticalScale(height / 5) : verticalScale(75),
                 }}
