@@ -154,8 +154,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
             <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
             <Div bg="background" flex={1} >
                 <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
-                    <Div h={400}>
-                        <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={400} w={'100%'} />
+                    <Div h={verticalScale(370)}>
+                        <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
                     </Div>
                     <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
