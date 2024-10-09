@@ -8,19 +8,18 @@ type AnimationProps = {
 
 function AnimationDetail({ onAnimationComplete }: AnimationProps) {
     const [animationPhase, setAnimationPhase] = useState(0);
-    const [startFadeOut, setStartFadeOut] = useState(false); // Controla cuándo iniciar el desvanecimiento
+    const [startFadeOut, setStartFadeOut] = useState(false);
     const { width, height } = Dimensions.get('window');
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (animationPhase < 3) {
                 setAnimationPhase((prev) => prev + 1);
-                // Iniciar el desvanecimiento al mismo tiempo que la última fase
                 if (animationPhase === 2) {
-                    setStartFadeOut(true); // Iniciar el desvanecimiento cuando el texto comienza a subir
+                    setStartFadeOut(true);
                 }
             }
-        }, 700); // Cada fase dura 700ms
+        }, 700);
 
         return () => clearTimeout(timer);
     }, [animationPhase]);
@@ -28,15 +27,14 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
     return (
         <MotiView
             style={styles.animationContainer}
-            animate={{ opacity: startFadeOut ? 0 : 1 }} // Desvanecer suavemente la opacidad
-            transition={{ type: 'timing', duration: 500 }} // Duración del desvanecimiento: 500ms
+            animate={{ opacity: startFadeOut ? 0 : 1 }}
+            transition={{ type: 'timing', duration: 500 }}
             onDidAnimate={(key, finished) => {
                 if (key === 'opacity' && finished && startFadeOut) {
-                    onAnimationComplete(); // Llama a la función para indicar que la animación ha terminado
+                    onAnimationComplete();
                 }
             }}
         >
-            {/* Animación del círculo */}
             <MotiView
                 from={{ translateX: width / 2 + 75 }}
                 animate={{
@@ -49,7 +47,6 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
                 transition={{ type: 'timing', duration: 500 }}
                 style={styles.circle}
             />
-            {/* Animación del texto "ginpedia" */}
             <MotiView
                 from={{ translateX: -width / 2 - 50 }}
                 animate={{
