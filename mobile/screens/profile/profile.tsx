@@ -14,9 +14,9 @@ import ProductList from './productList';
 import ProfileInfo from './profileInfo';
 import ScreenSelector from './screenSelector';
 
-function ProfileScreen({ navigation, route }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
-    const [option, setOption] = useState(ProfileOption.PROFILE)
+function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
     const { screen } = route.params;
+    const [option, setOption] = useState(screen ? screen : ProfileOption.PROFILE)
     const { bookmarks } = useContext(BookmarkContext)
     const Wishlist = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
     const Purchased = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED)
@@ -30,7 +30,7 @@ function ProfileScreen({ navigation, route }: AppScreenProps<AppScreens.PROFILE_
             return [];
         }
     };
-    const { data, isFetching, isFetched } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS]);
+    const { data } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS]);
 
     const filteredWishlistProducts = data.filter(product =>
         Wishlist.some(item => item.productId === Number(product.id))
