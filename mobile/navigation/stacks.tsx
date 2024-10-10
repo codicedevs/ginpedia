@@ -66,7 +66,8 @@ export function Principal() {
         <Drawer.Navigator
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
+                swipeEnabled: false
             }}>
             <Drawer.Screen name="TabStackScreen" component={TabStackScreen} />
         </Drawer.Navigator>
