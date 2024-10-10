@@ -7,7 +7,6 @@ import { FeaturedCard } from "../components/cards/featuredCard";
 import { ListCard } from "../components/cards/listCard";
 import { MyHeader } from "../components/layout/header";
 import useFetch from "../hooks/useGet";
-import { mockProductList } from "../mocks/Product";
 import { AppScreenProps, AppScreens } from "../navigation/screens";
 import productService from "../service/product.service";
 import { Product } from "../types/product.type";
@@ -22,12 +21,11 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
     return sortedProducts;
   };
 
-  const { data, isFetching, isFetched } = useFetch<Product[]>({
-    fn: fetchFeature,
-    key: ["products"],
-    triggerLoader: false,
-    initialData: mockProductList,
-  });
+  const { data, isFetching, isFetched } = useFetch<Product[]>(
+    fetchFeature,
+    ["products"],
+    true
+  );
 
   const navigateList = () => {
     navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN, {});

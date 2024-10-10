@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState } from 'react';
-import { Div } from 'react-native-magnus';
+import { Div, ScrollDiv } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MyHeader } from '../../components/layout/header';
 import { BookmarkContext } from '../../context/bookmarkProvider';
@@ -14,9 +14,8 @@ import ProductList from './productList';
 import ProfileInfo from './profileInfo';
 import ScreenSelector from './screenSelector';
 
-function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
-    const { screen } = route.params;
-    const [option, setOption] = useState(screen ? screen : ProfileOption.PROFILE)
+function ProfileScreen({ navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
+    const [option, setOption] = useState(ProfileOption.PROFILE)
     const { bookmarks } = useContext(BookmarkContext)
     const Wishlist = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
     const Purchased = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED)
@@ -30,8 +29,7 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
             return [];
         }
     };
-
-    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS] });
+    const { data, isFetching, isFetched } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS]);
 
     const filteredWishlistProducts = data.filter(product =>
         Wishlist.some(item => item.productId === Number(product.id))
@@ -60,9 +58,11 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
         <>
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar />
-                <Div bg='background' flex={2.5} px={'xl'} >
-                    <MyHeader />
-                    <ScreenSelector option={option} setOption={setOption} />
+                <Div bg='background' flex={2} px={'xl'} >
+                    <ScrollDiv>
+                        <MyHeader />
+                        <ScreenSelector option={option} setOption={setOption} />
+                    </ScrollDiv>
                 </Div>
                 <Div py={'md'} px={'xl'} bg='background' flex={8}>
                     {

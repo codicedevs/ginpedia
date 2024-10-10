@@ -24,10 +24,8 @@ const BookmarkProvider: FC<AppProviderProps> = ({ children }) => {
         return (await bookmarkService.bringUserBookmarks(currentUser.id)).data
     }
 
-    const { data: bookmarks, refetch } = useFetch({
-        fn: getBookmarks, key: ['bookmarks'], triggerLoader: false, options: {
-            enabled: !!currentUser
-        }
+    const { data: bookmarks, refetch } = useFetch(getBookmarks, ['bookmarks'], false, {
+        enabled: !!currentUser
     })
 
     return (
