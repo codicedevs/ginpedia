@@ -4,30 +4,28 @@ import { useLoading } from "../context/loadingProvider";
 
 type FetchFunction<T> = (context: QueryFunctionContext) => Promise<T>;
 
-function useFetch<T>(fn: FetchFunction<T>, key: string[], triggerLoader: boolean = false, options: any = {}) {
+interface UseFetchProps<T> {
+    fn: FetchFunction<T>;
+    key: string[];
+    triggerLoader?: boolean;
+    options?: any;
+    initialData?: T | null;
+}
+
+function useFetch<T>({
+    fn,
+    key,
+    triggerLoader = false,
+    options = {},
+    initialData = null,
+}: UseFetchProps<T>) {
     const { setIsLoading } = useLoading();
 
     const query = useQuery<T>({
         queryKey: key,
         queryFn: fn,
-        ...options
-        // initialData: [ tener q hacer cambios para q funcione esto
-        //     {
-        //         id: 1,
-        //         title: "Initial Item 1",
-        //         completed: false
-        //     },
-        //     {
-        //         id: 2,
-        //         title: "Initial Item 2",
-        //         completed: false
-        //     },
-        //     {
-        //         id: 3,
-        //         title: "Initial Item 3",
-        //         completed: true
-        //     }
-        // ] as T[]
+        ...options,
+        initialData
     });
 
     useEffect(() => {
