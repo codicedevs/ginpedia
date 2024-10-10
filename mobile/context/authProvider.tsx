@@ -1,10 +1,11 @@
 import React, { FC, ReactNode, useState } from "react";
+import { IUser } from "../types/user.type";
 
 export const AuthContext = React.createContext<{
-    currentUser: any;
-    setCurrentUser: (user: any) => void;
+    currentUser: IUser | null;
+    setCurrentUser: (user: IUser | null) => void;
 }>({
-    currentUser: 'null',
+    currentUser: null,
     setCurrentUser: () => { }
 })
 
@@ -23,7 +24,7 @@ export function useSession() {
 }
 
 const AppProvider: FC<AppProviderProps> = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<any>(null)
+    const [currentUser, setCurrentUser] = useState<IUser | null>(null)
 
     return (
         <AuthContext.Provider

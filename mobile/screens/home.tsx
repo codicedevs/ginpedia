@@ -1,31 +1,30 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { Div, Icon, ScrollDiv, Text } from 'react-native-magnus'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { verticalScale } from 'react-native-size-matters'
-import { FeaturedCard } from '../components/cards/featuredCard'
-import { ListCard } from '../components/cards/listCard'
-import { MyHeader } from '../components/layout/header'
-import useFetch from '../hooks/useGet'
-import { AppScreenProps, AppScreens } from '../navigation/screens'
-import productService from '../service/product.service'
-import { Product } from '../types/product.type'
-import { TitleGenerator } from '../utils/text'
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Div, Icon, ScrollDiv, Text } from "react-native-magnus";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { verticalScale } from "react-native-size-matters";
+import { FeaturedCard } from "../components/cards/featuredCard";
+import { ListCard } from "../components/cards/listCard";
+import { MyHeader } from "../components/layout/header";
+import useFetch from "../hooks/useGet";
+import { AppScreenProps, AppScreens } from "../navigation/screens";
+import productService from "../service/product.service";
+import { Product } from "../types/product.type";
+import { TitleGenerator } from "../utils/text";
 
-const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({ navigation }) => {
+const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
+    navigation,
+}) => {
     const fetchFeature = async () => {
-
-        const res = await productService.getAll()
-
-        const sortedProducts = res.sort((a, b) => b.rating - a.rating);
-
+        const res = await productService.getAll();
+        const sortedProducts = res.sort((a: any, b: any) => b.rating - a.rating);
         return sortedProducts;
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product>(fetchFeature, ['products'], true);
+    const { data, isFetching, isFetched } = useFetch<Product[]>(fetchFeature, ['products'], true);
 
     const navigateList = () => {
-        navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN)
+        navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN, {})
     }
 
     return (

@@ -28,7 +28,7 @@ export type AppScreensParamList = {
     [AppScreens.SETTINGS_SCREEN]: undefined;
     [AppScreens.RECOVER_CREDENTIALS_SCREEN]: undefined;
     [AppScreens.REGISTER_SCREEN]: undefined;
-    [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery: string };
+    [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery?: string };
     [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
     [AppScreens.PROFILE_SCREEN]: { screen: ProfileOption }
 }

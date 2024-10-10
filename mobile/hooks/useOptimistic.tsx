@@ -5,33 +5,43 @@ type MutationFunction<T> = (variables: T) => Promise<any>;
 type SuccessHandler = (result?: any) => void;
 type ErrorHandler = (error: any) => void;
 
-function useOptimistic<T>(
-    key: string,
-    mutationFn: MutationFunction<T>,
-    onSuccess: SuccessHandler = () => { },
-    onError: ErrorHandler = () => { },
-    triggerLoader: boolean = false
-) {
+interface UseOptimisticOptions<T> {
+    key: string;
+    mutationFn: MutationFunction<T>;
+    onSuccess?: SuccessHandler;
+    onError?: ErrorHandler;
+    onMutate?: (data: T) => void;
+    triggerLoader?: boolean;
+}
+
+function useOptimistic<T>({
+    key,
+    mutationFn,
+    onSuccess = () => { },
+    onError = () => { },
+    onMutate = (data: any) => { },
+    triggerLoader = false,
+}: UseOptimisticOptions<T>) {
     const queryClient = useQueryClient();
     const { setIsLoading } = useLoading();
+
+    const watefak = async (data) => {
+        if (triggerLoader) {
+            setIsLoading(true);
+        }
+        await queryClient.cancelQueries({ queryKey: [key] });
+        const previousData = queryClient.getQueryData([key]);
+        queryClient.setQueryData([key], (old: T[]) => {
+            console.log(old);
+            return ([...old, data]);
+        });
+        return { previousData };
+    }
 
     return useMutation({
         mutationFn,
         onMutate: async (data: T) => {
-            if (triggerLoader) {
-                setIsLoading(true);
-            }
-
-            await queryClient.cancelQueries({ queryKey: [key] });
-
-            const previousData = queryClient.getQueryData([key]);
-
-            queryClient.setQueryData([key], (old: T[]) => {
-                console.log(old);
-                return ([...old, data]);
-            });
-
-            return { previousData };
+            onMutate(data)
         },
         onSuccess: () => {
             setIsLoading(false);
