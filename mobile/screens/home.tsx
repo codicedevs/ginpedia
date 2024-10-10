@@ -1,6 +1,3 @@
-
-
-
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Div, Icon, ScrollDiv, Text } from "react-native-magnus";
