@@ -12,7 +12,6 @@ import { customTheme } from '../../utils/theme';
 
 type NavigationProps = NativeStackNavigationProp<AppScreensParamList, AppScreens.HOME_SCREEN>;
 
-
 function CustomDrawerContent(props) {
     const navigation = useNavigation<NavigationProps>()
 

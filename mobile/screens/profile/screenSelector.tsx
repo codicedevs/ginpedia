@@ -34,7 +34,6 @@ const ScreenSelector = ({ option, setOption }: SelectorProps) => {
     };
 
     useEffect(() => {
-
         scrollToOption();
     }, [option]);
 
