@@ -7,6 +7,7 @@ import { FeaturedCard } from "../components/cards/featuredCard";
 import { ListCard } from "../components/cards/listCard";
 import { MyHeader } from "../components/layout/header";
 import useFetch from "../hooks/useGet";
+import { mockProductList } from '../mocks/Product';
 import { AppScreenProps, AppScreens } from "../navigation/screens";
 import productService from "../service/product.service";
 import { Product } from "../types/product.type";
@@ -21,7 +22,12 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
         return sortedProducts;
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product[]>(fetchFeature, ['products'], true);
+    const { data, isFetching, isFetched } = useFetch<Product[]>({
+        fn: fetchFeature,
+        key: ['products'],
+        triggerLoader: false,
+        initialData: mockProductList
+    });
 
     const navigateList = () => {
         navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN, {})
@@ -40,7 +46,7 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
                         {
                             data &&
                             data?.slice(0, 3).map((product) => (
-                                <FeaturedCard alreadyFetched={true} isLoading={false} product={product} />
+                                <FeaturedCard alreadyFetched={isFetched} isLoading={isFetching} product={product} />
                             ))
                         }
                     </ScrollDiv>
@@ -50,7 +56,7 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
                     {
                         data &&
                         data?.map((product) => (
-                            <ListCard alreadyFetched={true} isLoading={false} product={product} />
+                            <ListCard alreadyFetched={isFetched} isLoading={isFetching} product={product} />
                         ))
                     }
                     <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>

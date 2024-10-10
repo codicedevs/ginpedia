@@ -48,8 +48,14 @@ export class AuthService {
       expiresIn: jwtSetting.JWT_REFRESH_EXPIRES,
     });
     const access_token = await this.jwtService.signAsync(payload);
+    const {
+      password: pass,
+      resetKey,
+      resetKeyTimeStamp,
+      ...userWithoutPass
+    } = user;
     return {
-      user: user,
+      user: userWithoutPass,
       accessToken: access_token,
       refreshToken: refreshToken,
     };

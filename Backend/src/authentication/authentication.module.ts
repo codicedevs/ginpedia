@@ -17,6 +17,7 @@ import oauthConfig from "./config/oauth.config";
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
+      global: true,
       secret: jwtSetting.JWT_ACCESS_SECRET, // secret key para JWT
       signOptions: { expiresIn: jwtSetting.JWT_ACCESS_EXPIRES }, // Configurar según tus necesidades, es el tiempo de expiracion
     }),

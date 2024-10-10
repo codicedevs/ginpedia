@@ -18,16 +18,21 @@ import { FbAuthGuard, GoogleAuthGuard } from "./guards/o-auth.guard";
 import { Request, Response } from "express";
 import { User } from "users/entities/user.entity";
 import { RequestWithUser } from "./auth.guard";
+import { JWTPayload } from "types/payload";
+import { UsersService } from "users/users.service";
 
 @Controller("auth")
-@Public() // todos son publicos con este decorador!
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService
+  ) {}
   /**
    * @param signInDto
    * @returns
    */
 
+  @Public()
   @Post("signin")
   async signIn(@Body() signInDto: SignInDTO) {
     try {
@@ -35,6 +40,7 @@ export class AuthController {
         signInDto.email,
         signInDto.password
       );
+
       return result;
     } catch (err) {
       const error = err as Error;
@@ -116,5 +122,13 @@ export class AuthController {
       const response = await this.authService.signIn(req.user.email);
       res.redirect(`http://localhost:5173/${response.accessToken}`);
     }
+  }
+
+  @Get("whoami")
+  async whoamiUser(@Req() request: Request) {
+    const { sub } = request["user"] as JWTPayload;
+    const user = await this.userService.findByIdOrFail(sub);
+    const { password, resetKey, resetKeyTimeStamp, ...userWithoutPass } = user;
+    return userWithoutPass;
   }
 }

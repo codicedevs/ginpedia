@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState } from 'react';
-import { Div, ScrollDiv } from 'react-native-magnus';
+import { Div } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MyHeader } from '../../components/layout/header';
 import { BookmarkContext } from '../../context/bookmarkProvider';
@@ -30,7 +30,8 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
             return [];
         }
     };
-    const { data } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS]);
+
+    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS] });
 
     const filteredWishlistProducts = data.filter(product =>
         Wishlist.some(item => item.productId === Number(product.id))
@@ -59,11 +60,9 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
         <>
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar />
-                <Div bg='background' flex={2} px={'xl'} >
-                    <ScrollDiv>
-                        <MyHeader />
-                        <ScreenSelector option={option} setOption={setOption} />
-                    </ScrollDiv>
+                <Div bg='background' flex={2.5} px={'xl'} >
+                    <MyHeader />
+                    <ScreenSelector option={option} setOption={setOption} />
                 </Div>
                 <Div py={'md'} px={'xl'} bg='background' flex={8}>
                     {
