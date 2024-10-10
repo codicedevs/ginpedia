@@ -138,7 +138,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         getBookmarks()
     }
 
-    const { data: product, isFetching, isFetched } = useFetch<Product>(fetchProduct, ['products', productId]);
+    const { data: product, isFetching, isFetched } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
 
     let combiBebida = "";
     if (product?.combinations) {
