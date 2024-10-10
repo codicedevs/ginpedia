@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
+import { MotiView } from 'moti';
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, TouchableOpacity } from 'react-native';
-import { Button, Div, Icon, Image, ScrollDiv, Text } from 'react-native-magnus';
+import { TouchableOpacity } from 'react-native';
+import { Button, Div, Icon, Image, Text } from 'react-native-magnus';
+import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import AnimationDetail from '../components/AnimationDetail';
@@ -31,6 +33,19 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
     const [isLoading, setIsLoading] = useState(false)
     const [showAnimation, setShowAnimation] = useState(true);
+
+    const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler((event) => {
+        scrollY.value = event.contentOffset.y;
+    });
+
+    const animatedStyle = useAnimatedStyle(() => {
+        const scale = interpolate(scrollY.value, [-200, 0, 200], [0.8, 1, 1.5]);
+        return {
+            transform: [{ scale }],
+        };
+    });
 
     const handleAnimationComplete = () => {
         setShowAnimation(false);
@@ -111,8 +126,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         return res;
     };
 
-    const screenWidth = Dimensions.get('window').width;
-
     const checkInteraction = async () => {
         setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST))
         setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED))
@@ -153,11 +166,20 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
             <StatusBar style="auto" />
             <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
             <Div bg="background" flex={1} >
-                <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
-                    <Div h={verticalScale(370)}>
-                        <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
+                <Animated.ScrollView showsVerticalScrollIndicator={false} onScroll={scrollHandler}>
+                    <Div h={verticalScale(350)}>
+                        <MotiView style={[
+                            animatedStyle, {
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                zIndex: 3,
+                                height: verticalScale(350)
+                            }
+                        ]}>
+                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
+                        </MotiView>
                     </Div>
-                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
+                    <Image zIndex={10} w={'100%'} h={verticalScale(60)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
                             <Div>
@@ -284,7 +306,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             </Button>
                         </Div>
                     </Div>
-                </ScrollDiv>
+                </Animated.ScrollView>
                 {showAnimation && (
                     <AnimationDetail onAnimationComplete={handleAnimationComplete} />
                 )}
