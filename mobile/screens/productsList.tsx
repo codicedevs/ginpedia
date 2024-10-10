@@ -59,7 +59,7 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
         }
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS, option, currentFilter.id, searchQuery]);
+    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, option, currentFilter.id, searchQuery] });
 
     const handleOption = (option: FilterOptions) => {
         setOption(option);
