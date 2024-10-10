@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, TouchableOpacity } from "react-native"
 import { Button, Div, Icon, Input, Text } from "react-native-magnus"
@@ -7,7 +7,6 @@ import { verticalScale } from "react-native-size-matters"
 import * as yup from "yup"
 import { ConfirmationModal } from "../../components/modal/confirmationModal"
 import { ErrorInputMessageContainer, ErrorMessageText, LabelContainer, LoginTitleContainer, MainLoginContainer, TitleText } from "../../components/styled/styled"
-import { AuthContext } from '../../context/authProvider'
 import { useGlobalUI } from "../../context/GlobalUIProvider"
 import { useMutate } from '../../hooks/useMutate'
 import { AppScreenProps, AppScreens } from "../../navigation/screens"
@@ -22,7 +21,6 @@ const validationSchema = yup.object({
 });
 
 const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ navigation }) => {
-    const { setCurrentUser } = useContext(AuthContext)
     const [visibility, setVisibility] = useState(true)
     const [show, setShow] = useState(false)
 
