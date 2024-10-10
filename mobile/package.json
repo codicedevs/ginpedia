@@ -23,7 +23,6 @@
     "expo-device": "~6.0.2",
     "expo-font": "~12.0.10",
     "expo-image-picker": "~15.0.7",
-    "expo-navigation-bar": "^3.0.7",
     "expo-notifications": "~0.28.16",
     "expo-status-bar": "~1.12.1",
     "moti": "^0.29.0",
