@@ -30,7 +30,7 @@ export type AppScreensParamList = {
     [AppScreens.REGISTER_SCREEN]: undefined;
     [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery?: string };
     [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
-    [AppScreens.PROFILE_SCREEN]: { screen: ProfileOption }
+    [AppScreens.PROFILE_SCREEN]: { screen?: ProfileOption }
 }
 
 export type AppScreenProps<T extends AppScreens> = {
