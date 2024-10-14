@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { Button, Div, Icon, Input, Text } from "react-native-magnus";
@@ -80,6 +80,13 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
     }
   };
 
+  const whoAmI = async () => {
+    const res = await authService.whoami();
+    if (res) {
+      setCurrentUser(res.data);
+    }
+  }
+
   const navigateToRegister = () => {
     navigation.navigate(AppScreens.REGISTER_SCREEN);
   };
@@ -87,6 +94,10 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   const navigateToCredentialsRecover = () => {
     navigation.navigate(AppScreens.RECOVER_CREDENTIALS_SCREEN);
   };
+
+  useEffect(() => {
+    whoAmI()
+  }, [])
 
   return (
     <ScrollView>
