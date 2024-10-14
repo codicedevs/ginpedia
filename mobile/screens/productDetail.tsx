@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { MotiView } from 'moti';
 import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, TouchableOpacity } from 'react-native';
@@ -164,7 +163,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     if (!product) return null
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar style="auto" />
             <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
             <Div bg="background" flex={1} >
                 <Animated.ScrollView showsVerticalScrollIndicator={false} onScroll={scrollHandler}>
