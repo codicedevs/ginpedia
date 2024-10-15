@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Div, Icon, ScrollDiv, Text } from "react-native-magnus";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,7 +28,6 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar style='auto' />
             <Div bg='background' flex={1} px={'xl'}>
                 <ScrollDiv showsVerticalScrollIndicator={false} flex={1}>
                     <MyHeader />
