@@ -33,6 +33,8 @@ async function bootstrap() {
     new CountInterceptor(),
     new ParseWhereInterceptor()
   );
-  await app.listen(serverSetting.PORT);
+  await app.listen(serverSetting.PORT, "0.0.0.0", () => {
+    console.log("corriendo en ", serverSetting.PORT);
+  });
 }
 bootstrap();
