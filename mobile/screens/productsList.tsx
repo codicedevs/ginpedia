@@ -85,7 +85,7 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
                 <Div bg='background' px={'xl'} flex={1}>
                     <MyHeader />
                     <Div mb={'xl'}>
-                        <ListFilterSelector handler={handleOption} value={option} currentFilter={currentFilter} openSelect={openSelect} />
+                        <ListFilterSelector handler={handleOption} value={option} currentFilter={currentFilter} openSelect={openSelect} search={searchQuery ? searchQuery : null} />
                     </Div>
                     <Picker
                         ref={pickerRef}
