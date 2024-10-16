@@ -52,7 +52,7 @@ async function bootstrap() {
     new ParseWhereInterceptor()
   );
   await app.listen(serverSetting.PORT, "0.0.0.0", () => {
-    console.log("corriendo en ", serverSetting.PORT);
+    console.log("App corriendo en ", serverSetting.PORT);
   });
 }
 bootstrap();
