@@ -22,6 +22,7 @@ import { QueryValidationPipe } from "pipes/query-validation.pipe";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { extname } from "path";
+import { serverSetting } from "settings";
 
 @Public()
 @Controller("products")
@@ -48,6 +49,7 @@ export class ProductsController {
     @UploadedFile() file: Express.Multer.File,
     @Param("id") id: number
   ) {
+    const imageUrl = `${serverSetting.BASE_URL}:${serverSetting.PORT}/uploads/${file.path}`;
     await this.productsService.uploadFile(id, file.path);
     return "se agrego la foto correctamente";
   }
