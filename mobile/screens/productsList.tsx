@@ -24,11 +24,11 @@ const filterValues = [
     },
     {
         label: "Puntuación mayor a menor",
-        value: { action: "DESC", property: "rating", id: '3' }
+        value: { action: "ASC", property: "rating", id: '3' }
     },
     {
         label: "Puntuación menor a mayor",
-        value: { action: "ASC", property: "rating", id: '4' }
+        value: { action: "DESC", property: "rating", id: '4' }
     },
 ];
 
@@ -59,7 +59,7 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
         }
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product[]>(bringProducts, [QUERY_KEYS.PRODUCTS, option, currentFilter.id]);
+    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, option, currentFilter.id, searchQuery] });
 
     const handleOption = (option: FilterOptions) => {
         setOption(option);
