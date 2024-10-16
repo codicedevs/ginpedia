@@ -78,6 +78,24 @@ export class AuthService {
     };
   }
 
+  async changePassword(sub: number, oldPassword: string, newPassword: string) {
+    try {
+      const user = await this.userRepository.findOneByOrFail({ id: sub });
+      const match = await bcrypt.compare(oldPassword, user.password);
+      if (match) {
+        const hashedPassword = await bcrypt.hash(newPassword, 8);
+        return this.userRepository.update(user.id, {
+          password: hashedPassword,
+        });
+      } else {
+        return new UnauthorizedException("La contraseña actual es incorrecta");
+      }
+    } catch (err) {
+      const error = err as Error;
+      throw new UnauthorizedException(error.message);
+    }
+  }
+
   /**
    * Esta funcion en primera instancia chequea si el usuario existe mediante su correo
    * Si existe crea un resetKey y un resetKeyTimeStamp, el segundo es una marca de tiempo para manejar la expiracion del primero
