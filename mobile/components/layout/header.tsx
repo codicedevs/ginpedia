@@ -12,7 +12,7 @@ type NavigationProps = NativeStackNavigationProp<AppScreensParamList, AppScreens
 export const MyHeader = () => {
     const navigation = useNavigation<NavigationProps>();
     const navigateToProfile = () => {
-        navigation.navigate(AppScreens.PROFILE_SCREEN);
+        navigation.navigate(AppScreens.PROFILE_SCREEN, {});
     }
 
     return (

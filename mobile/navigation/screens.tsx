@@ -1,5 +1,6 @@
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ProfileOption } from "../types/user.type";
 
 export enum AppScreens {
     LOGIN_SCREEN = 'LoginScreen',
@@ -29,7 +30,7 @@ export type AppScreensParamList = {
     [AppScreens.REGISTER_SCREEN]: undefined;
     [AppScreens.PRODUCT_LIST_SCREEN]: { searchQuery?: string };
     [AppScreens.PRODUCT_DETAIL_SCREEN]: { productId: string };
-    [AppScreens.PROFILE_SCREEN]: undefined
+    [AppScreens.PROFILE_SCREEN]: { screen?: ProfileOption }
 }
 
 export type AppScreenProps<T extends AppScreens> = {
