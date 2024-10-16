@@ -73,7 +73,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ isVisible, setIsVisible, rati
                 <Div flexDir='row' justifyContent='space-between' w={'70%'} alignSelf='center'>
                     {Array.from({ length: 5 }).map((_, index) => (
                         <TouchableOpacity onPress={() => setValue(index + 1)}>
-                            <Icon fontFamily='FontAwesome' color={value <= 0 ? "black" : "secondary"} fontSize={'6xl'} name={value <= index ? "star-o" : "star"} />
+                            <Icon fontFamily='FontAwesome' color={value < index + 1 ? "black" : "secondary"} fontSize={'6xl'} name={value <= index ? "star-o" : "star"} />
                         </TouchableOpacity>
                     ))}
                 </Div>
