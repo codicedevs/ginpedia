@@ -42,7 +42,7 @@ const RegisterScreen: React.FC<AppScreenProps<AppScreens.REGISTER_SCREEN>> = ({ 
     } = useForm<UserInfoRegister>({ resolver: yupResolver(validationSchema) })
 
     const register = async (data: { email: string, password: string, name: string }) => {
-        return await userService.register(data.email, data.password, data.name);
+        return await userService.register(data.email.toLowerCase(), data.password, data.name);
     }
 
     const registerQuery = useMutate(register, (err) => { console.error(err) }, true)

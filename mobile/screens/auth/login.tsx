@@ -52,7 +52,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   } = useForm<UserInfo>({ resolver: yupResolver(validationSchema) });
 
   const login = async (data: { email: string; password: string }) => {
-    const res = await authService.login(data.email, data.password);
+    const res = await authService.login(data.email.toLowerCase(), data.password);
     // const res = await authService.login("admin@gmail.com", "12345678");
     if (res) {
       await AsyncStorage.setItem("refresh", res.refreshToken ?? "");
