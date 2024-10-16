@@ -58,7 +58,7 @@ export const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 
-const baseProvider = simpleRestProvider("http://localhost:3000", httpClient);
+const baseProvider = simpleRestProvider(BASE_URL, httpClient);
 
 export const dataProvider = {
   ...baseProvider,

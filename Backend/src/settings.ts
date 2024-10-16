@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const serverSetting = Object.freeze({
+  BASE_URL: process.env.BASE_URL,
   PORT: +(process.env.SERVER_PORT ?? 3000),
   DB_TYPE: process.env.DB_TYPE,
   DB_HOST: process.env.DB_HOST,
