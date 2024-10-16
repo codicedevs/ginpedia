@@ -271,7 +271,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                         );
                                     })}
                         </InfoContainer>
-                        <Div flexDir="row" justifyContent="space-between" my={"2xl"}>
+                        <Div flexDir="row" justifyContent="center" my={"2xl"}>
                             <Button
                                 bg="background"
                                 w={scale(150)}
@@ -282,25 +282,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 prefix={<Icon fontSize={"xl"} name="star" mr={"lg"} />}
                             >
                                 Calificar
-                            </Button>
-                            <Button
-                                borderColor='black'
-                                borderWidth={1}
-                                bg="secondary"
-                                color="black"
-                                w={scale(150)}
-                                fontSize={"xl"}
-                                prefix={
-                                    <Icon
-                                        color="black"
-                                        fontFamily="Ionicons"
-                                        fontSize={"xl"}
-                                        name="bag-handle-outline"
-                                        mr={"lg"}
-                                    />
-                                }
-                            >
-                                Comprar
                             </Button>
                         </Div>
                     </Div>
