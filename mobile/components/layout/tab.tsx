@@ -1,15 +1,18 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { Div, Image } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useSearch } from "../../context/searchProvider";
-import { AppStacks } from "../../navigation/screens";
+import { AppScreens, AppStacks } from "../../navigation/screens";
 
 const home = require('../../assets/home.png')
 const search = require('../../assets/search.png')
 
 export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
     const { setIsOpen } = useSearch();
+    const screen = getFocusedRouteNameFromRoute(state.routes[0])
+    if (screen === AppScreens.PRODUCT_DETAIL_SCREEN) return null
     return (
         <Div flexDir="row" bg="secondary">
             {state.routes.map((route, index) => {
