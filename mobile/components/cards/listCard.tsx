@@ -4,7 +4,6 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Div, Icon, Image, Text } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { AppScreens, AppScreensParamList } from "../../navigation/screens";
-import { BASE_URL } from "../../utils/config";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 import { ListCardSkeletton } from "../styled/styled";
@@ -70,7 +69,7 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
           <Image
             resizeMode="cover"
             style={styles.image}
-            source={{ uri: `${BASE_URL}/${product.image}` }}
+            source={{ uri: `${product.image}` }}
           />
           <Div style={styles.triangleMask} />
         </Div>

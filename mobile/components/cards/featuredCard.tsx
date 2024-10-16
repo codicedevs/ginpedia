@@ -4,7 +4,6 @@ import { TouchableOpacity } from "react-native";
 import { Div, Icon, Image, Text } from "react-native-magnus";
 import { scale, verticalScale } from "react-native-size-matters";
 import { AppScreens, AppScreensParamList } from "../../navigation/screens";
-import { BASE_URL } from "../../utils/config";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 import { FeaturedCardSkeletton } from "../styled/styled";
@@ -73,7 +72,7 @@ export const FeaturedCard = ({
           <Image
             resizeMode="contain"
             style={{ height: "100%", width: "100%" }}
-            source={{ uri: `${BASE_URL}/${product.image}` }}
+            source={{ uri: `${product.image}` }}
           />
         </Div>
       </Div>
