@@ -10,10 +10,16 @@ import { ConnectionSource } from "config/typeorm";
 import * as cors from "cors";
 import { ParseWhereInterceptor } from "interceptors/parseWhere.interceptor";
 import { ValidationPipe } from "@nestjs/common";
+import { getProtocolConfig } from "utils/ssl";
 
 async function bootstrap() {
   await ConnectionSource.initialize();
-  const app = await NestFactory.create(AppModule);
+  const { key, cert, protocol } = getProtocolConfig();
+
+  const app = await NestFactory.create(
+    AppModule,
+    protocol == "https" ? { httpsOptions: { key, cert } } : undefined
+  );
   app.useGlobalPipes(new ValidationPipe());
   // new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }) // no permite campos adicionales,comentado porque me vuelve loco en postman
   app.useGlobalGuards(
@@ -33,6 +39,8 @@ async function bootstrap() {
     new CountInterceptor(),
     new ParseWhereInterceptor()
   );
-  await app.listen(serverSetting.PORT);
+  await app.listen(serverSetting.PORT, "0.0.0.0", () => {
+    console.log("corriendo en ", serverSetting.PORT);
+  });
 }
 bootstrap();
