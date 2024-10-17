@@ -57,8 +57,9 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }
                         position: 'absolute',
                         width: buttonWidth.value,
                         height: '100%',
-                        backgroundColor: 'yellow',
-                        borderRadius: 20
+                        backgroundColor: '#F4B929',
+                        borderRadius: 20,
+                        zIndex: 5
                     },
                     animatedStyles
                 ]}
@@ -77,6 +78,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }
                     alignItems="center"
                     rounded="xl"
                     bg="transparent"
+                    zIndex={10}
                 >
 
                     <Text color={option === value ? 'black' : 'white'}>{option}</Text>
@@ -87,10 +89,11 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }
                 onPress={openSelect}
                 style={{
                     backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
-                    width: `25%`
+                    width: `25%`,
+                    zIndex: 1
                 }}
             >
-                <Image resizeMode='contain' h={'50%'} w={'50%'} source={require('../../assets/filterSelector.png')} />
+                <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
             </TouchableImageFilter>
         </Div>
     );
