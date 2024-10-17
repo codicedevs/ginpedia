@@ -170,13 +170,15 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         <MotiView style={[
                             animatedStyle, {
                                 justifyContent: 'center',
-                                alignItems: 'center',
-                                zIndex: 3
+                                alignItems: 'center'
                             }
                         ]}>
                             <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
                         </MotiView>
                     </Div>
+                    <TouchableOpacity style={{ position: 'absolute' }} onPress={navigation.goBack}>
+                        <Icon color='secondary' ml={scale(10)} mt={verticalScale(10)} fontSize={'5xl'} name='arrowleft' />
+                    </TouchableOpacity>
                     <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
