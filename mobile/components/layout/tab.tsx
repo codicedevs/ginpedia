@@ -13,6 +13,10 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
     const { setIsOpen } = useSearch();
     const screen = getFocusedRouteNameFromRoute(state.routes[0])
     if (screen === AppScreens.PRODUCT_DETAIL_SCREEN) return null
+
+    //FALTA DEFINIR EL ICONO PARA EL DEL MEDIO
+
+
     return (
         <Div flexDir="row" bg="secondary">
             {state.routes.map((route, index) => {
