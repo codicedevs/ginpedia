@@ -11,6 +11,7 @@ import * as cors from "cors";
 import { ParseWhereInterceptor } from "interceptors/parseWhere.interceptor";
 import { ValidationPipe } from "@nestjs/common";
 import { getProtocolConfig } from "utils/ssl";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   await ConnectionSource.initialize();
@@ -20,6 +21,17 @@ async function bootstrap() {
     AppModule,
     protocol == "https" ? { httpsOptions: { key, cert } } : undefined
   );
+
+  const config = new DocumentBuilder()
+    .setTitle("Ginpedia API")
+    .setDescription("Endpoints")
+    .setVersion("1.0")
+    .addBearerAuth()
+    .addTag("users")
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("explorer", app, document);
+
   app.useGlobalPipes(new ValidationPipe());
   // new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }) // no permite campos adicionales,comentado porque me vuelve loco en postman
   app.useGlobalGuards(
@@ -40,7 +52,7 @@ async function bootstrap() {
     new ParseWhereInterceptor()
   );
   await app.listen(serverSetting.PORT, "0.0.0.0", () => {
-    console.log("corriendo en ", serverSetting.PORT);
+    console.log("App corriendo en ", serverSetting.PORT);
   });
 }
 bootstrap();

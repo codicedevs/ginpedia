@@ -20,6 +20,7 @@ import { User } from "users/entities/user.entity";
 import { RequestWithUser } from "./auth.guard";
 import { JWTPayload } from "types/payload";
 import { UsersService } from "users/users.service";
+import { changePasswordDto } from "./dto/password.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -68,6 +69,19 @@ export class AuthController {
    * @param email
    * @returns
    */
+
+  @Post("change-password")
+  async changePassword(
+    @Req() request: Request,
+    @Body() changePasswordDto: changePasswordDto
+  ) {
+    const { sub } = request["user"] as JWTPayload;
+    return this.authService.changePassword(
+      sub,
+      changePasswordDto.oldPassword,
+      changePasswordDto.newPassword
+    );
+  }
 
   @Post("recover-password")
   async recoverPassword(@Body() recoverPassword: RecoverPasswordDto) {
