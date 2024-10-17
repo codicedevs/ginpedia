@@ -1,8 +1,8 @@
 import { MotiView } from 'moti';
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Image, Text } from 'react-native-magnus';
-import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import AnimationDetail from '../components/AnimationDetail';
@@ -21,9 +21,7 @@ import { Bookmark, BookmarkType } from '../types/user.type';
 import { TitleGenerator } from '../utils/text';
 
 function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
-    const [currentIndex, setCurrentIndex] = useState(0);
     const { currentUser } = useContext(AuthContext)
-    const info = [...new Array(6).keys()];
     const [open, setOpen] = useState(false)
     const { productId } = route.params;
     const { bookmarks, getBookmarks } = useContext(BookmarkContext)
@@ -47,6 +45,27 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
 
     const handleAnimationComplete = () => {
         setShowAnimation(false);
+    };
+
+    const heartY = useSharedValue(0);
+    const bookmarkY = useSharedValue(0);
+
+    const heartStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: heartY.value }],
+        };
+    });
+
+    const bookmarkStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: bookmarkY.value }],
+        };
+    });
+
+    const triggerAnimation = (iconY: Animated.SharedValue<number>) => {
+        iconY.value = withSpring(-5, { stiffness: 100, damping: 8 }, () => {  // Desplazamiento de 5px hacia arriba
+            iconY.value = withSpring(0, { stiffness: 80, damping: 12 });  // Regresar con un rebote más notorio
+        });
     };
 
     const deleteBookmark = async (id: number) => {
@@ -124,8 +143,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         return res;
     };
 
-    const screenWidth = Dimensions.get('window').width;
-
     const checkInteraction = async () => {
         setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST))
         setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED))
@@ -151,7 +168,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         getBookmarks()
     }
 
-    const { data: product, isFetching, isFetched } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
+    const { data: product } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
 
     let combiBebida = "";
     if (product?.combinations) {
@@ -188,12 +205,30 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 <Text color='black' fontSize={"xs"}>500 calificaciones</Text>
                             </Div>
                             <Div row>
-                                <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.WISHLIST)}>
-                                    <Icon mr={scale(15)} color={isLiked ? "black" : 'grey'} fontSize="2xl" name="heart" />
+                                <TouchableOpacity
+                                    disabled={isLoading}
+                                    onPress={() => {
+                                        handleInteraction(BookmarkType.WISHLIST);
+                                        triggerAnimation(heartY);  // Iniciar animación
+                                    }}
+                                >
+                                    <Animated.View style={heartStyle}>
+                                        <Icon mr={scale(15)} color={isLiked ? "black" : 'grey'} fontSize="2xl" name="heart" />
+                                    </Animated.View>
                                 </TouchableOpacity>
-                                <TouchableOpacity disabled={isLoading} onPress={() => handleInteraction(BookmarkType.PURCHASED)}>
-                                    <Icon color={isBookmarked ? "black" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
+
+                                <TouchableOpacity
+                                    disabled={isLoading}
+                                    onPress={() => {
+                                        handleInteraction(BookmarkType.PURCHASED);
+                                        triggerAnimation(bookmarkY);  // Iniciar animación
+                                    }}
+                                >
+                                    <Animated.View style={bookmarkStyle}>
+                                        <Icon color={isBookmarked ? "black" : 'grey'} fontSize="2xl" fontFamily='FontAwesome' name="bookmark" />
+                                    </Animated.View>
                                 </TouchableOpacity>
+
                             </Div>
                         </Div>
                         <Div mb={"xl"}>
