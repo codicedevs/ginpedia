@@ -61,14 +61,17 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
         }
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, currentFilter.id, searchQuery, option] });
+    const { data, isFetching, isFetched, refetch } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, currentFilter.id, searchQuery] });
 
     const handleOption = (option: FilterOptions) => {
         setIsFading(true);
+        setOption(option)
         setTimeout(() => {
-            setOption(option);
+            refetch()
+        }, 50);
+        setTimeout(() => {
             setIsFading(false);
-        }, 500);
+        }, 400);
     };
 
     const openSelect = () => {
