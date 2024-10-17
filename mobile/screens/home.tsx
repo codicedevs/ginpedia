@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { Div, Icon, ScrollDiv, Text } from "react-native-magnus";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { verticalScale } from "react-native-size-matters";
@@ -57,10 +58,12 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
                             <ListCard alreadyFetched={isFetched} isLoading={isFetching} product={product} />
                         ))
                     }
-                    <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>
-                        <Text onPress={navigateList} color='secondary'>Ver todos</Text>
-                        <Icon mx={10} color='secondary' fontSize={'xl'} name='arrowright' />
-                    </Div>
+                    <TouchableOpacity onPress={navigateList}>
+                        <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>
+                            <Text color='secondary'>Ver todos</Text>
+                            <Icon mx={10} color='secondary' fontSize={'xl'} name='arrowright' />
+                        </Div>
+                    </TouchableOpacity>
                 </ScrollDiv>
             </Div>
         </SafeAreaView>
