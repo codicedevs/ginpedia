@@ -41,7 +41,7 @@ async function bootstrap() {
   // app.useGlobalFilters(new GlobalExceptionFilter()); // maneja errores de request
   app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: "*",
       methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization", "Range"],
       exposedHeaders: ["Content-Range", "X-Total-Count"],
