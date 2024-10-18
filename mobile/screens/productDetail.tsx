@@ -2,7 +2,7 @@ import { MotiView } from 'moti';
 import React, { useContext, useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Button, Div, Icon, Image, Text } from 'react-native-magnus';
-import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, { Easing, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import AnimationDetail from '../components/AnimationDetail';
@@ -63,8 +63,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     });
 
     const triggerAnimation = (iconY: Animated.SharedValue<number>) => {
-        iconY.value = withSpring(-5, { stiffness: 100, damping: 8 }, () => {  // Desplazamiento de 5px hacia arriba
-            iconY.value = withSpring(0, { stiffness: 80, damping: 12 });  // Regresar con un rebote más notorio
+        iconY.value = withTiming(-5, { duration: 150, easing: Easing.out(Easing.ease) }, () => {
+            iconY.value = withTiming(0, { duration: 150, easing: Easing.out(Easing.ease) });
         });
     };
 
