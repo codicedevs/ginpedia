@@ -21,8 +21,8 @@
         }
       ]
     ],
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Ginpedia",
+    "slug": "Ginpedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/beardman.png",
@@ -33,7 +33,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.svitaylo6.Ginpedia"
     },
     "android": {
       "adaptiveIcon": {
@@ -43,7 +44,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.svitaylo6.mobile"
+      "package": "com.svitaylo6.Ginpedia"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO"
@@ -52,8 +53,13 @@
       "favicon": "./assets/favicon.png"
     },
     "schemme": [
-      "mobile",
+      "Ginpedia",
       "fb4049598648604910"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "35835b02-4145-4533-9d61-f52241bbaae2"
+      }
+    }
   }
 }
