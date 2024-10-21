@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Facebook from "expo-auth-session/providers/facebook";
+import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -45,21 +45,49 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   const { setCurrentUser } = useContext(AuthContext);
   const [visibility, setVisibility] = useState(true);
   const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState<string | undefined>()
 
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: "4049598648604910",
-  })
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "398983702950-lmikmiht4g6u20d4nq91krl9p6r0923i.apps.googleusercontent.com"
+  });
 
   useEffect(() => {
-    if (response && response.type === "success" && response.authentication) {
-      (async () => {
-        const userInfoResponse = await fetch(
-          `https://graph.facebook.com/me?access_token=${response.authentication?.accessToken}&fields=id,name,picture.type(small)`
-        );
-        const userInfo = await userInfoResponse.json()
-      })();
+    if (response && response.type === "success") {
+      setAccessToken(response.authentication?.accessToken)
+      accessToken && fetchUserInfo()
+      // (async () => {
+      //   const userInfoResponse = await fetch(
+      //     `https://graph.facebook.com/me?access_token=${response.authentication?.accessToken}&fields=id,name,picture.type(small)`
+      //   );
+      //   const userInfo = await userInfoResponse.json()
+      // })();
     }
-  }, [response])
+  }, [accessToken, response])
+
+  async function fetchUserInfo() {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    const userInfo = await response.json();
+    setUser(userInfo)
+  }
+
+  // const [request, response, promptAsync] = Facebook.useAuthRequest({
+  //   clientId: "4049598648604910",
+  // })
+
+  // useEffect(() => {
+  //   if (response && response.type === "success" && response.authentication) {
+  //     (async () => {
+  //       const userInfoResponse = await fetch(
+  //         `https://graph.facebook.com/me?access_token=${response.authentication?.accessToken}&fields=id,name,picture.type(small)`
+  //       );
+  //       const userInfo = await userInfoResponse.json()
+  //     })();
+  //   }
+  // }, [response])
 
   const handlePressAsync = async () => {
     const result = await promptAsync();
@@ -236,6 +264,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
           >
             anianiana
           </Button>
+          {user && <Text>HOLA usuario</Text>}
           <Button
             onPress={handleSubmit(onSubmit)}
             bg="secondary"
