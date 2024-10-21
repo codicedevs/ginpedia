@@ -12,6 +12,8 @@ import './gesture-handler';
 import AppNavigator from './navigation/appNavigator';
 import { customTheme } from './utils/theme';
 
+//android fingerprint: 398983702950-lmikmiht4g6u20d4nq91krl9p6r0923i.apps.googleusercontent.com
+
 const queryClient = new QueryClient()
 
 export default function App() {
