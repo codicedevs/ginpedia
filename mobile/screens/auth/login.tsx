@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Facebook from "expo-auth-session/providers/facebook";
+import * as WebBrowser from "expo-web-browser";
 import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from "react-native";
@@ -27,6 +29,8 @@ import { UserInfo } from "../../types/user.type";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 
+WebBrowser.maybeCompleteAuthSession();
+
 const validationSchema = yup.object({
   email: yup.string().required("Requerido").email("Debe ser un email valido"),
   password: yup
@@ -40,6 +44,30 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
 }) => {
   const { setCurrentUser } = useContext(AuthContext);
   const [visibility, setVisibility] = useState(true);
+  const [user, setUser] = useState(null);
+
+  const [request, response, promptAsync] = Facebook.useAuthRequest({
+    clientId: "4049598648604910",
+  })
+
+  useEffect(() => {
+    if (response && response.type === "success" && response.authentication) {
+      (async () => {
+        const userInfoResponse = await fetch(
+          `https://graph.facebook.com/me?access_token=${response.authentication?.accessToken}&fields=id,name,picture.type(small)`
+        );
+        const userInfo = await userInfoResponse.json()
+      })();
+    }
+  }, [response])
+
+  const handlePressAsync = async () => {
+    const result = await promptAsync();
+    if (result.type !== 'success') {
+      console.log('error')
+      return
+    }
+  }
 
   const toggleVisibility = () => {
     setVisibility(!visibility);
@@ -203,6 +231,11 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
               Registrate
             </BoldText>
           </Div>
+          <Button
+            onPress={handlePressAsync}
+          >
+            anianiana
+          </Button>
           <Button
             onPress={handleSubmit(onSubmit)}
             bg="secondary"
