@@ -6,6 +6,7 @@ import Animated, { Easing, interpolate, useAnimatedScrollHandler, useAnimatedSty
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import AnimationDetail from '../components/AnimationDetail';
+import LoopAnimation from '../components/LoopAnimation';
 import RatingModal from '../components/modal/ratingModal';
 import { BoldText, InfoContainer } from '../components/styled/styled';
 import { AuthContext } from '../context/authProvider';
@@ -27,10 +28,11 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const { bookmarks, getBookmarks } = useContext(BookmarkContext)
     const [isBookmarked, setIsBookmarked] = useState(false)
     const [isLiked, setIsLiked] = useState(false)
-    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
     const [isLoading, setIsLoading] = useState(false)
-    const [showAnimation, setShowAnimation] = useState(true);
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [loadingImage, setLoadingImage] = useState(false)
     const scrollY = useSharedValue(0);
+    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
 
     const scrollHandler = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
@@ -44,7 +46,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     });
 
     const handleAnimationComplete = () => {
-        setShowAnimation(false);
+        console.log(1)
+        setShowAnimation(true);
     };
 
     const heartY = useSharedValue(0);
@@ -168,7 +171,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         getBookmarks()
     }
 
-    const { data: product } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
+    const { data: product, isFetching } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
 
     let combiBebida = "";
     if (product?.combinations) {
@@ -191,7 +194,11 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 zIndex: 3
                             }
                         ]}>
-                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
+                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} onLoadStart={() => setLoadingImage(true)} onLoadEnd={() => {
+                                setTimeout(() => {
+                                    setLoadingImage(false)
+                                }, 4000);
+                            }} />
                         </MotiView>
                     </Div>
                     <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
@@ -340,8 +347,14 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         </Div>
                     </Div>
                 </Animated.ScrollView>
-                {showAnimation && (
-                    <AnimationDetail onAnimationComplete={handleAnimationComplete} />
+                {showAnimation ? (
+                    <AnimationDetail />
+                ) : (
+                    <LoopAnimation
+                        onAnimationComplete={handleAnimationComplete}
+                        isFetching={isFetching}
+                        imageLoading={loadingImage}
+                    />
                 )}
             </Div>
         </SafeAreaView>
