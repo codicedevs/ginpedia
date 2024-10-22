@@ -12,56 +12,57 @@ type AnimationProps = {
 
 function LoopAnimation({ onAnimationComplete, isFetching, imageLoading }: AnimationProps) {
     const { width } = Dimensions.get('window');
-    const textTranslateX = useSharedValue(-width); // Inicia desde fuera de la pantalla izquierda
-    const circleTranslateX = useSharedValue(width); // Inicia desde fuera de la pantalla derecha
+    const textTranslateX = useSharedValue(-width);  // Inicia desde fuera de la pantalla izquierda
+    const circleTranslateX = useSharedValue(width);  // Inicia desde fuera de la pantalla derecha
     const [animationRunning, setAnimationRunning] = useState(false);
+    const totalDuration = 1500 + 750; // Total de duración del ciclo de animación
 
     useEffect(() => {
-        // Iniciar la animación solo si isFetching e imageLoading son falsos
-        if (!isFetching && !imageLoading) {
-            // Solo iniciar si no hay animación en curso
+        const startAnimation = () => {
+            setAnimationRunning(true); // Animación en progreso
+            // Mover texto hacia el centro y luego hacia fuera
+            textTranslateX.value = withRepeat(
+                withSequence(
+                    withTiming(0, { duration: 1500 }), // Mover hacia el centro
+                    withTiming(width, { duration: 750 }) // Mover hacia fuera
+                ),
+                -1,  // Repetir infinitamente
+                false // No invertir automáticamente
+            );
+
+            // Mover círculo hacia el centro y luego hacia fuera
+            circleTranslateX.value = withRepeat(
+                withSequence(
+                    withTiming(0, { duration: 1500 }), // Mover hacia el centro
+                    withTiming(-width, { duration: 750 }) // Mover hacia fuera
+                ),
+                -1,  // Repetir infinitamente
+                false // No invertir automáticamente
+            );
+        };
+
+        if (isFetching || imageLoading) {
+            // Iniciar la animación si hay fetching o loading
             if (!animationRunning) {
-                setAnimationRunning(true); // Animación en progreso
-
-                // Mover texto hacia el centro y luego hacia fuera
-                textTranslateX.value = withRepeat(
-                    withSequence(
-                        withTiming(0, { duration: 1500 }), // Mover hacia el centro
-                        withTiming(width, { duration: 750 }) // Mover hacia fuera
-                    ),
-                    -1,  // Repetir infinitamente
-                    false // No invertir automáticamente
-                );
-
-                // Mover círculo hacia el centro y luego hacia fuera
-                circleTranslateX.value = withRepeat(
-                    withSequence(
-                        withTiming(0, { duration: 1500 }), // Mover hacia el centro
-                        withTiming(-width, { duration: 750 }) // Mover hacia fuera
-                    ),
-                    -1,  // Repetir infinitamente
-                    false // No invertir automáticamente
-                );
-
-                // Llamar al callback de finalización cuando la animación se detiene
-                const checkAnimationStatus = () => {
-                    if (!isFetching && !imageLoading && !animationRunning) {
-                        onAnimationComplete(); // Llama al callback si el ciclo ha terminado
-                    }
-                };
-
-                // Establecer un temporizador para comprobar el estado de la animación
-                const timer = setInterval(checkAnimationStatus, 500); // Comprobar cada 500 ms
-
-                return () => {
-                    clearInterval(timer); // Limpiar el temporizador al desmontar
-                    setAnimationRunning(false); // Asegurarse de que el estado se restablezca
-                };
+                startAnimation(); // Iniciar la animación
             }
         } else {
-            setAnimationRunning(false); // Resetear el estado si hay fetching o loading
+            // Cuando ambos son falsos, detener la animación solo si está en ejecución
+            if (animationRunning) {
+                // Espera a que el ciclo actual termine
+                setTimeout(() => {
+                    setAnimationRunning(false); // Termina la animación
+                    onAnimationComplete(); // Llama al callback
+                }, totalDuration);
+            }
         }
-    }, [isFetching, imageLoading]); // Ejecutar cuando cambien isFetching o imageLoading
+
+    }, [isFetching, imageLoading, animationRunning]); // Ejecutar cuando cambien isFetching o imageLoading
+
+    // Verificar el estado actual
+    useEffect(() => {
+        console.log(isFetching, imageLoading, animationRunning);
+    }, [isFetching, imageLoading, animationRunning]);
 
     const textStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: textTranslateX.value }],
