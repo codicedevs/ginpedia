@@ -169,6 +169,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
                           name={visibility ? "eye" : "eye-off"}
                           color="gray900"
                           fontFamily="Feather"
+                          fontSize={'xl'}
                         />
                       </TouchableOpacity>
                     }

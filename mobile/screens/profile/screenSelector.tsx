@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { ScrollView, TouchableOpacity } from "react-native"
-import { scale } from "react-native-size-matters"
+import { scale, verticalScale } from "react-native-size-matters"
 import { ProfileOption } from "../../types/user.type"
 import { TitleGenerator } from "../../utils/text"
 
@@ -42,7 +42,7 @@ const ScreenSelector = ({ option, setOption }: SelectorProps) => {
             <ScrollView
                 ref={scrollRef}
                 showsHorizontalScrollIndicator={false}
-                style={{ marginBottom: 20 }}
+                style={{ marginTop: verticalScale(30) }}
                 contentContainerStyle={{ gap: scale(17), width: scale(580) }}
                 horizontal>
                 <TouchableOpacity onPress={() => setOption(ProfileOption.PROFILE)}>
