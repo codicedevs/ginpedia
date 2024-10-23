@@ -7,18 +7,17 @@ import { runOnJS, useAnimatedStyle, useSharedValue, withSequence, withTiming } f
 type AnimationProps = {
     onAnimationComplete: () => void;
     isFetching: boolean;
-    imageLoading: boolean;
+    imageloaded: boolean;
 }
 
-function LoopAnimation({ onAnimationComplete, isFetching, imageLoading }: AnimationProps) {
+function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: AnimationProps) {
     const { width } = Dimensions.get('window');
     const textTranslateX = useSharedValue(-width);
     const circleTranslateX = useSharedValue(width);
     const [animationRunning, setAnimationRunning] = useState(false);
 
     useEffect(() => {
-        console.log(isFetching, imageLoading, animationRunning);
-        if (isFetching || imageLoading) {
+        if (isFetching || !imageloaded) {
             if (!animationRunning) {
                 startAnimation();
             }
@@ -27,7 +26,7 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageLoading }: Animat
                 onAnimationComplete();
             }
         }
-    }, [isFetching, imageLoading, animationRunning]);
+    }, [isFetching, imageloaded, animationRunning]);
 
     const startAnimation = () => {
         textTranslateX.value = -width;

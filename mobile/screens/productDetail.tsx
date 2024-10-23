@@ -30,7 +30,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     const [isLiked, setIsLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [loop, setLoop] = useState(false);
-    const [loadingImage, setLoadingImage] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
     const [finishedAnimation, setFinishedAnimation] = useState(false);
     const scrollY = useSharedValue(0);
     const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId));
@@ -47,7 +47,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     });
 
     const handleAnimationComplete = () => {
-        console.log(1);
         setLoop(true);
     };
 
@@ -180,7 +179,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
             ? (combiBebida = "tonica")
             : (combiBebida = product.type);
     }
-
+    if (!product) return
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
@@ -194,8 +193,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 zIndex: 3,
                             },
                         ]}>
-                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} onLoadStart={() => setLoadingImage(true)} onLoadEnd={() => {
-                                setLoadingImage(false);
+                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} onLoadEnd={() => {
+                                setImageLoaded(true);
                             }} />
                         </MotiView>
                     </Div>
@@ -353,7 +352,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         <LoopAnimation
                             onAnimationComplete={handleAnimationComplete}
                             isFetching={isFetching}
-                            imageLoading={loadingImage}
+                            imageloaded={imageLoaded}
                         />
                     )
                 )}
