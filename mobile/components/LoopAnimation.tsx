@@ -15,7 +15,6 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageLoading }: Animat
     const textTranslateX = useSharedValue(-width);
     const circleTranslateX = useSharedValue(width);
     const [animationRunning, setAnimationRunning] = useState(false);
-    const totalDuration = 1500 + 750; // Total duration of one loop
 
     useEffect(() => {
         console.log(isFetching, imageLoading, animationRunning);
