@@ -1,13 +1,14 @@
-import { MotiText, MotiView } from 'moti';
+import { MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
+import { Text } from 'react-native-magnus';
 import { scale, verticalScale } from 'react-native-size-matters';
 
-type AnimationProps = {
-    onAnimationComplete: () => void;
+interface AnimationDetailProps {
+    setFinishedAnimation: React.Dispatch<React.SetStateAction<boolean>>; // Tipado del setFinishedAnimation
 }
 
-function AnimationDetail({ onAnimationComplete }: AnimationProps) {
+function AnimationDetail({ setFinishedAnimation }: AnimationDetailProps) {
     const [animationPhase, setAnimationPhase] = useState(0);
     const [startFadeOut, setStartFadeOut] = useState(false);
     const { width, height } = Dimensions.get('window');
@@ -25,16 +26,19 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
         return () => clearTimeout(timer);
     }, [animationPhase]);
 
+    // Ejecutamos setFinishedAnimation en true después de que la fase 3 haya terminado
+    const handleAnimationComplete = () => {
+        if (animationPhase === 3) {
+            setFinishedAnimation(true);
+        }
+    };
+
     return (
         <MotiView
             style={styles.animationContainer}
             animate={{ opacity: startFadeOut ? 0 : 1 }}
             transition={{ type: 'timing', duration: 500 }}
-            onDidAnimate={(key, finished) => {
-                if (key === 'opacity' && finished && startFadeOut) {
-                    onAnimationComplete();
-                }
-            }}
+            onDidAnimate={() => handleAnimationComplete()} // Callback cuando la animación ha terminado
         >
             <MotiView
                 from={{ translateX: scale(width / 2 + 75) }}
@@ -47,6 +51,7 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
                 }}
                 transition={{ type: 'timing', duration: 500 }}
                 style={styles.circle}
+                onDidAnimate={() => handleAnimationComplete()} // Verificar cuando la animación de la vista haya terminado
             />
             <MotiView
                 from={{ translateX: scale(-width / 2 - 50) }}
@@ -56,18 +61,16 @@ function AnimationDetail({ onAnimationComplete }: AnimationProps) {
                 }}
                 transition={{ type: 'timing', duration: 500 }}
                 style={styles.textContainer}
+                onDidAnimate={() => handleAnimationComplete()} // Callback en la animación del texto
             >
-                <MotiText
-                    style={styles.text}
-                    animate={{
-                        color: animationPhase === 2 ? 'black' : 'white',
-                    }}
-                    transition={{
-                        color: { type: 'timing', duration: 500 },
-                    }}
+                <Text
+                    fontSize={scale(24)}
+                    fontWeight="bold"
+                    textAlign="center"
+                    fontFamily="DMSerifDisplay-Regular"
                 >
                     ginpedia
-                </MotiText>
+                </Text>
             </MotiView>
         </MotiView>
     );
@@ -82,16 +85,11 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2f2e2a'
+        backgroundColor: '#2f2e2a',
     },
     textContainer: {
         position: 'absolute',
         zIndex: 2,
-    },
-    text: {
-        fontSize: scale(24),
-        fontWeight: 'bold',
-        textAlign: 'center',
     },
     circle: {
         position: 'absolute',
