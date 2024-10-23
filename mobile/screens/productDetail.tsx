@@ -22,17 +22,18 @@ import { Bookmark, BookmarkType } from '../types/user.type';
 import { TitleGenerator } from '../utils/text';
 
 function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
-    const { currentUser } = useContext(AuthContext)
-    const [open, setOpen] = useState(false)
+    const { currentUser } = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
     const { productId } = route.params;
-    const { bookmarks, getBookmarks } = useContext(BookmarkContext)
-    const [isBookmarked, setIsBookmarked] = useState(false)
-    const [isLiked, setIsLiked] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-    const [showAnimation, setShowAnimation] = useState(false);
-    const [loadingImage, setLoadingImage] = useState(false)
+    const { bookmarks, getBookmarks } = useContext(BookmarkContext);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loop, setLoop] = useState(false);
+    const [loadingImage, setLoadingImage] = useState(false);
+    const [finishedAnimation, setFinishedAnimation] = useState(false);
     const scrollY = useSharedValue(0);
-    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId))
+    const filteredBookmarks = bookmarks.filter((bookmark: Bookmark) => bookmark.productId === Number(productId));
 
     const scrollHandler = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
@@ -46,8 +47,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     });
 
     const handleAnimationComplete = () => {
-        console.log(1)
-        setShowAnimation(true);
+        console.log(1);
+        setLoop(true);
     };
 
     const heartY = useSharedValue(0);
@@ -72,73 +73,73 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     };
 
     const deleteBookmark = async (id: number) => {
-        setIsLoading(true)
+        setIsLoading(true);
         try {
-            await bookmarkService.deleteBookmark(id)
+            await bookmarkService.deleteBookmark(id);
         } catch (e) {
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     const createBookmark = async (option: BookmarkType) => {
-        if (!currentUser) return
-        setIsLoading(true)
+        if (!currentUser) return;
+        setIsLoading(true);
         try {
             await bookmarkService.createBookmark({
                 productId: Number(productId),
                 userId: currentUser?.id,
-                type: option
-            })
+                type: option,
+            });
         } catch (e) {
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     const handleDeleteBookmark = useOptimistic({
         mutationFn: deleteBookmark,
         key: QUERY_KEYS.BOOKMARKS,
         onMutate: () => {
-            setIsBookmarked(false)
+            setIsBookmarked(false);
         },
         onError: () => {
-            setIsBookmarked(true)
-        }
-    })
+            setIsBookmarked(true);
+        },
+    });
 
     const handleDeleteLike = useOptimistic({
         mutationFn: deleteBookmark,
         key: QUERY_KEYS.BOOKMARKS,
         onMutate: () => {
-            setIsLiked(false)
+            setIsLiked(false);
         },
         onError: () => {
-            setIsLiked(true)
-        }
-    })
+            setIsLiked(true);
+        },
+    });
 
     const addBookmark = useOptimistic({
         mutationFn: createBookmark,
         key: QUERY_KEYS.BOOKMARKS,
         onMutate: () => {
-            setIsBookmarked(true)
+            setIsBookmarked(true);
         },
         onError: () => {
-            setIsBookmarked(false)
-        }
-    })
+            setIsBookmarked(false);
+        },
+    });
 
     const addLike = useOptimistic({
         mutationFn: createBookmark,
         key: QUERY_KEYS.BOOKMARKS,
         onMutate: () => {
-            setIsLiked(true)
+            setIsLiked(true);
         },
         onError: () => {
-            setIsLiked(false)
-        }
-    })
+            setIsLiked(false);
+        },
+    });
 
     const fetchProduct = async () => {
         if (!productId) return;
@@ -147,29 +148,29 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
     };
 
     const checkInteraction = async () => {
-        setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST))
-        setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED))
-    }
+        setIsLiked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST));
+        setIsBookmarked(filteredBookmarks.some((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED));
+    };
 
-    useEffect(() => { checkInteraction() }, [bookmarks])
+    useEffect(() => { checkInteraction(); }, [bookmarks]);
 
     const handleInteraction = async (option: BookmarkType) => {
         const index = filteredBookmarks.findIndex((bookmark: Bookmark) => bookmark.type === option);
         if (index > -1) {
             if (option === BookmarkType.WISHLIST) {
-                handleDeleteLike.mutate(filteredBookmarks[index].id)
-                return
+                handleDeleteLike.mutate(filteredBookmarks[index].id);
+                return;
             }
-            handleDeleteBookmark.mutate(filteredBookmarks[index].id)
+            handleDeleteBookmark.mutate(filteredBookmarks[index].id);
         } else {
             if (option === BookmarkType.WISHLIST) {
-                addLike.mutate(option)
-                return
+                addLike.mutate(option);
+                return;
             }
-            addBookmark.mutate(option)
+            addBookmark.mutate(option);
         }
-        getBookmarks()
-    }
+        getBookmarks();
+    };
 
     const { data: product, isFetching } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
 
@@ -180,7 +181,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
             : (combiBebida = product.type);
     }
 
-    if (!product) return null
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
@@ -191,13 +191,11 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                             animatedStyle, {
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                zIndex: 3
-                            }
+                                zIndex: 3,
+                            },
                         ]}>
                             <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} onLoadStart={() => setLoadingImage(true)} onLoadEnd={() => {
-                                setTimeout(() => {
-                                    setLoadingImage(false)
-                                }, 4000);
+                                setLoadingImage(false);
                             }} />
                         </MotiView>
                     </Div>
@@ -347,14 +345,17 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         </Div>
                     </Div>
                 </Animated.ScrollView>
-                {showAnimation ? (
-                    <AnimationDetail />
-                ) : (
-                    <LoopAnimation
-                        onAnimationComplete={handleAnimationComplete}
-                        isFetching={isFetching}
-                        imageLoading={loadingImage}
-                    />
+
+                {!finishedAnimation && (
+                    loop ? (
+                        <AnimationDetail setFinishedAnimation={setFinishedAnimation} />
+                    ) : (
+                        <LoopAnimation
+                            onAnimationComplete={handleAnimationComplete}
+                            isFetching={isFetching}
+                            imageLoading={loadingImage}
+                        />
+                    )
                 )}
             </Div>
         </SafeAreaView>
