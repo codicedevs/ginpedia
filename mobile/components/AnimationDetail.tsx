@@ -14,6 +14,7 @@ function AnimationDetail() {
     const [startFadeOut, setStartFadeOut] = useState(false);
     const { width, height } = Dimensions.get('window');
     const colorValue = useSharedValue(0);
+    const fadeOutDuration = 200; // Ajusta la duración aquí para probar diferentes valores
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -21,14 +22,12 @@ function AnimationDetail() {
                 if (prev < 4) {
                     return prev + 1;
                 } else {
-                    // Al finalizar el ciclo, activar el desvanecimiento y llamar al callback
-                    setStartFadeOut(true);
-                    colorValue.value = withTiming(1, { duration: 200 }); // Transición del color para la fase final
-                    //onAnimationComplete(); // Llama al callback de finalización
-                    return prev; // Retorna la fase actual sin incrementarla más
+                    setStartFadeOut(true); // Iniciar fade-out rápidamente
+                    colorValue.value = withTiming(1, { duration: 200 });
+                    return prev; // Mantén la fase en 4
                 }
             });
-        }, 700);
+        }, 500); // Reduce este tiempo también si lo deseas más rápido
         return () => clearTimeout(timer);
     }, [animationPhase, colorValue]);
 
@@ -42,7 +41,7 @@ function AnimationDetail() {
         <MotiView
             style={styles.animationContainer}
             animate={{ opacity: startFadeOut ? 0 : 1 }}
-            transition={{ type: 'timing', duration: 500 }}
+            transition={{ type: 'timing', duration: fadeOutDuration }} // Fade-out más rápido
         >
             <MotiView
                 from={{ translateX: scale(width / 2 + 75) }}

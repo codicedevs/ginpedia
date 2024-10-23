@@ -2,7 +2,7 @@ import { MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { Text } from 'react-native-magnus';
-import { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import { runOnJS, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 
 type AnimationProps = {
     onAnimationComplete: () => void;
@@ -12,57 +12,48 @@ type AnimationProps = {
 
 function LoopAnimation({ onAnimationComplete, isFetching, imageLoading }: AnimationProps) {
     const { width } = Dimensions.get('window');
-    const textTranslateX = useSharedValue(-width);  // Inicia desde fuera de la pantalla izquierda
-    const circleTranslateX = useSharedValue(width);  // Inicia desde fuera de la pantalla derecha
+    const textTranslateX = useSharedValue(-width);
+    const circleTranslateX = useSharedValue(width);
     const [animationRunning, setAnimationRunning] = useState(false);
-    const totalDuration = 1500 + 750; // Total de duración del ciclo de animación
+    const totalDuration = 1500 + 750; // Total duration of one loop
 
-    useEffect(() => {
-        const startAnimation = () => {
-            setAnimationRunning(true); // Animación en progreso
-            // Mover texto hacia el centro y luego hacia fuera
-            textTranslateX.value = withRepeat(
-                withSequence(
-                    withTiming(0, { duration: 1500 }), // Mover hacia el centro
-                    withTiming(width, { duration: 750 }) // Mover hacia fuera
-                ),
-                -1,  // Repetir infinitamente
-                false // No invertir automáticamente
-            );
-
-            // Mover círculo hacia el centro y luego hacia fuera
-            circleTranslateX.value = withRepeat(
-                withSequence(
-                    withTiming(0, { duration: 1500 }), // Mover hacia el centro
-                    withTiming(-width, { duration: 750 }) // Mover hacia fuera
-                ),
-                -1,  // Repetir infinitamente
-                false // No invertir automáticamente
-            );
-        };
-
-        if (isFetching || imageLoading) {
-            // Iniciar la animación si hay fetching o loading
-            if (!animationRunning) {
-                startAnimation(); // Iniciar la animación
-            }
-        } else {
-            // Cuando ambos son falsos, detener la animación solo si está en ejecución
-            if (animationRunning) {
-                // Espera a que el ciclo actual termine
-                setTimeout(() => {
-                    setAnimationRunning(false); // Termina la animación
-                    onAnimationComplete(); // Llama al callback
-                }, totalDuration);
-            }
-        }
-
-    }, [isFetching, imageLoading, animationRunning]); // Ejecutar cuando cambien isFetching o imageLoading
-
-    // Verificar el estado actual
     useEffect(() => {
         console.log(isFetching, imageLoading, animationRunning);
+        if (isFetching || imageLoading) {
+            if (!animationRunning) {
+                startAnimation();
+            }
+        } else {
+            if (!animationRunning) {
+                onAnimationComplete();
+            }
+        }
     }, [isFetching, imageLoading, animationRunning]);
+
+    const startAnimation = () => {
+        textTranslateX.value = -width;
+        circleTranslateX.value = width;
+
+        setAnimationRunning(true);
+
+        textTranslateX.value = withSequence(
+            withTiming(0, { duration: 1500 }),
+            withTiming(width, { duration: 750 }, (finished) => {
+                if (finished) {
+                    runOnJS(setAnimationRunning)(false); // Uso de runOnJS para manipular el estado
+                }
+            })
+        );
+
+        circleTranslateX.value = withSequence(
+            withTiming(0, { duration: 1500 }),
+            withTiming(-width, { duration: 750 }, (finished) => {
+                if (finished) {
+                    runOnJS(setAnimationRunning)(false); // Uso de runOnJS para manipular el estado
+                }
+            })
+        );
+    };
 
     const textStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: textTranslateX.value }],
