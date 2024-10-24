@@ -3,7 +3,7 @@ name: Ejecutar comando Bash en merge de development a master
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   run-bash-command:
