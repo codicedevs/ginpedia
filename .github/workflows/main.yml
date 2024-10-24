@@ -35,7 +35,7 @@ jobs:
     - name: Ejecutar script en servidor remoto usando contraseña
       run: |
         expect -c "
-        spawn ssh user@remote-server 'bash -s' < ./test2.sh
+        spawn ssh user@remote-server 'bash -s' < ./root/test2.sh
         expect \"password:\"
         send \"${{ secrets.SSH_PASSWORD }}\r\"
         interact
