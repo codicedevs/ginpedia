@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { Text } from 'react-native-magnus';
 import { runOnJS, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
+import { scale } from 'react-native-size-matters';
+import { customTheme } from '../utils/theme';
 
 type AnimationProps = {
     onAnimationComplete: () => void;
@@ -15,6 +17,9 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: Animati
     const textTranslateX = useSharedValue(-width);
     const circleTranslateX = useSharedValue(width);
     const [animationRunning, setAnimationRunning] = useState(false);
+
+    const cSize = scale(150);
+    const cRadius = cSize / 2;
 
     useEffect(() => {
         if (isFetching || !imageloaded) {
@@ -38,7 +43,7 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: Animati
             withTiming(0, { duration: 1500 }),
             withTiming(width, { duration: 750 }, (finished) => {
                 if (finished) {
-                    runOnJS(setAnimationRunning)(false); // Uso de runOnJS para manipular el estado
+                    runOnJS(setAnimationRunning)(false);
                 }
             })
         );
@@ -47,7 +52,7 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: Animati
             withTiming(0, { duration: 1500 }),
             withTiming(-width, { duration: 750 }, (finished) => {
                 if (finished) {
-                    runOnJS(setAnimationRunning)(false); // Uso de runOnJS para manipular el estado
+                    runOnJS(setAnimationRunning)(false);
                 }
             })
         );
@@ -59,9 +64,9 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: Animati
 
     const circleStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: circleTranslateX.value }],
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: cSize, // Equal width and height for a perfect circle
+        height: cSize,
+        borderRadius: cRadius, // Half of width/height to make it circular
     }));
 
     return (
@@ -69,7 +74,7 @@ function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: Animati
             <MotiView style={[styles.circle, circleStyle]} />
             <MotiView style={[styles.textContainer, textStyle]}>
                 <Text
-                    fontSize={24}
+                    fontSize={customTheme.fontSize.title}
                     fontWeight="bold"
                     textAlign="center"
                     fontFamily="DMSerifDisplay-Regular"
