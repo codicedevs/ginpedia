@@ -1,4 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
+import { MotiView } from 'moti';
 import React, { useRef, useState } from 'react';
 import { Div, ScrollDiv } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,6 +38,7 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
     const [option, setOption] = useState<FilterOptions>(FilterOptions.GIN);
     const [currentFilter, setCurrentFilter] = useState<any>(filterValues[0].value);
     const pickerRef = useRef<Picker<string> | null>(null);
+    const [isFading, setIsFading] = useState(false);
 
     const bringProducts = async () => {
         const query = {
@@ -59,10 +61,17 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
         }
     };
 
-    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, option, currentFilter.id, searchQuery] });
+    const { data, isFetching, isFetched, refetch } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS, currentFilter.id, searchQuery] });
 
     const handleOption = (option: FilterOptions) => {
-        setOption(option);
+        setIsFading(true);
+        setOption(option)
+        setTimeout(() => {
+            refetch()
+        }, 50);
+        setTimeout(() => {
+            setIsFading(false);
+        }, 400);
     };
 
     const openSelect = () => {
@@ -100,12 +109,19 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
                     <Div flex={1}>
                         <ScrollDiv>
                             {data && data.map((product, index) => (
-                                <ListCard
+                                <MotiView
                                     key={index}
-                                    alreadyFetched={isFetched}
-                                    isLoading={isFetching}
-                                    product={product}
-                                />
+                                    from={{ opacity: 0 }}
+                                    animate={{ opacity: isFading ? 0 : 1 }}
+                                    transition={{ type: 'timing', duration: 500 }}
+                                >
+                                    <ListCard
+                                        key={index}
+                                        alreadyFetched={isFetched}
+                                        isLoading={isFetching}
+                                        product={product}
+                                    />
+                                </MotiView>
                             ))}
                         </ScrollDiv>
                     </Div>

@@ -1,8 +1,11 @@
-import { Button, Div, Image, Text } from "react-native-magnus"
-import { verticalScale } from "react-native-size-matters"
-import { FilterOptions, filterValueProp } from "../../types/list.types"
-import { customTheme } from "../../utils/theme"
-import { TouchableImageFilter } from "../styled/styled"
+import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
+import { Div, Image, Text } from "react-native-magnus";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { verticalScale } from "react-native-size-matters";
+import { FilterOptions, filterValueProp } from "../../types/list.types";
+import { customTheme } from "../../utils/theme";
+import { TouchableImageFilter } from "../styled/styled";
 
 interface ListFilterSelectorProps {
     handler: (option: FilterOptions) => void;
@@ -13,48 +16,84 @@ interface ListFilterSelectorProps {
 }
 
 export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, search }: ListFilterSelectorProps) => {
+    const xOffset = useSharedValue(0);
+    const buttonWidth = useSharedValue(0);
+    const containerWidth = useSharedValue(0);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: xOffset.value }],
+        };
+    });
+
+    const updatePosition = (index: number) => {
+        xOffset.value = withSpring(index * buttonWidth.value);
+    };
+
+    useEffect(() => {
+        const index = Object.values(FilterOptions).indexOf(value);
+        if (buttonWidth.value) {
+            updatePosition(index);
+        }
+    }, [value]);
+
     return (
-        <Div h={verticalScale(35)} w={'100%'} flexDir='row' justifyContent="flex-end">
+        <Div
+            h={verticalScale(35)}
+            w={'100%'}
+            flexDir='row'
+            alignItems="center"
+            justifyContent={search ? "flex-end" : "space-between"}
+            bg="transparent"
+            onLayout={(event) => {
+                const totalWidth = event.nativeEvent.layout.width;
+                const totalButtonSpace = totalWidth * 0.75;
+                containerWidth.value = totalButtonSpace;
+                buttonWidth.value = totalButtonSpace / 3;
+            }}
+        >
             {!search &&
-                <>
-                    <Button
-                        onPress={() => handler(FilterOptions.GIN)}
-                        bg={FilterOptions.GIN === value ? 'secondary' : 'background'}
-                        flex={1}
-                        justifyContent="center"
-                        alignItems="center"
-                        rounded="xl"
-                        mr={4}
+                <Animated.View
+                    style={[
+                        {
+                            position: 'absolute',
+                            width: buttonWidth.value,
+                            height: '100%',
+                            backgroundColor: '#F4B929',
+                            borderRadius: 20,
+                            zIndex: 5
+                        },
+                        animatedStyles
+                    ]}
+                />}
+            {
+                !search &&
+                Object.values(FilterOptions).map((option, index) => (
+                    <TouchableOpacity
+                        key={option}
+                        onPress={() => {
+                            handler(option);
+                            updatePosition(index);
+                        }}
+                        style={{ flex: 1, zIndex: 10, alignItems: 'center' }}
                     >
-                        <Text color={FilterOptions.GIN === value ? 'black' : 'white'}>Gin</Text>
-                    </Button>
-                    <Button
-                        onPress={() => handler(FilterOptions.ESPECIA)}
-                        bg={FilterOptions.ESPECIA === value ? 'secondary' : 'background'}
-                        flex={1}
-                        justifyContent="center"
-                        alignItems="center"
-                        rounded="xl"
-                        mr={4}
-                    >
-                        <Text color={FilterOptions.ESPECIA === value ? 'black' : 'white'}>Especia</Text>
-                    </Button>
-                    <Button
-                        onPress={() => handler(FilterOptions.TONICA)}
-                        bg={FilterOptions.TONICA === value ? 'secondary' : 'background'}
-                        flex={1}
-                        justifyContent="center"
-                        alignItems="center"
-                        rounded="xl"
-                        mr={4}
-                    >
-                        <Text color={FilterOptions.TONICA === value ? 'black' : 'white'}>Tonica</Text>
-                    </Button>
-                </>
-            }
-            <TouchableImageFilter onPress={openSelect} style={{ backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background }}>
-                <Image resizeMode='contain' h={'50%'} w={'50%'} source={require('../../assets/filterSelector.png')} />
+                        <Text fontFamily="primary" color={option === value ? 'black' : 'white'}>{option}</Text>
+                    </TouchableOpacity>
+                ))}
+
+            <TouchableImageFilter
+                onPress={openSelect}
+                style={{
+                    backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
+                    width: `25%`,
+                    zIndex: 1,
+                }}
+            >
+                <Div w={'70%'} h={'100%'} alignItems="center" justifyContent="center">
+
+                    <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
+                </Div>
             </TouchableImageFilter>
         </Div>
-    )
-}
+    );
+};
