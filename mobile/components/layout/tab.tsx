@@ -1,20 +1,27 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
-import { Div, Image } from "react-native-magnus";
-import { scale, verticalScale } from "react-native-size-matters";
+import { Div, Icon } from "react-native-magnus";
+import { verticalScale } from "react-native-size-matters";
 import { useSearch } from "../../context/searchProvider";
-import { AppStacks } from "../../navigation/screens";
+import { AppScreens, AppStacks } from "../../navigation/screens";
 
 const home = require('../../assets/home.png')
 const search = require('../../assets/search.png')
 
 export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
     const { setIsOpen } = useSearch();
+    const screen = getFocusedRouteNameFromRoute(state.routes[0])
+    if (screen === AppScreens.PRODUCT_DETAIL_SCREEN) return null
+
+    //FALTA DEFINIR EL ICONO PARA EL DEL MEDIO
+
+
     return (
         <Div flexDir="row" bg="secondary">
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
-                const label = route.name === AppStacks.HOME_STACK ? home : route.name === AppStacks.SETTINGS_STACK ? search : route.name;
+                const label = route.name === AppStacks.HOME_STACK ? "home-outline" : route.name === AppStacks.SETTINGS_STACK ? "search" : route.name === AppScreens.PRODUCT_LIST_SCREEN ? "menu" : route.name;
 
                 const isFocused = state.index === index;
 
@@ -52,7 +59,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                             onPress={onPress}
                             onLongPress={onLongPress}
                         >
-                            <Image w={scale(23)} h={verticalScale(23)} source={label} />
+                            <Icon color="black" fontSize={'title'} fontFamily="Ionicons" name={label} />
                         </TouchableOpacity>
                     </Div>
                 );

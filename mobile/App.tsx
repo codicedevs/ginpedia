@@ -15,7 +15,7 @@ import { customTheme } from './utils/theme';
 const queryClient = new QueryClient()
 
 export default function App() {
-
+  console.log('12345')
   useEffect(() => {
     NavigationBar.setBackgroundColorAsync(customTheme.colors.background);
   }, []);

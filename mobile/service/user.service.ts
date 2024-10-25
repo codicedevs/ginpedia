@@ -16,7 +16,7 @@ export class UserService extends HttpService {
   };
 
   register = async (email: string, password: string, name: string) => {
-    return await axios.post(`${BASE_URL}/users`, { email, password, name });
+    return await axios.post(`${BASE_URL}users`, { email, password, name });
   };
 
   deleteUser = async (id: number) => {
