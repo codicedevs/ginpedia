@@ -170,13 +170,15 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         <MotiView style={[
                             animatedStyle, {
                                 justifyContent: 'center',
-                                alignItems: 'center',
-                                zIndex: 3
+                                alignItems: 'center'
                             }
                         ]}>
                             <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} />
                         </MotiView>
                     </Div>
+                    <TouchableOpacity style={{ position: 'absolute' }} onPress={navigation.goBack}>
+                        <Icon color='secondary' ml={scale(10)} mt={verticalScale(10)} fontSize={'5xl'} name='arrowleft' />
+                    </TouchableOpacity>
                     <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
@@ -271,7 +273,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                         );
                                     })}
                         </InfoContainer>
-                        <Div flexDir="row" justifyContent="space-between" my={"2xl"}>
+                        <Div flexDir="row" justifyContent="center" my={"2xl"}>
                             <Button
                                 bg="background"
                                 w={scale(150)}
@@ -282,25 +284,6 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 prefix={<Icon fontSize={"xl"} name="star" mr={"lg"} />}
                             >
                                 Calificar
-                            </Button>
-                            <Button
-                                borderColor='black'
-                                borderWidth={1}
-                                bg="secondary"
-                                color="black"
-                                w={scale(150)}
-                                fontSize={"xl"}
-                                prefix={
-                                    <Icon
-                                        color="black"
-                                        fontFamily="Ionicons"
-                                        fontSize={"xl"}
-                                        name="bag-handle-outline"
-                                        mr={"lg"}
-                                    />
-                                }
-                            >
-                                Comprar
                             </Button>
                         </Div>
                     </Div>
