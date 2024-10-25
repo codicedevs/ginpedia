@@ -11,25 +11,25 @@ const search = require('../../assets/search.png')
 
 export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
     const { setIsOpen } = useSearch();
-    const screen = getFocusedRouteNameFromRoute(state.routes[0])
-    if (screen === AppScreens.PRODUCT_DETAIL_SCREEN) return null
+    const screen = getFocusedRouteNameFromRoute(state.routes[state.index]);
 
-    //FALTA DEFINIR EL ICONO PARA EL DEL MEDIO
-
+    if (screen === AppScreens.PRODUCT_DETAIL_SCREEN) return null;
 
     return (
         <Div flexDir="row" bg="secondary">
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
-                const label = route.name === AppStacks.HOME_STACK ? "home-outline" : route.name === AppStacks.SETTINGS_STACK ? "search" : route.name === AppScreens.PRODUCT_LIST_SCREEN ? "menu" : route.name;
-
                 const isFocused = state.index === index;
+
+                let label = "home-outline";
+                if (route.name === AppStacks.HOME_STACK) label = "home-outline";
+                else if (route.name === AppScreens.PRODUCT_LIST_SCREEN) label = "list-outline";
+                else if (route.name === AppStacks.SETTINGS_STACK) label = "settings-outline";
 
                 const onPress = () => {
                     if (route.name === AppStacks.SETTINGS_STACK) {
-                        setIsOpen(true)
-                    }
-                    else {
+                        setIsOpen(true);
+                    } else {
                         const event = navigation.emit({
                             type: 'tabPress',
                             target: route.key,
@@ -37,7 +37,12 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                         });
 
                         if (!isFocused && !event.defaultPrevented) {
-                            navigation.navigate(route.name, route.params);
+                            if (route.name === AppScreens.PRODUCT_LIST_SCREEN) {
+                                // Navega a ProductListScreen sin props anteriores
+                                navigation.navigate(AppScreens.PRODUCT_LIST_SCREEN, {});
+                            } else {
+                                navigation.navigate(route.name, route.params);
+                            }
                         }
                     }
                 };
@@ -50,7 +55,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                 };
 
                 return (
-                    <Div flex={1} alignItems="center" justifyContent="center" rounded={'md'} h={verticalScale(55)}>
+                    <Div key={route.key} flex={1} alignItems="center" justifyContent="center" rounded={'md'} h={verticalScale(55)}>
                         <TouchableOpacity
                             accessibilityRole="button"
                             accessibilityState={isFocused ? { selected: true } : {}}
@@ -59,7 +64,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                             onPress={onPress}
                             onLongPress={onLongPress}
                         >
-                            <Icon color="black" fontSize={'title'} fontFamily="Ionicons" name={label} />
+                            <Icon color={"black"} fontSize={'title'} fontFamily="Ionicons" name={label} />
                         </TouchableOpacity>
                     </Div>
                 );
