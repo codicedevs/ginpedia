@@ -1,0 +1,43 @@
+name: Ejecutar comando Bash en merge de development a master
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-bash-command:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Clonar el repositorio
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # 2. Verificar si el merge viene de la rama 'development'
+    - name: Verificar si el merge es de 'development'
+      run: |
+        if git log -1 --merges --pretty=%P | grep -q $(git rev-parse origin/development); then
+          echo "Merge desde development detectado, continuando..."
+        else
+          echo "Este no es un merge desde development, saliendo..."
+          exit 0
+        fi
+      shell: bash
+
+    # 3. Instalar Expect
+    - name: Instalar expect
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y expect
+
+    # 4. Ejecutar el script en el servidor remoto usando usuario y contraseña
+    - name: Ejecutar script en servidor remoto usando contraseña
+      run: |
+        expect -c "
+        spawn ssh -o StrictHostKeyChecking=no root@codice.dev 'bash -s' < ./root/test3.sh
+        expect \"password:\"
+        send \"${{ secrets.SSH_PASSWORD }}\r\"
+        interact
+        "
+      shell: bash

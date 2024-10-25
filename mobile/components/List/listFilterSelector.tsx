@@ -11,9 +11,10 @@ interface ListFilterSelectorProps {
     value: FilterOptions;
     openSelect: () => void;
     currentFilter: filterValueProp;
+    search: string | null
 }
 
-export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }: ListFilterSelectorProps) => {
+export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, search }: ListFilterSelectorProps) => {
     const xOffset = useSharedValue(0);
     const buttonWidth = useSharedValue(0);
     const containerWidth = useSharedValue(0);
@@ -64,26 +65,26 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter }
                     animatedStyles
                 ]}
             />
+            {
+                !search &&
+                Object.values(FilterOptions).map((option, index) => (
+                    <Button
+                        key={option}
+                        onPress={() => {
+                            handler(option);
+                            updatePosition(index);
+                        }}
+                        flex={1}
+                        justifyContent="center"
+                        alignItems="center"
+                        rounded="xl"
+                        bg="transparent"
+                        zIndex={10}
+                    >
 
-            {/* Botones */}
-            {Object.values(FilterOptions).map((option, index) => (
-                <Button
-                    key={option}
-                    onPress={() => {
-                        handler(option);
-                        updatePosition(index);
-                    }}
-                    flex={1}
-                    justifyContent="center"
-                    alignItems="center"
-                    rounded="xl"
-                    bg="transparent"
-                    zIndex={10}
-                >
-
-                    <Text color={option === value ? 'black' : 'white'}>{option}</Text>
-                </Button>
-            ))}
+                        <Text color={option === value ? 'black' : 'white'}>{option}</Text>
+                    </Button>
+                ))}
 
             <TouchableImageFilter
                 onPress={openSelect}

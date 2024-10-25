@@ -1,5 +1,5 @@
 import { fetchUtils } from "react-admin";
-import { BASE_URL } from "../config/config";
+import { BASE_URL } from "../config";
 import { httpClient } from "../dataProvider";
 
 export function createUpdate(resource: string, params: any, method: string) {
