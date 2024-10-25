@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Button, Div, Image, Text } from "react-native-magnus";
+import { TouchableOpacity } from "react-native";
+import { Div, Image, Text } from "react-native-magnus";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { verticalScale } from "react-native-size-matters";
 import { FilterOptions, filterValueProp } from "../../types/list.types";
@@ -42,7 +43,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
             w={'100%'}
             flexDir='row'
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent={search ? "flex-end" : "space-between"}
             bg="transparent"
             onLayout={(event) => {
                 const totalWidth = event.nativeEvent.layout.width;
@@ -51,39 +52,33 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                 buttonWidth.value = totalButtonSpace / 3;
             }}
         >
-
-            <Animated.View
-                style={[
-                    {
-                        position: 'absolute',
-                        width: buttonWidth.value,
-                        height: '100%',
-                        backgroundColor: '#F4B929',
-                        borderRadius: 20,
-                        zIndex: 5
-                    },
-                    animatedStyles
-                ]}
-            />
+            {!search &&
+                <Animated.View
+                    style={[
+                        {
+                            position: 'absolute',
+                            width: buttonWidth.value,
+                            height: '100%',
+                            backgroundColor: '#F4B929',
+                            borderRadius: 20,
+                            zIndex: 5
+                        },
+                        animatedStyles
+                    ]}
+                />}
             {
                 !search &&
                 Object.values(FilterOptions).map((option, index) => (
-                    <Button
+                    <TouchableOpacity
                         key={option}
                         onPress={() => {
                             handler(option);
                             updatePosition(index);
                         }}
-                        flex={1}
-                        justifyContent="center"
-                        alignItems="center"
-                        rounded="xl"
-                        bg="transparent"
-                        zIndex={10}
+                        style={{ flex: 1, zIndex: 10, alignItems: 'center' }}
                     >
-
-                        <Text color={option === value ? 'black' : 'white'}>{option}</Text>
-                    </Button>
+                        <Text fontFamily="primary" color={option === value ? 'black' : 'white'}>{option}</Text>
+                    </TouchableOpacity>
                 ))}
 
             <TouchableImageFilter
@@ -91,10 +86,13 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                 style={{
                     backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
                     width: `25%`,
-                    zIndex: 1
+                    zIndex: 1,
                 }}
             >
-                <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
+                <Div w={'70%'} h={'100%'} alignItems="center" justifyContent="center">
+
+                    <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
+                </Div>
             </TouchableImageFilter>
         </Div>
     );
