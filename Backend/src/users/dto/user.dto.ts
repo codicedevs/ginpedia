@@ -25,6 +25,7 @@ export class UpdateUserDto {
   resetKey?: string;
   resetKeyTimeStamp?: string;
   roles?: Role[];
+  formattedBookmarks?: string[];
 }
 
 export class ResetPassDto {

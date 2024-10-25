@@ -39,6 +39,7 @@ export class ProductsController {
             Date.now() + "-" + Math.round(Math.random() * 1e9);
           const ext = extname(file.originalname);
           const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
+
           callback(null, filename);
         },
       }),
@@ -49,8 +50,8 @@ export class ProductsController {
     @UploadedFile() file: Express.Multer.File,
     @Param("id") id: number
   ) {
-    const imageUrl = `${serverSetting.BASE_URL}:${serverSetting.PORT}/uploads/${file.path}`;
-    await this.productsService.uploadFile(id, file.path);
+    const fileURL = `${serverSetting.BASE_URL}:${serverSetting.PORT}/uploads/${file.filename}`;
+    await this.productsService.uploadFile(id, fileURL);
     return "se agrego la foto correctamente";
   }
 

@@ -41,7 +41,7 @@ export class ProductsService {
     id: number,
     filter: FindOneOptions = {},
     withCombination = false
-  ): Promise<Product & { ratingList: TransformatedRating[] }> {
+  ): Promise<{ product: Product; ratingList: TransformatedRating[] }> {
     filter.where = { id };
     filter.relations = ["ratings"];
     const product = await this.productRepository.findOneOrFail(filter);
@@ -60,7 +60,7 @@ export class ProductsService {
     }
     product.ratings = undefined;
 
-    return { ...product, ratingList: transformatedRankings };
+    return { product, ratingList: transformatedRankings };
   }
 
   async getProductCombinations(id: number, filter: FindOneOptions = {}) {
