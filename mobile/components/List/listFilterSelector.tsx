@@ -53,7 +53,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                 buttonWidth.value = totalButtonSpace / 3;
             }}
         >
-            {!search &&
+            {!search ?
                 <Animated.View
                     style={[
                         {
@@ -66,7 +66,12 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                         },
                         animatedStyles
                     ]}
-                />}
+                />
+                :
+                <Div w={'70%'} alignItems="center">
+                    <Text>"{search}"</Text>
+                </Div>
+            }
             {
                 !search &&
                 Object.values(FilterOptions).map((option, index) => (
