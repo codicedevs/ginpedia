@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
-import { Animated } from 'react-native';
+import { Animated, View } from 'react-native';
+import { customTheme } from '../utils/theme';
 
 export const FadeWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const fadeAnim = React.useRef(new Animated.Value(0)).current;
@@ -24,8 +25,10 @@ export const FadeWrapper: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     return (
-        <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
-            {children}
-        </Animated.View>
+        <View style={{ backgroundColor: customTheme.colors.background, flex: 1 }}>
+            <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
+                {children}
+            </Animated.View>
+        </View>
     );
 };
