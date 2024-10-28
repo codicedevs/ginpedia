@@ -4,6 +4,7 @@ import { Div, Image, Text } from "react-native-magnus";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { verticalScale } from "react-native-size-matters";
 import { FilterOptions, filterValueProp } from "../../types/list.types";
+import { capitalizeFirstLetter } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 import { TouchableImageFilter } from "../styled/styled";
 
@@ -77,7 +78,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                         }}
                         style={{ flex: 1, zIndex: 10, alignItems: 'center' }}
                     >
-                        <Text fontFamily="primary" color={option === value ? 'black' : 'white'}>{option}</Text>
+                        <Text fontFamily="primary" color={option === value ? 'black' : 'white'}>{capitalizeFirstLetter(option)}</Text>
                     </TouchableOpacity>
                 ))}
 
