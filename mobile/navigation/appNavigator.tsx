@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import React from 'react'
+import React, { useState } from 'react'
+import AnimatedIntro from '../components/animatedIntro'
 import VersionModal from '../components/modal/versionModal'
 import { useSession } from '../context/authProvider'
 import { SearchProvider } from '../context/searchProvider'
@@ -8,6 +9,7 @@ import { AuthStackScreen, Principal } from './stacks'
 
 const AppNavigator = () => {
     const { currentUser } = useSession()
+    const [intro, setIntro] = useState(true)
 
     const [loaded, error] = useFonts({
         'DMSerifDisplay-Regular': require('../assets/fonts/DMSerifDisplay-Regular.ttf'),
@@ -27,6 +29,10 @@ const AppNavigator = () => {
             <SearchProvider>
                 <VersionModal />
                 {currentUser ? <Principal /> : <AuthStackScreen />}
+                {
+                    intro &&
+                    <AnimatedIntro setIntro={setIntro} />
+                }
             </SearchProvider>
         </NavigationContainer>
     )
