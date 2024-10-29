@@ -1,8 +1,10 @@
 import { Picker } from '@react-native-picker/picker';
 import { MotiView } from 'moti';
 import React, { useRef, useState } from 'react';
-import { Div, ScrollDiv } from 'react-native-magnus';
+import { Div, ScrollDiv, Text } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { verticalScale } from 'react-native-size-matters';
+import SearchIcon from '../assets/svg/notFound';
 import { ListCard } from '../components/cards/listCard';
 import { FadeWrapper } from '../components/fadeView';
 import { MyHeader } from '../components/layout/header';
@@ -89,6 +91,15 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
         }
     }
 
+    const reorganize = () => {
+        if (currentFilter.property === 'rating') {
+            const rated = data.filter((prod) => prod.rating !== null)
+            const notRated = data.filter((prod) => prod.rating === null)
+            return rated.concat(notRated)
+        }
+        return data
+    }
+
     return (
         <>
             <FadeWrapper>
@@ -110,21 +121,30 @@ function ProductListScreen({ route, navigation }: AppScreenProps<AppScreens.PROD
                         </Picker>
                         <Div flex={1}>
                             <ScrollDiv>
-                                {data && data.map((product, index) => (
-                                    <MotiView
-                                        key={index}
-                                        from={{ opacity: 0 }}
-                                        animate={{ opacity: isFading ? 0 : 1 }}
-                                        transition={{ type: 'timing', duration: 500 }}
-                                    >
-                                        <ListCard
-                                            key={index}
-                                            alreadyFetched={isFetched}
-                                            isLoading={isFetching}
-                                            product={product}
-                                        />
-                                    </MotiView>
-                                ))}
+                                {
+                                    !isFetching &&
+                                    (data.length !== 0 ?
+                                        reorganize().map((product, index) => (
+                                            <MotiView
+                                                key={index}
+                                                from={{ opacity: 0 }}
+                                                animate={{ opacity: isFading ? 0 : 1 }}
+                                                transition={{ type: 'timing', duration: 500 }}
+                                            >
+                                                <ListCard
+                                                    key={index}
+                                                    alreadyFetched={isFetched}
+                                                    isLoading={isFetching}
+                                                    product={product}
+                                                />
+                                            </MotiView>
+                                        ))
+                                        :
+                                        <Div h={verticalScale(400)} alignItems='center' justifyContent='center'>
+                                            <SearchIcon />
+                                            <Text mt={'md'} fontSize={'xl'}>No se encuentran productos</Text>
+                                        </Div>)
+                                }
                             </ScrollDiv>
                         </Div>
                     </Div>
