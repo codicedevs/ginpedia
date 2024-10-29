@@ -15,12 +15,12 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
     dataSource.subscribers.push(this);
   }
   async afterInsert(event: InsertEvent<User>): Promise<void> {
-    const { entity } = event;
-    try {
-      await new EmailService().sendUserRegistration(entity);
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
-    console.log("Entity inserted:", entity);
+    // const { entity } = event;
+    // try {
+    //   await new EmailService().sendUserRegistration(entity);
+    // } catch (error) {
+    //   console.error("Error sending email:", error);
+    // }
+    // console.log("Entity inserted:", entity);
   }
 }

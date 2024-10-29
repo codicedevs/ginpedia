@@ -69,9 +69,20 @@ export const dataProvider = {
       params.withCombination = true;
     }
     const url = `${BASE_URL}/${resource}/${params.id}?withCombination=${params.withCombination}`;
-    return httpClient(url).then(({ json }) => ({
+    const res = await httpClient(url).then(({ json }) => ({
       data: json,
     }));
+    if (resource === "products") {
+      const product: any = {
+        data: { ...res.data.product },
+      };
+
+      if (product.data.combinations) {
+        product.data.combinations = product.data.combinations.map((c) => c.id);
+      }
+      return product;
+    }
+    return res;
   },
 
   getList: async (resource: string, params: GetManyParams) => {
