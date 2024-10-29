@@ -20,6 +20,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import { boxStyle, imgStyle } from "../../styles/common";
+import { TruncatedTextField } from "../../utils/functions";
 
 interface ImageCustomProps {
   source: string;
@@ -47,7 +48,7 @@ export const ProductList = () => (
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />
-      <TextField source="description" />
+      <TruncatedTextField source="description" />
       <TextField source="type" />
       <ImageField source="image" />
       <TextField source="origin" />

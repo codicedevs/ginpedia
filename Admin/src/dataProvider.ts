@@ -1,10 +1,5 @@
 import simpleRestProvider from "ra-data-simple-rest";
-import {
-  CreateParams,
-  fetchUtils,
-  FilterContextType,
-  UpdateParams,
-} from "react-admin";
+import { fetchUtils } from "react-admin";
 import { BASE_URL } from "./config";
 import { createUpdate } from "./utils/functions";
 
@@ -78,7 +73,9 @@ export const dataProvider = {
       };
 
       if (product.data.combinations) {
-        product.data.combinations = product.data.combinations.map((c) => c.id);
+        product.data.combinations = product.data.combinations.map(
+          (c: any) => c.id,
+        );
       }
       return product;
     }
