@@ -74,8 +74,9 @@ export const YellowBorderText = styled(Text)`
 
 export const TouchableImageFilter = styled.TouchableOpacity`
   ${commonViewStyles};
-  width: ${scale(40)}px;
+  width: 70%;
   border-radius: ${({ theme }) => theme.borderRadius.medium}px;
+  z-index: 1
 `;
 
 export const RatingModalInfo = styled(Div)`
@@ -83,6 +84,12 @@ export const RatingModalInfo = styled(Div)`
   align-items: center; 
   justify-content: space-between;  
   width: 100%;
+`;
+
+export const TouchableOption = styled.TouchableOpacity`
+  flex: 1;
+  z-index: 10;
+  align-items: center;
 `;
 
 // Details
