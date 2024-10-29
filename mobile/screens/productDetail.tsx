@@ -193,7 +193,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 zIndex: 3,
                             },
                         ]}>
-                            <Image resizeMode='center' source={{ uri: data.product.image }} h={verticalScale(300)} w={'100%'} onLoadEnd={() => {
+                            <Image resizeMode='cover' source={{ uri: data.product.image }} h={verticalScale(300)} w={'100%'} onLoadEnd={() => {
                                 setImageLoaded(true);
                             }} />
                         </MotiView>
@@ -201,7 +201,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                     <TouchableOpacity style={{ position: 'absolute' }} onPress={navigation.goBack}>
                         <Icon color='secondary' ml={scale(10)} mt={verticalScale(10)} fontSize={'5xl'} name='arrowleft' />
                     </TouchableOpacity>
-                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
+                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-110)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
                             <Div>
