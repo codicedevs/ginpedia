@@ -58,7 +58,7 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
         <>
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar />
-                <Div bg='background' flex={2} px={'xl'} >
+                <Div bg='background' flex={1} px={'xl'} mb={'md'} >
                     <ScreenSelector option={option} setOption={setOption} />
                 </Div>
                 <Div py={'md'} px={'xl'} bg='background' flex={8}>
