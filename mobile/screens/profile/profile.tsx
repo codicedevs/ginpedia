@@ -2,10 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState } from 'react';
 import { Div } from 'react-native-magnus';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../../context/authProvider';
 import { BookmarkContext } from '../../context/bookmarkProvider';
 import useFetch from '../../hooks/useGet';
 import { AppScreenProps, AppScreens } from '../../navigation/screens';
 import productService from '../../service/product.service';
+import userService from '../../service/user.service';
 import { Product } from '../../types/product.type';
 import { QUERY_KEYS } from '../../types/query.types';
 import { Bookmark, BookmarkType, ProfileOption } from '../../types/user.type';
@@ -15,6 +17,7 @@ import ScreenSelector from './screenSelector';
 
 function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_SCREEN>) {
     const { screen } = route.params;
+    const { currentUser } = useContext(AuthContext)
     const [option, setOption] = useState(screen ? screen : ProfileOption.PROFILE)
     const { bookmarks } = useContext(BookmarkContext)
     const Wishlist = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
@@ -29,8 +32,22 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
             return [];
         }
     };
+
+    const bringRatedProducts = async () => {
+        if (!currentUser) return
+        try {
+            const res = await userService.bringRatedProducts(currentUser?.id)
+            return res.data
+        } catch (e) {
+            console.error(e)
+            return []
+        }
+    }
+
     const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS] });
 
+    // const { data: ratedProducts } = useFetch<Product[]>({ fn: bringRatedProducts, key: [QUERY_KEYS.PRODUCTS] })
+    // console.log(ratedProducts, 3)
     const filteredWishlistProducts = data.filter(product =>
         Wishlist.some(item => item.productId === Number(product.id))
     );
@@ -38,7 +55,6 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
     const filteredPurchasedProducts = data.filter(product =>
         Purchased.some(item => item.productId === Number(product.id))
     );
-
     const ratedProducts = data.filter(product => product.rating !== null);
 
     const setFilter = () => {
