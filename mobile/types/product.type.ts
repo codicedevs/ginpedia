@@ -14,6 +14,22 @@ type Combination = {
   type: ProductType
 }
 
+export type ProductDetailed = {
+  product: {
+    name: string;
+    description: string;
+    type: ProductType;
+    image: string;
+    origin: string;
+    graduation: string;
+    combinations?: Combination[];
+    rating: number;
+    punctuation?: string;
+    id: string
+  }
+  ratingList: RatingListEntry[]
+};
+
 export type Product = {
   name: string;
   description: string;

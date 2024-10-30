@@ -24,7 +24,7 @@ export const MyTab: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
                 let label = "home-outline";
                 if (route.name === AppStacks.HOME_STACK) label = "home-outline";
                 else if (route.name === AppScreens.PRODUCT_LIST_SCREEN) label = "list-outline";
-                else if (route.name === AppStacks.SETTINGS_STACK) label = "settings-outline";
+                else if (route.name === AppStacks.SETTINGS_STACK) label = "search-outline";
 
                 const onPress = () => {
                     if (route.name === AppStacks.SETTINGS_STACK) {
