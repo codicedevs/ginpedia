@@ -27,6 +27,11 @@ export class UserService extends HttpService {
     return await this.put(`/${id}`, { name, email })
   }
 
+  bringRatedProducts = async (id: number) => {
+    const res = await this.get(`/ratings/${id}`)
+    return res
+  }
+
   changePassword = async ({
     currentPass,
     newPass,

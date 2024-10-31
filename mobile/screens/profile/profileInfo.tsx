@@ -11,6 +11,7 @@ import { useMutate } from "../../hooks/useMutate";
 import authService from "../../service/auth.service";
 import userService from "../../service/user.service";
 import { UpdateUserInfo } from "../../types/user.type";
+import { customTheme } from "../../utils/theme";
 
 const validationSchema = yup.object({
   name: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
@@ -118,14 +119,20 @@ const ProfileInfo = () => {
           )}
           name="email"
         />
+        <Button bg="secondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
+          <Text fontFamily={customTheme.fontFamily.bold} color="black">
+            GUARDAR
+          </Text>
+        </Button>
       </Div>
       <Div>
-        <Button bg="secondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
-          GUARDAR
-        </Button>
-        <Div my={"xl"} flexDir="row" justifyContent="space-between">
-          <Text onPress={handleLogout}>Cerrar sesion</Text>
-          <Text onPress={handleDelete}>Eliminar cuenta</Text>
+        <Div alignItems="center" my={"xl"} >
+          <Button bg="#F47474" color="black" w={"100%"} onPress={handleLogout}>
+            <Text fontFamily={customTheme.fontFamily.bold} color="black">
+              Cerrar sesion
+            </Text>
+          </Button>
+
         </Div>
       </Div>
     </Div>

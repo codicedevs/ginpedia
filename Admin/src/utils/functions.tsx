@@ -1,6 +1,11 @@
-import { fetchUtils } from "react-admin";
-import { BASE_URL } from "../config/config";
+import { fetchUtils, useRecordContext } from "react-admin";
+import { BASE_URL } from "../config";
 import { httpClient } from "../dataProvider";
+
+interface TruncatedTextFieldProps {
+  source: string;
+  record?: any;
+}
 
 export function createUpdate(resource: string, params: any, method: string) {
   let url = `${BASE_URL}/${resource}`;
@@ -27,3 +32,13 @@ export function createUpdate(resource: string, params: any, method: string) {
     };
   });
 }
+
+export const TruncatedTextField = ({ source }: TruncatedTextFieldProps) => {
+  const record = useRecordContext();
+  const maxLength = 30;
+  if (!record) return null;
+  const text = record[source] || "";
+  const truncatedText =
+    text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+  return <span>{truncatedText}</span>;
+};
