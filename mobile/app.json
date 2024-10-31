@@ -19,10 +19,16 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "androidClientId": "939057158406-p2tjrq8jrigbdtbkm35svi5oee282sgd.apps.googleusercontent.com"
+        }
       ]
     ],
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Ginpedia",
+    "slug": "Ginpedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/beardman.png",
@@ -39,13 +45,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.rytttrtyyteyrti.mobile"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO"
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9bf69395-8659-4367-b0b4-6a5382405fb4"
+      }
     }
   }
 }
