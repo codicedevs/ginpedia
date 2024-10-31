@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Button, Div, Input, Overlay } from 'react-native-magnus';
+import { Button, Div, Input, Overlay, Text } from 'react-native-magnus';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { AppScreens, AppScreensParamList } from '../../navigation/screens';
 import { TitleGenerator } from '../../utils/text';
+import { customTheme } from '../../utils/theme';
 
 interface SearchModalProps {
     isVisible: boolean;
@@ -29,8 +30,12 @@ const SearchModal = ({ isVisible, setIsVisible }: SearchModalProps) => {
                     setValue(cleanedValue);
                 }} />
                 <Div flexDir='row' justifyContent='space-between'>
-                    <Button w={scale(120)} bg='grey' color='black' onPress={() => setIsVisible(false)}>CANCELAR</Button>
-                    <Button w={scale(120)} bg='secondary' color='black' onPress={handleSearch}>BUSCAR</Button>
+                    <Button w={scale(120)} bg='#BEBEBE' color='black' onPress={() => setIsVisible(false)}>
+                        <Text color='black' fontFamily={customTheme.fontFamily.bold}>CANCELAR</Text>
+                    </Button>
+                    <Button w={scale(120)} bg='secondary' color='black' onPress={handleSearch}>
+                        <Text color='black' fontFamily={customTheme.fontFamily.bold}>BUSCAR</Text>
+                    </Button>
                 </Div>
             </Div>
         </Overlay>

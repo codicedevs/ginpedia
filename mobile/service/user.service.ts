@@ -16,7 +16,7 @@ export class UserService extends HttpService {
   };
 
   register = async (email: string, password: string, name: string) => {
-    return await axios.post(`${BASE_URL}users`, { email, password, name });
+    return await axios.post(`${BASE_URL}/users`, { email, password, name });
   };
 
   deleteUser = async (id: number) => {
@@ -25,6 +25,11 @@ export class UserService extends HttpService {
 
   updateUser = async ({ email, name, id }: UpdateUserInfoService) => {
     return await this.put(`/${id}`, { name, email })
+  }
+
+  bringRatedProducts = async (id: number) => {
+    const res = await this.get(`/ratings/${id}`)
+    return res
   }
 
   changePassword = async ({

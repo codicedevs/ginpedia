@@ -1,30 +1,38 @@
 import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+import { Text } from 'react-native-magnus';
 
-const AnimatedIntro = () => {
+const AnimatedIntro = ({ setIntro }) => {
     const [startAnimation, setStartAnimation] = useState(false);
     const [startSecondAnimation, setStartSecondAnimation] = useState(false);
     const [startThirdAnimation, setStartThirdAnimation] = useState(false);
     const [startFourthAnimation, setStartFourthAnimation] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
 
-    // Obtener las dimensiones de la pantalla para el tamaño del círculo
-    const { width, height } = Dimensions.get('window');
+    const { width } = Dimensions.get('window');
 
     useEffect(() => {
-        // Espera 1 segundo antes de iniciar la primera animación
         const timer = setTimeout(() => {
             setStartAnimation(true);
-            // Inicia la segunda animación después de que finaliza la primera
             setTimeout(() => {
                 setStartSecondAnimation(true);
-                // Inicia la tercera animación después de que finaliza la segunda
                 setTimeout(() => {
                     setStartThirdAnimation(true);
-                    // Inicia la cuarta animación después de que finaliza la tercera
                     setTimeout(() => {
                         setStartFourthAnimation(true);
-                    }, 500); // Duración de la tercera animación
+
+                        // Iniciar fade-out después de la cuarta animación
+                        setTimeout(() => {
+                            setFadeOut(true);
+                            // Esperar a que termine el fade-out y luego cambiar setIntro a false
+                            setTimeout(() => {
+                                setIntro(false);
+                            }, 500); // Duración del fade-out
+
+                        }, 500); // Duración de la cuarta animación
+
+                    }, 500);
                 }, 1000);
             }, 2000);
         }, 1000);
@@ -33,7 +41,17 @@ const AnimatedIntro = () => {
     }, []);
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'grey' }}>
+        <MotiView
+            from={{ opacity: 1 }}
+            animate={{ opacity: fadeOut ? 0 : 1 }} // Aplicar el fade-out
+            transition={{ type: 'timing', duration: 500 }} // Duración del fade-out
+            style={{
+                ...StyleSheet.absoluteFillObject, // Hacer que el componente ocupe toda la pantalla en posición absoluta
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#2f2e2a',
+            }}
+        >
             <MotiView
                 from={{
                     rotate: '0deg',
@@ -43,9 +61,9 @@ const AnimatedIntro = () => {
                     borderRadius: 10
                 }}
                 animate={startFourthAnimation ? {
-                    width: width * 3, // Suficientemente grande para cubrir toda la pantalla
+                    width: width * 3,
                     height: width * 3,
-                    borderRadius: width // Mantenerlo como círculo mientras crece
+                    borderRadius: width
                 } : startThirdAnimation ? {
                     translateX: 100,
                     width: 10,
@@ -64,7 +82,7 @@ const AnimatedIntro = () => {
                     type: 'timing',
                     duration: startFourthAnimation ? 500 : startThirdAnimation ? 500 : startSecondAnimation ? 1000 : 2000
                 }}
-                style={{ backgroundColor: 'blue' }}
+                style={{ backgroundColor: '#F4B929' }}
             />
             <MotiView
                 from={{ opacity: 0 }}
@@ -72,10 +90,10 @@ const AnimatedIntro = () => {
                 transition={{ type: 'timing', duration: 500 }}
                 style={{ position: 'absolute', alignSelf: 'center' }}
             >
-                <Text style={{ color: startFourthAnimation ? 'black' : 'white', fontSize: 30 }}>Staladev</Text>
+                <Text fontFamily="DMSerifDisplay-Regular" style={{ color: startFourthAnimation ? 'black' : 'white', fontSize: 30 }}>Ginpedia</Text>
             </MotiView>
-        </View>
-    )
-}
+        </MotiView>
+    );
+};
 
 export default AnimatedIntro;
