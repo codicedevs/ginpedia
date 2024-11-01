@@ -48,11 +48,14 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   const [accessToken, setAccessToken] = useState<string | undefined>()
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: "398983702950-lmikmiht4g6u20d4nq91krl9p6r0923i.apps.googleusercontent.com"
+    androidClientId: "939057158406-p2tjrq8jrigbdtbkm35svi5oee282sgd.apps.googleusercontent.com",
+    clientId: "939057158406-ornefi24b6u5i3qfuqcjqgandm4j28jj.apps.googleusercontent.com",
+    iosClientId: "939057158406-q4s0v9lopi7mts9tqd271gl4u5sltviu.apps.googleusercontent.com"
   });
 
   useEffect(() => {
     if (response && response.type === "success") {
+      console.log(response, 'que pasa')
       setAccessToken(response.authentication?.accessToken)
       accessToken && fetchUserInfo()
       // (async () => {
@@ -92,6 +95,7 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   const handlePressAsync = async () => {
     const result = await promptAsync();
     if (result.type !== 'success') {
+      console.log(request)
       console.log('error')
       return
     }
