@@ -19,6 +19,14 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.238005498908-piq5rgd9cp8kqrkdtfmie0e0auccampn",
+          "androidClientId": "238005498908-astkitm5redfl7uu2pvnafl6g9pg17lg.apps.googleusercontent.com",
+          "webClientId": "238005498908-nv5bgu2c7imdl7qfenliup8bplen2p3t.apps.googleusercontent.com"
+        }
       ]
     ],
     "name": "mobile",
@@ -33,19 +41,29 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundle": "com.porfavorjesus.mobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.porfavorjesus.mobile"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO"
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "565663b6-5217-477f-b823-a387d94e7086"
+      }
     }
   }
 }
