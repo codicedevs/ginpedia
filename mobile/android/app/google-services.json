@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "781829129756",
+    "project_id": "ginpedia-f6dd9",
+    "storage_bucket": "ginpedia-f6dd9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781829129756:android:3281e59c2228f760eb81d9",
+        "android_client_info": {
+          "package_name": "com.staladev.ginpedia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_YSCmw-HMCvI9mXlzX87uto5VOTbXOF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

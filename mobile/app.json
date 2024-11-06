@@ -21,16 +21,11 @@
         }
       ],
       [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.238005498908-piq5rgd9cp8kqrkdtfmie0e0auccampn",
-          "androidClientId": "238005498908-astkitm5redfl7uu2pvnafl6g9pg17lg.apps.googleusercontent.com",
-          "webClientId": "238005498908-nv5bgu2c7imdl7qfenliup8bplen2p3t.apps.googleusercontent.com"
-        }
+        "@react-native-google-signin/google-signin"
       ]
     ],
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "ginpedia",
+    "slug": "ginpedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/beardman.png",
@@ -41,10 +36,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundle": "com.porfavorjesus.mobile"
+      "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -52,7 +47,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.porfavorjesus.mobile"
+      "package": "com.staladev.ginpedia"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO"
@@ -62,7 +57,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "565663b6-5217-477f-b823-a387d94e7086"
+        "projectId": "6ca5d925-f617-4ad0-a151-e502b0306e69"
       }
     }
   }
