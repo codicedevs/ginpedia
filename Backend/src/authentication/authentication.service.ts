@@ -12,6 +12,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "users/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "users/dto/user.dto";
+import { SSOData } from "types/user.types";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private userService: UsersService
   ) {}
   /**
    * devuelve refresh token y acces token al usuario si las credenciales son correctas,
@@ -40,6 +42,38 @@ export class AuthService {
       if (!isMatch) {
         throw new HttpException("El password no es correcto", 401);
       }
+    }
+
+    const payload = { sub: user.id, username: user.name, roles: user.roles };
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: jwtSetting.JWT_REFRESH_SECRET,
+      expiresIn: jwtSetting.JWT_REFRESH_EXPIRES,
+    });
+    const access_token = await this.jwtService.signAsync(payload);
+    const {
+      password: pass,
+      resetKey,
+      resetKeyTimeStamp,
+      ...userWithoutPass
+    } = user;
+    return {
+      user: userWithoutPass,
+      accessToken: access_token,
+      refreshToken: refreshToken,
+    };
+  }
+
+  async signInSSO(info: SSOData) {
+    console.log(info.data.user)
+    let user = await this.userRepository.findOne({
+      where: { email: info.data.user.email },
+    });
+
+    if(!user){
+      user = await this.userService.create({
+        email: info.data.user.email,
+        name: info.data.user.name
+      })    
     }
 
     const payload = { sub: user.id, username: user.name, roles: user.roles };
