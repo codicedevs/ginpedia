@@ -16,10 +16,11 @@ import useOptimistic from '../hooks/useOptimistic';
 import { AppScreenProps, AppScreens } from '../navigation/screens';
 import bookmarkService from '../service/bookmark.service';
 import productService from '../service/product.service';
-import { Product } from '../types/product.type';
+import { ProductDetailed } from '../types/product.type';
 import { QUERY_KEYS } from '../types/query.types';
 import { Bookmark, BookmarkType } from '../types/user.type';
 import { TitleGenerator } from '../utils/text';
+import { customTheme } from '../utils/theme';
 
 function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_DETAIL_SCREEN>) {
     const { currentUser } = useContext(AuthContext);
@@ -171,18 +172,17 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
         getBookmarks();
     };
 
-    const { data: product, isFetching } = useFetch<Product>({ fn: fetchProduct, key: ['products', productId] });
-
+    const { data, isFetching } = useFetch<ProductDetailed>({ fn: fetchProduct, key: ['products', productId] });
+    if (!data) return
     let combiBebida = "";
-    if (product?.combinations) {
-        product.type === "gin"
+    if (data?.product.combinations) {
+        data?.product.type === "gin"
             ? (combiBebida = "tonica")
-            : (combiBebida = product.type);
+            : (combiBebida = data?.product.type);
     }
-    if (!product) return
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <RatingModal isVisible={open} setIsVisible={setOpen} rating={product.rating} ratings={product.ratingList} productId={productId} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: customTheme.colors.background }}>
+            <RatingModal isVisible={open} setIsVisible={setOpen} rating={data.product.rating} ratings={data.ratingList} productId={productId} />
             <Div bg="background" flex={1} >
                 <Animated.ScrollView showsVerticalScrollIndicator={false} onScroll={scrollHandler}>
                     <Div h={verticalScale(370)}>
@@ -193,7 +193,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                 zIndex: 3,
                             },
                         ]}>
-                            <Image resizeMode='center' source={require('../assets/GinBackground.png')} h={verticalScale(370)} w={'100%'} onLoadEnd={() => {
+                            <Image resizeMode='cover' source={{ uri: data.product.image }} h={verticalScale(300)} w={'100%'} onLoadEnd={() => {
                                 setImageLoaded(true);
                             }} />
                         </MotiView>
@@ -201,13 +201,13 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                     <TouchableOpacity style={{ position: 'absolute' }} onPress={navigation.goBack}>
                         <Icon color='secondary' ml={scale(10)} mt={verticalScale(10)} fontSize={'5xl'} name='arrowleft' />
                     </TouchableOpacity>
-                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-100)} source={require('../assets/CIRCULO.png')} />
+                    <Image w={'100%'} h={verticalScale(50)} mt={verticalScale(-110)} source={require('../assets/CIRCULO.png')} />
                     <Div bg='secondary' px={"xl"} >
                         <Div mb={"md"} flexDir="row" justifyContent="space-between">
                             <Div>
                                 <Div flexDir="row">
                                     <Icon color="black" mr={"md"} name="star" />
-                                    <Text color='black' fontSize={"xs"}>7.3</Text>
+                                    <Text color='black' fontSize={"xs"}>{data.product.rating}</Text>
                                 </Div>
                                 <Text color='black' fontSize={"xs"}>500 calificaciones</Text>
                             </Div>
@@ -241,12 +241,12 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         <Div mb={"xl"}>
                             <TitleGenerator
                                 color='black'
-                                title={product?.name ? product?.name : "Producto"}
+                                title={data.product?.name ? data.product?.name : "Producto"}
                                 borderColor='black'
                             />
                         </Div>
                         <Text color='black' mb={"lg"} textAlign="justify">
-                            {product?.description}
+                            {data.product?.description}
                         </Text>
                         <InfoContainer>
                             <BoldText color='black'>Informacion del producto</BoldText>
@@ -258,7 +258,7 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                     fontSize="2xl"
                                     name="location-pin"
                                 />
-                                <Text color='black'>{product?.origin}</Text>
+                                <Text color='black'>{data.product?.origin}</Text>
                             </Div>
                             <Div flexDir="row">
                                 <Icon
@@ -268,14 +268,14 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                                     fontSize="2xl"
                                     name="percent"
                                 />
-                                <Text color='black'>{product?.graduation}</Text>
+                                <Text color='black'>{data.product?.graduation}</Text>
                             </Div>
                         </InfoContainer>
 
                         <InfoContainer>
                             <BoldText color='black'>Bebidas relacionadas con este producto</BoldText>
-                            {product?.combinations &&
-                                product?.combinations
+                            {data.product?.combinations &&
+                                data.product?.combinations
                                     .filter((beb) => beb.type === combiBebida)
                                     .map((p) => {
                                         return (
@@ -295,8 +295,8 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
 
                         <InfoContainer>
                             <BoldText color='black'>Aderezos perfectos para esta bebida</BoldText>
-                            {product?.combinations &&
-                                product?.combinations
+                            {data.product?.combinations &&
+                                data.product?.combinations
                                     .filter((beb) => beb.type === "especia")
                                     .map((p) => {
                                         return (

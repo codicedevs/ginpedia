@@ -12,7 +12,7 @@ type AnimationProps = {
     imageloaded: boolean;
 }
 
-function LoopAnimation({ onAnimationComplete, isFetching, imageloaded }: AnimationProps) {
+function LoopAnimation({ onAnimationComplete, isFetching = true, imageloaded }: AnimationProps) {
     const { width } = Dimensions.get('window');
     const textTranslateX = useSharedValue(-width);
     const circleTranslateX = useSharedValue(width);

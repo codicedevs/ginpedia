@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
 import { Div, Image, Text } from "react-native-magnus";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { verticalScale } from "react-native-size-matters";
 import { FilterOptions, filterValueProp } from "../../types/list.types";
+import { capitalizeFirstLetter } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
-import { TouchableImageFilter } from "../styled/styled";
+import { TouchableImageFilter, TouchableOption } from "../styled/styled";
 
 interface ListFilterSelectorProps {
     handler: (option: FilterOptions) => void;
@@ -52,7 +52,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                 buttonWidth.value = totalButtonSpace / 3;
             }}
         >
-            {!search &&
+            {!search ?
                 <Animated.View
                     style={[
                         {
@@ -65,40 +65,37 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                         },
                         animatedStyles
                     ]}
-                />}
+                />
+                :
+                <Div w={'70%'} alignItems="flex-start">
+                    <Text fontFamily="Bold" fontSize={'2xl'}>"{search}"</Text>
+                </Div>
+            }
             {
-                !search ?
+                !search &&
                 Object.values(FilterOptions).map((option, index) => (
-                    <TouchableOpacity
+                    <TouchableOption
                         key={option}
                         onPress={() => {
                             handler(option);
                             updatePosition(index);
                         }}
-                        style={{ flex: 1, zIndex: 10, alignItems: 'center' }}
                     >
-                        <Text fontFamily="primary" color={option === value ? 'black' : 'grey'}>{option}</Text>
-                    </TouchableOpacity>
-                ))
-                :
-                <Div w={'80%'}>
-                <Text fontFamily="primary" ml={'xl'} fontSize={'2xl'} color={'black'}>"{search}"</Text>
-                </Div>
-                }
-
-            <TouchableImageFilter
-                onPress={openSelect}
-                style={{
-                    backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
-                    width: `25%`,
-                    zIndex: 1,
-                }}
-            >
-                <Div w={'70%'} h={'100%'} alignItems="center" justifyContent="center">
-
-                    <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
-                </Div>
-            </TouchableImageFilter>
+                        <Text fontFamily={customTheme.fontFamily.normal} color={option === value ? 'black' : 'white'}>{capitalizeFirstLetter(option)}</Text>
+                    </TouchableOption>
+                ))}
+            <Div pl={5} w={'25%'} alignItems="flex-end" >
+                <TouchableImageFilter
+                    onPress={openSelect}
+                    style={{
+                        backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
+                    }}
+                >
+                    <Div w={'100%'} h={'100%'} alignItems="center" justifyContent="center">
+                        <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
+                    </Div>
+                </TouchableImageFilter>
+            </Div>
         </Div>
     );
 };

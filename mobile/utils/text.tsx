@@ -55,3 +55,8 @@ export const TitleGenerator = ({ title, size = '2xl', color = 'black', borderCol
         </Div>
     );
 };
+
+
+export function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
