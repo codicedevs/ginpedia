@@ -1,5 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from "react-native";
@@ -34,6 +39,8 @@ const validationSchema = yup.object({
     .required("Requerido")
     .min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
+
+GoogleSignin.configure();
 
 const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
   navigation,
@@ -70,6 +77,31 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
       console.error(err);
     }
   );
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const res = await authService.signInSSO(userInfo)
+      if(res){
+        await AsyncStorage.setItem("refresh", res.refreshToken ?? "");
+        await AsyncStorage.setItem("access", res.accessToken ?? "");
+        setCurrentUser(res.user)
+      }
+      // Aquí puedes enviar la información a tu backend o manejar el login localmente
+      // AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled the login process');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign in is in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play services not available or outdated');
+      } else {
+        console.log('Some other error happened:', error);
+      }
+    }
+  };
 
   const onSubmit = async (data: UserInfo) => {
     console.log(data);
@@ -204,6 +236,12 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
               Registrate
             </BoldText>
           </Div>
+          <GoogleSigninButton
+            style={{ width: 192, height: 48 }}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={handleGoogleSignIn}
+          />
           <Button
             onPress={handleSubmit(onSubmit)}
             bg="secondary"
