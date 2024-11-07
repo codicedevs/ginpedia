@@ -21,13 +21,20 @@ export class UsersService {
     private readonly userRepository: Repository<User>
   ) { }
   async create(createUser: CreateUserDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUser.password, 8);
-    const userAndHashedPassword = {
-      ...createUser,
-      password: hashedPassword,
-    } as User;
-    const user = await this.userRepository.save(userAndHashedPassword);
-    return user;
+   let hashedPassword: string | undefined;
+
+  // Solo hashea el password si está definido
+  if (createUser.password) {
+    hashedPassword = await bcrypt.hash(createUser.password, 8);
+  } 
+
+  const userAndHashedPassword = {
+    ...createUser,
+    password: hashedPassword, // Puede ser undefined si no hay password
+  } as User;
+
+  const user = await this.userRepository.save(userAndHashedPassword);
+  return user;
   }
   /**
    * @returns
