@@ -101,6 +101,7 @@ export const InfoContainer = styled(Div)`
 //Textos
 export const TitleText = styled(Text)`
   font-family: ${({ theme }) => theme.fontFamily.secondary};
+  font-size: ${({ theme }) => theme.fontSize.medium};
 `;
 
 export const BoldText = styled(Text)`

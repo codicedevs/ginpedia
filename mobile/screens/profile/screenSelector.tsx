@@ -19,13 +19,13 @@ const ScreenSelector = ({ option, setOption }: SelectorProps) => {
                 x = 0;
                 break;
             case ProfileOption.WISHLIST:
-                x = scale(80);
+                x = scale(70);
                 break;
             case ProfileOption.STORE:
-                x = scale(180);
+                x = scale(165);
                 break;
             case ProfileOption.PUNCTUATION:
-                x = scale(280);
+                x = scale(275);
                 break;
             default:
                 x = 0;
@@ -43,7 +43,7 @@ const ScreenSelector = ({ option, setOption }: SelectorProps) => {
                 ref={scrollRef}
                 showsHorizontalScrollIndicator={false}
                 style={{ marginTop: verticalScale(30) }}
-                contentContainerStyle={{ gap: scale(17), width: scale(580) }}
+                contentContainerStyle={{ gap: scale(17), width: scale(550)}}
                 horizontal>
                 <TouchableOpacity onPress={() => setOption(ProfileOption.PROFILE)}>
                     <TitleGenerator color={option === ProfileOption.PROFILE ? 'black' : 'grey'} borderColor={option === ProfileOption.PROFILE ? 'secondary' : 'grey'} title='Mi perfil' />

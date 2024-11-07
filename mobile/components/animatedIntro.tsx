@@ -49,7 +49,7 @@ const AnimatedIntro = ({ setIntro }) => {
                 ...StyleSheet.absoluteFillObject, // Hacer que el componente ocupe toda la pantalla en posición absoluta
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#2f2e2a',
+                backgroundColor: 'white',
             }}
         >
             <MotiView
@@ -82,7 +82,7 @@ const AnimatedIntro = ({ setIntro }) => {
                     type: 'timing',
                     duration: startFourthAnimation ? 500 : startThirdAnimation ? 500 : startSecondAnimation ? 1000 : 2000
                 }}
-                style={{ backgroundColor: '#F4B929' }}
+                style={{ backgroundColor: '#f4acb4' }}
             />
             <MotiView
                 from={{ opacity: 0 }}
@@ -90,7 +90,7 @@ const AnimatedIntro = ({ setIntro }) => {
                 transition={{ type: 'timing', duration: 500 }}
                 style={{ position: 'absolute', alignSelf: 'center' }}
             >
-                <Text fontFamily="DMSerifDisplay-Regular" style={{ color: startFourthAnimation ? 'black' : 'white', fontSize: 30 }}>Ginpedia</Text>
+                <Text fontFamily="DMSerifDisplay-Regular" style={{ color: startFourthAnimation ? 'black' : '#fb838b', fontSize: 30 }}>Ginpedia</Text>
             </MotiView>
         </MotiView>
     );

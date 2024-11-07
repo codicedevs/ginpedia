@@ -58,7 +58,7 @@ export const customTheme: CustomThemeType = {
         primary: "#0070f3",
         secondary: "#f4acb4",
         accent: "#e91e63",
-        background: "#f9e2e4",
+        background: "#FFFFFF",
         text: "#333333",
         cardBorder: "lightgray",
         cardBg: "#D9D9D9",

@@ -52,12 +52,12 @@ export const FeaturedCard = ({
         w={scale(140)}
         rounded="xl"
         flexDir="column"
-        bg="cardBg"
+        bg="secondary"
         mr={"md"}
       >
         <Div flex={1}>
           <Div flexDir="row">
-            <Icon color="secondary" mr={"md"} name="star" />
+            <Icon color="black" mr={"md"} name="star" />
             <Text color="black">
               {product.rating ? product.rating : "Nadie rateo esto"}
             </Text>

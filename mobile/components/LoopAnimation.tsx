@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f9e2e4',
+        backgroundColor: '#FFFFFF',
     },
     textContainer: {
         position: 'absolute',

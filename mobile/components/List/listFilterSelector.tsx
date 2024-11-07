@@ -6,6 +6,7 @@ import { FilterOptions, filterValueProp } from "../../types/list.types";
 import { capitalizeFirstLetter } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
 import { TouchableImageFilter, TouchableOption } from "../styled/styled";
+import FilterIcon from "../../assets/svg/filterIcon"
 
 interface ListFilterSelectorProps {
     handler: (option: FilterOptions) => void;
@@ -59,7 +60,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                             position: 'absolute',
                             width: buttonWidth.value,
                             height: '100%',
-                            backgroundColor: customTheme.colors.secondary,
+                            backgroundColor: customTheme.colors.darkerSecondary,
                             borderRadius: 20,
                             zIndex: 5
                         },
@@ -81,18 +82,18 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                             updatePosition(index);
                         }}
                     >
-                        <Text fontFamily={customTheme.fontFamily.normal} color={option === value ? 'black' : 'white'}>{capitalizeFirstLetter(option)}</Text>
+                        <Text fontFamily={customTheme.fontFamily.normal} color={option === value ? 'black' : 'grey'}>{capitalizeFirstLetter(option)}</Text>
                     </TouchableOption>
                 ))}
             <Div pl={5} w={'25%'} alignItems="flex-end" >
                 <TouchableImageFilter
                     onPress={openSelect}
                     style={{
-                        backgroundColor: currentFilter.id !== '1' ? customTheme.colors.secondary : customTheme.colors.background,
+                        backgroundColor: currentFilter.id !== '1' ? customTheme.colors.darkerSecondary : customTheme.colors.background,
                     }}
                 >
                     <Div w={'100%'} h={'100%'} alignItems="center" justifyContent="center">
-                        <Image resizeMode='contain' h={'40%'} w={'40%'} source={require('../../assets/filterSelector.png')} />
+                        <FilterIcon />
                     </Div>
                 </TouchableImageFilter>
             </Div>
