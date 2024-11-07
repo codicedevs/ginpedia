@@ -10,7 +10,7 @@ type TitleProps = {
     borderColor?: string
 }
 
-export const TitleGenerator = ({ title, size = '2xl', color = 'white', borderColor = customTheme.colors.secondary }: TitleProps) => {
+export const TitleGenerator = ({ title, size = '2xl', color = 'black', borderColor = customTheme.colors.secondary }: TitleProps) => {
 
     if (!title) {
         return (

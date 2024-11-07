@@ -11,6 +11,7 @@ import { useMutate } from "../../hooks/useMutate";
 import authService from "../../service/auth.service";
 import userService from "../../service/user.service";
 import { UpdateUserInfo } from "../../types/user.type";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const validationSchema = yup.object({
   name: yup.string().required("Requerido").min(8, 'El nombre de usuario debe tener al menos 8 caracteres'),
@@ -29,6 +30,7 @@ const ProfileInfo = () => {
 
   async function handleLogout() {
     await authService.signOut();
+    await GoogleSignin.signOut();
     setCurrentUser(null);
   }
 
@@ -120,7 +122,7 @@ const ProfileInfo = () => {
         />
       </Div>
       <Div>
-        <Button bg="secondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
+        <Button bg="darkerSecondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
           GUARDAR
         </Button>
         <Div my={"xl"} flexDir="row" justifyContent="space-between">

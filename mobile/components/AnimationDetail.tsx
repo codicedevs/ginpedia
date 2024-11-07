@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2f2e2a',
+        backgroundColor: '#f9e2e4',
     },
     textContainer: {
         position: 'absolute',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         width: scale(150),
         height: verticalScale(150),
         borderRadius: verticalScale(75),
-        backgroundColor: '#F4B929',
+        backgroundColor: '#f4acb4',
     },
 });
 

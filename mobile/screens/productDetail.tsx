@@ -315,13 +315,13 @@ function ProductDetail({ route, navigation }: AppScreenProps<AppScreens.PRODUCT_
                         </InfoContainer>
                         <Div flexDir="row" justifyContent="center" my={"2xl"}>
                             <Button
-                                bg="background"
+                                bg="darkerSecondary"
                                 w={scale(150)}
                                 onPress={() => {
                                     setOpen(true);
                                 }}
                                 fontSize={"xl"}
-                                prefix={<Icon fontSize={"xl"} name="star" mr={"lg"} />}
+                                prefix={<Icon fontSize={"xl"} name="star" color='black' mr={"lg"} />}
                             >
                                 Calificar
                             </Button>

@@ -46,19 +46,19 @@ const ScreenSelector = ({ option, setOption }: SelectorProps) => {
                 contentContainerStyle={{ gap: scale(17), width: scale(580) }}
                 horizontal>
                 <TouchableOpacity onPress={() => setOption(ProfileOption.PROFILE)}>
-                    <TitleGenerator color={option === ProfileOption.PROFILE ? 'white' : 'grey'} borderColor={option === ProfileOption.PROFILE ? 'secondary' : 'grey'} title='Mi perfil' />
+                    <TitleGenerator color={option === ProfileOption.PROFILE ? 'black' : 'grey'} borderColor={option === ProfileOption.PROFILE ? 'secondary' : 'grey'} title='Mi perfil' />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setOption(ProfileOption.WISHLIST)}>
-                    <TitleGenerator color={option === ProfileOption.WISHLIST ? 'white' : 'grey'} borderColor={option === ProfileOption.WISHLIST ? 'secondary' : 'grey'} title='Mis deseos' />
+                    <TitleGenerator color={option === ProfileOption.WISHLIST ? 'black' : 'grey'} borderColor={option === ProfileOption.WISHLIST ? 'secondary' : 'grey'} title='Mis deseos' />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setOption(ProfileOption.STORE)}>
-                    <TitleGenerator color={option === ProfileOption.STORE ? 'white' : 'grey'} borderColor={option === ProfileOption.STORE ? 'secondary' : 'grey'} title='Mi bodega' />
+                    <TitleGenerator color={option === ProfileOption.STORE ? 'black' : 'grey'} borderColor={option === ProfileOption.STORE ? 'secondary' : 'grey'} title='Mi bodega' />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setOption(ProfileOption.PUNCTUATION)}>
-                    <TitleGenerator color={option === ProfileOption.PUNCTUATION ? 'white' : 'grey'} borderColor={option === ProfileOption.PUNCTUATION ? 'secondary' : 'grey'} title='Mi puntuacion' />
+                    <TitleGenerator color={option === ProfileOption.PUNCTUATION ? 'black' : 'grey'} borderColor={option === ProfileOption.PUNCTUATION ? 'secondary' : 'grey'} title='Mi puntuacion' />
                 </TouchableOpacity>
             </ScrollView>
         </>

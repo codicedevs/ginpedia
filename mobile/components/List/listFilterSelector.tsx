@@ -59,7 +59,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                             position: 'absolute',
                             width: buttonWidth.value,
                             height: '100%',
-                            backgroundColor: '#F4B929',
+                            backgroundColor: customTheme.colors.secondary,
                             borderRadius: 20,
                             zIndex: 5
                         },
@@ -67,7 +67,7 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                     ]}
                 />}
             {
-                !search &&
+                !search ?
                 Object.values(FilterOptions).map((option, index) => (
                     <TouchableOpacity
                         key={option}
@@ -77,9 +77,14 @@ export const ListFilterSelector = ({ handler, value, openSelect, currentFilter, 
                         }}
                         style={{ flex: 1, zIndex: 10, alignItems: 'center' }}
                     >
-                        <Text fontFamily="primary" color={option === value ? 'black' : 'white'}>{option}</Text>
+                        <Text fontFamily="primary" color={option === value ? 'black' : 'grey'}>{option}</Text>
                     </TouchableOpacity>
-                ))}
+                ))
+                :
+                <Div w={'80%'}>
+                <Text fontFamily="primary" ml={'xl'} fontSize={'2xl'} color={'black'}>"{search}"</Text>
+                </Div>
+                }
 
             <TouchableImageFilter
                 onPress={openSelect}
