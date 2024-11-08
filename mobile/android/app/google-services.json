@@ -12,7 +12,20 @@
           "package_name": "com.staladev.ginpedia"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "781829129756-1gkl88me2vak0etf2rrlo70mopbu4tv8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.staladev.ginpedia",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "781829129756-a0ai6pj7g696mturl08o4urpnsvtr8uf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD_YSCmw-HMCvI9mXlzX87uto5VOTbXOF8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781829129756-a0ai6pj7g696mturl08o4urpnsvtr8uf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
