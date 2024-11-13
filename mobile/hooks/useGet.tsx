@@ -26,23 +26,6 @@ function useFetch<T>({
         queryFn: fn,
         ...options,
         initialData
-        // initialData: [ tener q hacer cambios para q funcione esto
-        //     {
-        //         id: 1,
-        //         title: "Initial Item 1",
-        //         completed: false
-        //     },
-        //     {
-        //         id: 2,
-        //         title: "Initial Item 2",
-        //         completed: false
-        //     },
-        //     {
-        //         id: 3,
-        //         title: "Initial Item 3",
-        //         completed: true
-        //     }
-        // ] as T[]
     });
 
     useEffect(() => {
