@@ -22,9 +22,12 @@ console.log("Serving static files from:", join(__dirname, "..", "uploads"));
 
 @Module({
   imports: [
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, "..", "public"),
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "public"),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "client"),
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "uploads"),
       serveRoot: "/uploads/",
