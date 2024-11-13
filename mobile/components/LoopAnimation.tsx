@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2f2e2a',
+        backgroundColor: '#FFFFFF',
     },
     textContainer: {
         position: 'absolute',
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     circle: {
         position: 'absolute',
         zIndex: 1,
-        backgroundColor: '#F4B929',
+        backgroundColor: '#f4acb4',
     },
 });
 

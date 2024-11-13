@@ -7,20 +7,20 @@ import * as path from "path";
 export default defineConfig({
   plugins: [react()],
   server: {
-    https: {
-      key: fs.readFileSync(
-        path.resolve(
-          __dirname,
-          "/etc/letsencrypt/live/www.codice.dev/privkey.pem",
-        ),
-      ),
-      cert: fs.readFileSync(
-        path.resolve(
-          __dirname,
-          "/etc/letsencrypt/live/www.codice.dev/fullchain.pem",
-        ),
-      ),
-    },
+    // https: {
+    //   key: fs.readFileSync(
+    //     path.resolve(
+    //       __dirname,
+    //       "/etc/letsencrypt/live/www.codice.dev/privkey.pem",
+    //     ),
+    //   ),
+    //   cert: fs.readFileSync(
+    //     path.resolve(
+    //       __dirname,
+    //       "/etc/letsencrypt/live/www.codice.dev/fullchain.pem",
+    //     ),
+    //   ),
+    // },
     port: parseInt(process.env.VITE_PORT || "3021"),
     proxy: {
       "/uploads": {

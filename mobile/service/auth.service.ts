@@ -31,6 +31,22 @@ export class AuthService extends HttpService {
     }
   };
 
+  signInSSO = async (body: any) => {
+    let loginProps: LoginProps | null = null;
+    try {
+      const res = await this.post<LoginProps>(`/signinSso`, body)
+      this.saveAccessToken(res.data.accessToken)
+      this.saveRefreshToken(res.data.refreshToken)
+      loginProps = res.data
+    }
+    catch (e) {
+      console.error(e)
+    }
+    finally {
+      return loginProps
+    }
+  }
+
   signOut = async () => {
     await AsyncStorage.removeItem("access");
     await AsyncStorage.removeItem("refresh");

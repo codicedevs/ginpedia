@@ -11,6 +11,7 @@ import { useMutate } from "../../hooks/useMutate";
 import authService from "../../service/auth.service";
 import userService from "../../service/user.service";
 import { UpdateUserInfo } from "../../types/user.type";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { customTheme } from "../../utils/theme";
 
 const validationSchema = yup.object({
@@ -30,6 +31,7 @@ const ProfileInfo = () => {
 
   async function handleLogout() {
     await authService.signOut();
+    await GoogleSignin.signOut();
     setCurrentUser(null);
   }
 
@@ -119,7 +121,7 @@ const ProfileInfo = () => {
           )}
           name="email"
         />
-        <Button bg="secondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
+        <Button bg="darkerSecondary" color="black" w={"100%"} onPress={handleSubmit(onSubmit)}>
           <Text fontFamily={customTheme.fontFamily.bold} color="black">
             GUARDAR
           </Text>

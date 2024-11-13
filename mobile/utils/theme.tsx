@@ -12,7 +12,8 @@ export type CustomThemeType = ThemeType & {
         background: string;
         text: string;
         cardBorder: string;
-        cardBg: string
+        cardBg: string;
+        darkerSecondary:string
     };
     fontFamily: {
         normal: string;
@@ -55,12 +56,13 @@ declare module "styled-components/native" {
 export const customTheme: CustomThemeType = {
     colors: {
         primary: "#0070f3",
-        secondary: "#F4B929",
+        secondary: "#f4acb4",
         accent: "#e91e63",
-        background: "#2f2e2a",
+        background: "#FFFFFF",
         text: "#333333",
         cardBorder: "lightgray",
-        cardBg: "#D9D9D9"
+        cardBg: "#D9D9D9",
+        darkerSecondary: "#fb838b"
     },
     fontFamily: {
         normal: "Montserrat-Regular",
@@ -96,7 +98,7 @@ export const customTheme: CustomThemeType = {
     components: {
         Text: {
             fontFamily: "Montserrat-Regular",
-            color: 'white'
+            color: 'black'
         },
         Input: {
             p: 0,

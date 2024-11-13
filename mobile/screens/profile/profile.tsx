@@ -20,8 +20,8 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
     const { currentUser } = useContext(AuthContext)
     const [option, setOption] = useState(screen ? screen : ProfileOption.PROFILE)
     const { bookmarks } = useContext(BookmarkContext)
-    const Wishlist = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST)
-    const Purchased = bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED)
+    const Wishlist = bookmarks? bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.WISHLIST) : []
+    const Purchased = bookmarks? bookmarks.filter((bookmark: Bookmark) => bookmark.type === BookmarkType.PURCHASED) : []
 
     const bringProducts = async () => {
         try {
@@ -32,6 +32,7 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
             return [];
         }
     };
+    const { data } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS] });
 
     const bringRatedProducts = async () => {
         if (!currentUser) return
@@ -43,8 +44,6 @@ function ProfileScreen({ route, navigation }: AppScreenProps<AppScreens.PROFILE_
             return []
         }
     }
-
-    const { data, isFetching, isFetched } = useFetch<Product[]>({ fn: bringProducts, key: [QUERY_KEYS.PRODUCTS] });
 
     // const { data: ratedProducts } = useFetch<Product[]>({ fn: bringRatedProducts, key: [QUERY_KEYS.PRODUCTS] })
     // console.log(ratedProducts, 3)

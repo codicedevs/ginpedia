@@ -62,8 +62,8 @@ const HomeScreen: React.FC<AppScreenProps<AppScreens.HOME_SCREEN>> = ({
                         }
                         <TouchableOpacity onPress={navigateList}>
                             <Div flexDir='row' mx={'md'} h={verticalScale(100)} py={'xl'} alignItems='flex-start'>
-                                <Text color='secondary'>Ver todos</Text>
-                                <Icon mx={10} color='secondary' fontSize={'xl'} name='arrowright' />
+                                <Text color='darkerSecondary'>Ver todos</Text>
+                                <Icon mx={10} color='darkerSecondary' fontSize={'xl'} name='arrowright' />
                             </Div>
                         </TouchableOpacity>
                     </ScrollDiv>

@@ -46,14 +46,14 @@ export const ListCard = ({ product, isLoading, alreadyFetched }: CardProps) => {
         w={"100%"}
         rounded="xl"
         flexDir="row"
-        bg="cardBg"
+        bg="secondary"
         overflow="hidden"
         mb={"lg"}
         style={styles.cardContainer}
       >
         <Div flex={5} p={"xl"}>
           <Div flexDir="row">
-            <Icon color="secondary" mr={"md"} name="star" />
+            <Icon color="black" mr={"md"} name="star" />
             <Text color="black">
               {product.rating ? product.rating : "Nadie rateo esto"}
             </Text>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     borderRightWidth: scale(60),
     borderBottomWidth: 0,
     borderLeftWidth: 0,
-    borderTopColor: customTheme.colors.cardBg,
+    borderTopColor: customTheme.colors.secondary,
     borderRightColor: "transparent",
     borderBottomColor: "transparent",
     borderLeftColor: "transparent",
