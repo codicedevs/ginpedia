@@ -26,7 +26,7 @@ console.log("Serving static files from:", join(__dirname, "..", "uploads"));
       rootPath: join(__dirname, "..", "public"),
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "client"),
+      rootPath: join(__dirname, "..", "client/admin"),
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "uploads"),
