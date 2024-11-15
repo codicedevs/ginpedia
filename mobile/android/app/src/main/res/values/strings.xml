@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">mobile</string>
+  <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
+  <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="facebook_app_id">4049598648604910</string>
+  <string name="facebook_client_token">6085216ee8fdd115df31bc3bb1e586f1</string>
+  <string name="fb_login_protocol_scheme">fb4049598648604910</string>
+</resources>
