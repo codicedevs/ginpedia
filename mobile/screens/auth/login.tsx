@@ -26,6 +26,13 @@ import authService from "../../service/auth.service";
 import { UserInfo } from "../../types/user.type";
 import { TitleGenerator } from "../../utils/text";
 import { customTheme } from "../../utils/theme";
+import { AccessToken, LoginButton } from "react-native-fbsdk-next";
+import { Settings } from 'react-native-fbsdk-next';
+import { QueryClient } from "@tanstack/react-query";
+Settings.initializeSDK();
+const queryClient = new QueryClient()
+
+
 
 const validationSchema = yup.object({
   email: yup.string().required("Requerido").email("Debe ser un email valido"),
@@ -204,6 +211,23 @@ const LoginScreen: React.FC<AppScreenProps<AppScreens.LOGIN_SCREEN>> = ({
               Registrate
             </BoldText>
           </Div>
+          <LoginButton
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    console.log(data.accessToken.toString())
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() => console.log("logout.")}/>
           <Button
             onPress={handleSubmit(onSubmit)}
             bg="secondary"

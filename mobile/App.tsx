@@ -11,11 +11,28 @@ import { LoadingProvider } from './context/loadingProvider';
 import './gesture-handler';
 import AppNavigator from './navigation/appNavigator';
 import { customTheme } from './utils/theme';
-
+import { Settings } from 'react-native-fbsdk-next';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+import * as DevClient from 'expo-dev-client';
 const queryClient = new QueryClient()
 
 export default function App() {
-  console.log('12345')
+  
+  useEffect(() => {
+    Settings.initializeSDK();
+    
+    const requestTracking = async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+
+
+      if (status === "granted") {
+        await Settings.setAdvertiserTrackingEnabled(true);
+      }
+    };
+
+    requestTracking();
+  }, []);
+
   useEffect(() => {
     NavigationBar.setBackgroundColorAsync(customTheme.colors.background);
   }, []);

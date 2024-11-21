@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme":"mobile",
     "plugins": [
       [
         "expo-font",
@@ -15,11 +16,31 @@
         }
       ],
       [
+        "expo-dev-launcher",
+        {
+          "launchMode": "most-recent"
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "584481450812788",
+          "clientToken": "7719c56ca0f243e753eb88c88ba03880",
+          "displayName": "Ginpedia",
+          "scheme": "fb584481450812788",
+          "advertiserIDCollectionEnabled": false,
+          "autoLogAppEventsEnabled": false,
+          "isAutoInitEnabled": true,
+          "iosUserTrackingPermission": "Usaremos este identificador para enviarte anuncios personalizados"
+        }
+      ],
+      "expo-tracking-transparency"
     ],
     "name": "mobile",
     "slug": "mobile",
@@ -33,19 +54,41 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "Usaremos este identificador para enviarte anuncios personalizados",
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET",
+        "com.google.android.gms.permission.AD_ID"
+      ],
+      "package": "com.staladev.mobile"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO"
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6ca5d925-f617-4ad0-a151-e502b0306e69"
+      }
     }
   }
 }
