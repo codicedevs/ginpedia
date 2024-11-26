@@ -8,23 +8,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     https: {
-      key: fs.readFileSync(
-        path.resolve(
-          __dirname,
-          "/etc/letsencrypt/live/www.codice.dev/privkey.pem",
-        ),
-      ),
+      key: fs.readFileSync(path.resolve(__dirname, "/WildcardSSL/privkey.pem")),
       cert: fs.readFileSync(
-        path.resolve(
-          __dirname,
-          "/etc/letsencrypt/live/www.codice.dev/fullchain.pem",
-        ),
+        path.resolve(__dirname, "/WildcardSSL/fullchain.pem"),
       ),
     },
     port: parseInt(process.env.VITE_PORT || "3021"),
     proxy: {
       "/uploads": {
-        target: "https://www.codice.dev:3020",
+        target: "https://ginpedia-api.clubdelgin.com.ar:3020",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/uploads/, "/uploads"),
       },
