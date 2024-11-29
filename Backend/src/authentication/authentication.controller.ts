@@ -13,7 +13,11 @@ import {
 import { Public } from "./public";
 import { AuthService } from "./authentication.service";
 import { SignInDTO } from "./dto/singin.dto";
-import { RecoverPasswordDto, ResetPassDto } from "users/dto/user.dto";
+import {
+  CreateUserSSODto,
+  RecoverPasswordDto,
+  ResetPassDto,
+} from "users/dto/user.dto";
 import { FbAuthGuard, GoogleAuthGuard } from "./guards/o-auth.guard";
 import { Request, Response } from "express";
 import { User } from "users/entities/user.entity";
@@ -144,5 +148,21 @@ export class AuthController {
     const user = await this.userService.findByIdOrFail(sub);
     const { password, resetKey, resetKeyTimeStamp, ...userWithoutPass } = user;
     return userWithoutPass;
+  }
+
+  //prueba Stala
+
+  @Public()
+  @Post("signinSso")
+  async signInSso(@Body() signInSsoDto: CreateUserSSODto) {
+    try {
+      const result = await this.authService.signInSSO(signInSsoDto);
+      return result;
+    } catch (e) {
+      const error = e as Error;
+      console.error(error.message);
+      // Manejar los errores, por ejemplo, lanzar un error 401 Unauthorized si las credenciales son inválidas.
+      throw new UnauthorizedException("something happened with google sso");
+    }
   }
 }

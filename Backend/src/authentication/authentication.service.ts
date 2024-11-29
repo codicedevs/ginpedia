@@ -13,13 +13,30 @@ import { User } from "users/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "users/dto/user.dto";
 
+export interface SSOData {
+  data: {
+    idToken: string | null;
+    scopes: string[];
+    serverAuthCode: string | null;
+    user: {
+      email: string;
+      familyName: string;
+      givenName: string;
+      id: string;
+      name: string;
+      photo: string | null;
+    };
+  };
+  type: string;
+}
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private userService: UsersService
   ) {}
   /**
    * devuelve refresh token y acces token al usuario si las credenciales son correctas,
@@ -177,5 +194,37 @@ export class AuthService {
     });
     if (user) return user;
     return this.userRepository.save(fbUser);
+  }
+
+  async signInSSO(info: SSOData) {
+    console.log(info.data.user);
+    let user = await this.userRepository.findOne({
+      where: { email: info.data.user.email },
+    });
+
+    if (!user) {
+      user = await this.userService.create({
+        email: info.data.user.email,
+        name: info.data.user.name,
+      });
+    }
+
+    const payload = { sub: user.id, username: user.name, roles: user.roles };
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: jwtSetting.JWT_REFRESH_SECRET,
+      expiresIn: jwtSetting.JWT_REFRESH_EXPIRES,
+    });
+    const access_token = await this.jwtService.signAsync(payload);
+    const {
+      password: pass,
+      resetKey,
+      resetKeyTimeStamp,
+      ...userWithoutPass
+    } = user;
+    return {
+      user: userWithoutPass,
+      accessToken: access_token,
+      refreshToken: refreshToken,
+    };
   }
 }

@@ -19,15 +19,19 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
-  ) { }
+  ) {}
   async create(createUser: CreateUserDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUser.password, 8);
-    const userAndHashedPassword = {
-      ...createUser,
-      password: hashedPassword,
-    } as User;
-    const user = await this.userRepository.save(userAndHashedPassword);
-    return user;
+    if (createUser.password) {
+      const hashedPassword = await bcrypt.hash(createUser.password, 8);
+      const userAndHashedPassword = {
+        ...createUser,
+        password: hashedPassword,
+      } as User;
+      const user = await this.userRepository.save(userAndHashedPassword);
+      return user;
+    } else {
+      return this.userRepository.save(createUser);
+    }
   }
   /**
    * @returns
