@@ -157,7 +157,6 @@ export class AuthController {
   async signInSso(@Body() signInSsoDto: CreateUserSSODto) {
     try {
       const result = await this.authService.signInSSO(signInSsoDto);
-      console.log("entro");
       return result;
     } catch (e) {
       const error = e as Error;

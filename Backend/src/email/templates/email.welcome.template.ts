@@ -65,9 +65,9 @@ export const registrationTemplate = (user: User) => `
 
     <body>
       <div class="container">
-        <h1>Bienvenido/a a ${"APP_Name"}</h1>
+        <h1>Bienvenido/a a ${appSettings.APP_NAME}</h1>
         <p>Estimado/a ${user.name} ,</p>
-        <p>Nos complace informarle que se ha creado con éxito su cuenta en ${"APP_Name"}.
+        <p>Nos complace informarle que se ha creado con éxito su cuenta en ${appSettings.APP_NAME}.
         <ul>
           <li>Usted se encuentra registrado con este correo: ${user.email}</li> 
       </div>

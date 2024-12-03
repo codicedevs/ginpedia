@@ -30,10 +30,10 @@ export class Product {
   @Column({ nullable: true })
   image?: string;
 
-  @Column()
+  @Column({ nullable: true })
   origin?: string;
 
-  @Column()
+  @Column({ nullable: true })
   graduation?: string;
 
   @Column({ nullable: true, type: "float" })

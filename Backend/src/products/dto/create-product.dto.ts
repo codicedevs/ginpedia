@@ -17,5 +17,6 @@ export class CreateProductDto {
   @IsString()
   type?: ProductType;
   @IsArray()
+  @IsOptional()
   combinations?: Product[];
 }
