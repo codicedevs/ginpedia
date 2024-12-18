@@ -32,7 +32,7 @@ export class User {
   })
   roles: Role[];
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ nullable: true })
